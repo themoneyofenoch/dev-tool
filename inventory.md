@@ -1,0 +1,1 @@
+../myapps/inventory.md

@@ -1,0 +1,13 @@
+{
+  "name": "dev-tools",
+  "version": "1.0.0",
+  "description": "Ammaniel's dev tools: launcher, dashboard, stop-all, create-app",
+  "private": true,
+  "scripts": {
+    "launcher": "node dev-launcher/index.js",
+    "dashboard": "node dev-dashboard/index.js",
+    "stop": "node dev-stop/index.js",
+    "create": "node create-app/index.js",
+    "ls": "node dev-dashboard/status-cli.js"
+  }
+}
