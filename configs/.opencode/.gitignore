@@ -1,0 +1,10 @@
+node_modules/
+plugins/*/node_modules/
+plugins/*/.venv/
+plugins/*/__pycache__/
+plugins/*/*.egg-info/
+*.backup
+*.bak
+opencode.json
+opencode.jsonc
+node_modules/
