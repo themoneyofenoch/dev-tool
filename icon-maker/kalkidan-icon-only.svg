@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="mainGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F9A825"/>
+      <stop offset="35%" stop-color="#F57C00"/>
+      <stop offset="65%" stop-color="#E91E63"/>
+      <stop offset="100%" stop-color="#C62828"/>
+    </linearGradient>
+    <linearGradient id="heartGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#FFB74D"/>
+      <stop offset="50%" stop-color="#FF6F00"/>
+      <stop offset="100%" stop-color="#D32F2F"/>
+    </linearGradient>
+    <radialGradient id="bgGrad" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0%" stop-color="#FFF8E1"/>
+      <stop offset="100%" stop-color="#FFF3E0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="32" y="32" width="960" height="960" rx="180" ry="180" fill="url(#bgGrad)"/>
+
+  <!-- Ethiopian cross geometry border ring -->
+  <g opacity="0.10" fill="none" stroke="#D84315" stroke-width="1.5">
+    <g transform="translate(512,512)">
+      <path d="M0,-430 L14,-440 L0,-450 L-14,-440 Z" transform="rotate(0)"/>
+      <path d="M0,-430 L14,-440 L0,-450 L-14,-440 Z" transform="rotate(45)"/>
+      <path d="M0,-430 L14,-440 L0,-450 L-14,-440 Z" transform="rotate(90)"/>
+      <path d="M0,-430 L14,-440 L0,-450 L-14,-440 Z" transform="rotate(135)"/>
+      <path d="M0,-430 L14,-440 L0,-450 L-14,-440 Z" transform="rotate(180)"/>
+      <path d="M0,-430 L14,-440 L0,-450 L-14,-440 Z" transform="rotate(225)"/>
+      <path d="M0,-430 L14,-440 L0,-450 L-14,-440 Z" transform="rotate(270)"/>
+      <path d="M0,-430 L14,-440 L0,-450 L-14,-440 Z" transform="rotate(315)"/>
+    </g>
+  </g>
+
+  <g opacity="0.15" fill="none" stroke="#BF360C" stroke-width="1.2">
+    <g transform="translate(512,512)">
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(0)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(22.5)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(45)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(67.5)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(90)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(112.5)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(135)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(157.5)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(180)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(202.5)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(225)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(247.5)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(270)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(292.5)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(315)"/>
+      <path d="M0,-370 L10,-385 L0,-400 L-10,-385 Z" transform="rotate(337.5)"/>
+    </g>
+  </g>
+
+  <!-- MAIN HEART - larger since no text -->
+  <g transform="translate(512,440)">
+    <path d="M0,180 C-240,0 -400,-180 -300,-310 C-230,-400 -120,-400 -50,-310 C0,-240 0,-120 0,-120 C0,-120 0,-240 50,-310 C120,-400 230,-400 300,-310 C400,-180 240,0 0,180 Z"
+      fill="url(#heartGrad)" opacity="0.95"/>
+
+    <!-- Ethiopian cross pattern inside heart -->
+    <g opacity="0.14" fill="none" stroke="#FFF" stroke-width="1.1">
+      <path d="M0,-90 L9,-99 L18,-90 L9,-81 Z"/>
+      <path d="M0,-90 L-9,-99 L-18,-90 L-9,-81 Z"/>
+      <path d="M0,90 L9,99 L18,90 L9,81 Z"/>
+      <path d="M0,90 L-9,99 L-18,90 L-9,81 Z"/>
+      <path d="M-90,0 L-99,9 L-90,18 L-81,9 Z"/>
+      <path d="M-90,0 L-99,-9 L-90,-18 L-81,-9 Z"/>
+      <path d="M90,0 L99,9 L90,18 L81,9 Z"/>
+      <path d="M90,0 L99,-9 L90,-18 L81,-9 Z"/>
+      <path d="M-22,-34 L0,-90 L22,-34"/>
+      <path d="M-22,34 L0,90 L22,34"/>
+      <path d="M-34,-22 L-90,0 L-34,22"/>
+      <path d="M34,-22 L90,0 L34,22"/>
+      <path d="M-68,-68 L-90,-90"/>
+      <path d="M68,-68 L90,-90"/>
+      <path d="M-68,68 L-90,90"/>
+      <path d="M68,68 L90,90"/>
+      <circle cx="0" cy="0" r="45" stroke-width="0.9"/>
+      <circle cx="0" cy="0" r="78" stroke-width="0.7"/>
+    </g>
+
+    <!-- Weaving diamonds -->
+    <g opacity="0.11" fill="none" stroke="#FFF" stroke-width="0.9">
+      <path d="M-200,-140 L-178,-162 L-156,-140 L-178,-118 Z"/>
+      <path d="M-110,-170 L-88,-192 L-66,-170 L-88,-148 Z"/>
+      <path d="M66,-170 L88,-192 L110,-170 L88,-148 Z"/>
+      <path d="M156,-140 L178,-162 L200,-140 L178,-118 Z"/>
+      <path d="M-240,-56 L-218,-78 L-196,-56 L-218,-34 Z"/>
+      <path d="M-88,-34 L-66,-56 L-44,-34 L-66,-12 Z"/>
+      <path d="M44,-34 L66,-56 L88,-34 L66,-12 Z"/>
+      <path d="M196,-56 L218,-78 L240,-56 L218,-34 Z"/>
+      <path d="M-156,34 L-134,12 L-112,34 L-134,56 Z"/>
+      <path d="M112,34 L134,12 L156,34 L134,56 Z"/>
+      <path d="M-200,90 L-178,68 L-156,90 L-178,112 Z"/>
+      <path d="M156,90 L178,68 L200,90 L178,112 Z"/>
+    </g>
+
+    <path d="M-110,-70 C-65,-200 65,-200 110,-70 C135,-22 110,22 55,45 C0,68 -55,68 -110,45 C-220,22 -240,-22 -220,-70 C-200,-110 -155,-130 -110,-70 Z"
+      fill="white" opacity="0.07"/>
+  </g>
+</svg>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF416C"/>
+      <stop offset="50%" stop-color="#FF6B4A"/>
+      <stop offset="100%" stop-color="#FF9A3C"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#FFE8B0"/><stop offset="30%" stop-color="#E8B84B"/>
+      <stop offset="60%" stop-color="#D4A030"/><stop offset="100%" stop-color="#8B6914"/>
+    </linearGradient>
+    <linearGradient id="goldBright" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF0C8"/><stop offset="100%" stop-color="#E0B040"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1024" height="1024" rx="224" fill="url(#bg)"/>
+
+  <!-- Seal emblem -->
+  <g transform="translate(512, 400) scale(1.12)">
+    <g fill="url(#gold)">
+      <ellipse cx="0" cy="-175" rx="38" ry="22"/><ellipse cx="62" cy="-164" rx="38" ry="22" transform="rotate(15)"/><ellipse cx="120" cy="-128" rx="38" ry="22" transform="rotate(30)"/><ellipse cx="164" cy="-62" rx="38" ry="22" transform="rotate(45)"/><ellipse cx="175" cy="0" rx="38" ry="22" transform="rotate(60)"/><ellipse cx="164" cy="62" rx="38" ry="22" transform="rotate(75)"/><ellipse cx="120" cy="128" rx="38" ry="22" transform="rotate(90)"/><ellipse cx="62" cy="164" rx="38" ry="22" transform="rotate(105)"/><ellipse cx="0" cy="175" rx="38" ry="22" transform="rotate(120)"/><ellipse cx="-62" cy="164" rx="38" ry="22" transform="rotate(135)"/><ellipse cx="-120" cy="128" rx="38" ry="22" transform="rotate(150)"/><ellipse cx="-164" cy="62" rx="38" ry="22" transform="rotate(165)"/><ellipse cx="-175" cy="0" rx="38" ry="22" transform="rotate(180)"/><ellipse cx="-164" cy="-62" rx="38" ry="22" transform="rotate(195)"/><ellipse cx="-120" cy="-128" rx="38" ry="22" transform="rotate(210)"/><ellipse cx="-62" cy="-164" rx="38" ry="22" transform="rotate(225)"/>
+    </g>
+    <circle cx="0" cy="0" r="145" fill="none" stroke="url(#gold)" stroke-width="18"/>
+    <circle cx="0" cy="0" r="118" fill="none" stroke="#FFE8B0" stroke-width="3" opacity="0.5"/>
+    <g fill="url(#goldBright)">
+      <polygon points="0,-115 16,-48 0,-30 -16,-48"/><polygon points="115,0 48,16 30,0 48,-16"/>
+      <polygon points="0,115 16,48 0,30 -16,48"/><polygon points="-115,0 -48,16 -30,0 -48,-16"/>
+    </g>
+    <g fill="#FFF0C8" opacity="0.5">
+      <polygon points="0,-85 8,-48 0,-34 -8,-48"/><polygon points="85,0 48,8 34,0 48,-8"/>
+      <polygon points="0,85 8,48 0,34 -8,48"/><polygon points="-85,0 -48,8 -34,0 -48,-8"/>
+    </g>
+    <circle cx="0" cy="0" r="10" fill="url(#goldBright)"/>
+    <path d="M -95,75 Q -70,35 -40,15 Q -10,-5 15,-2" fill="none" stroke="url(#goldBright)" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+    <circle cx="17" cy="-3" r="7" fill="#FFF0C8"/>
+  </g>
+
+  <!-- Precise text positioning: KALK + I + DAN -->
+  <!-- Using absolute x positions: KALK ends at ~700 total width, center at 512 -->
+  <g font-family="'Didot', 'Bodoni 72', 'Georgia', serif" font-weight="700" font-size="120" fill="#ffffff">
+    <!-- "KALK" — starts at left, ends around x=385 -->
+    <text x="290" y="890">KALK</text>
+    <!-- "I" — narrow character, centered around x=412 -->
+    <text x="390" y="890">I</text>
+    <!-- Heart above "I" at same x offset, smaller size like a tittle -->
+    <text x="390" y="820" font-size="38" text-anchor="start" fill="#ffffff">♥</text>
+    <!-- "DAN" — continues after I -->
+    <text x="430" y="890">DAN</text>
+  </g>
+</svg>

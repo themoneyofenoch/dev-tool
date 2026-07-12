@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Warm Habesha gradient: amber → coral → rose -->
+    <linearGradient id="mainGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F9A825"/>
+      <stop offset="35%" stop-color="#F57C00"/>
+      <stop offset="65%" stop-color="#E91E63"/>
+      <stop offset="100%" stop-color="#C62828"/>
+    </linearGradient>
+    <linearGradient id="heartGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#FFB74D"/>
+      <stop offset="50%" stop-color="#FF6F00"/>
+      <stop offset="100%" stop-color="#D32F2F"/>
+    </linearGradient>
+    <radialGradient id="bgGrad" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0%" stop-color="#FFF8E1"/>
+      <stop offset="100%" stop-color="#FFF3E0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect x="32" y="32" width="960" height="960" rx="180" ry="180" fill="url(#bgGrad)"/>
+
+  <!-- Subtle Ethiopian cross border pattern (geometric lattice ring) -->
+  <g opacity="0.12" fill="none" stroke="#D84315" stroke-width="1.5">
+    <!-- Outer ring of diamond lattice -->
+    <g transform="translate(512,512)">
+      <!-- 8-point geometric star border -->
+      <path d="M0,-440 L18,-450 L0,-460 L-18,-450 Z" transform="rotate(0)"/>
+      <path d="M0,-440 L18,-450 L0,-460 L-18,-450 Z" transform="rotate(45)"/>
+      <path d="M0,-440 L18,-450 L0,-460 L-18,-450 Z" transform="rotate(90)"/>
+      <path d="M0,-440 L18,-450 L0,-460 L-18,-450 Z" transform="rotate(135)"/>
+      <path d="M0,-440 L18,-450 L0,-460 L-18,-450 Z" transform="rotate(180)"/>
+      <path d="M0,-440 L18,-450 L0,-460 L-18,-450 Z" transform="rotate(225)"/>
+      <path d="M0,-440 L18,-450 L0,-460 L-18,-450 Z" transform="rotate(270)"/>
+      <path d="M0,-440 L18,-450 L0,-460 L-18,-450 Z" transform="rotate(315)"/>
+    </g>
+  </g>
+
+  <!-- Inner decorative ring: Ethiopian cross-inspired geometric weave -->
+  <g opacity="0.18" fill="none" stroke="#BF360C" stroke-width="1.2">
+    <g transform="translate(512,512)">
+      <!-- 16-point interlaced diamond lattice -->
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(0)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(22.5)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(45)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(67.5)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(90)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(112.5)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(135)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(157.5)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(180)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(202.5)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(225)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(247.5)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(270)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(292.5)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(315)"/>
+      <path d="M0,-380 L10,-395 L0,-410 L-10,-395 Z" transform="rotate(337.5)"/>
+    </g>
+  </g>
+
+  <!-- MAIN HEART — formed from Ethiopian geometric weave pattern -->
+  <g transform="translate(512,440)">
+    <!-- Heart shape using cubic beziers -->
+    <path d="M0,160 C-200,20 -340,-140 -260,-260 C-200,-340 -100,-340 -40,-260 C0,-200 0,-100 0,-100 C0,-100 0,-200 40,-260 C100,-340 200,-340 260,-260 C340,-140 200,20 0,160 Z"
+      fill="url(#heartGrad)" opacity="0.95"/>
+
+    <!-- Ethiopian cross pattern inside heart (geometric lattice overlay) -->
+    <g opacity="0.15" fill="none" stroke="#FFF" stroke-width="1">
+      <!-- Central Lalibela cross motif -->
+      <path d="M0,-80 L8,-88 L16,-80 L8,-72 Z"/>
+      <path d="M0,-80 L-8,-88 L-16,-80 L-8,-72 Z"/>
+      <path d="M0,80 L8,88 L16,80 L8,72 Z"/>
+      <path d="M0,80 L-8,88 L-16,80 L-8,72 Z"/>
+      <path d="M-80,0 L-88,8 L-80,16 L-72,8 Z"/>
+      <path d="M-80,0 L-88,-8 L-80,-16 L-72,-8 Z"/>
+      <path d="M80,0 L88,8 L80,16 L72,8 Z"/>
+      <path d="M80,0 L88,-8 L80,-16 L72,-8 Z"/>
+      <!-- Connecting arms -->
+      <path d="M-20,-30 L0,-80 L20,-30"/>
+      <path d="M-20,30 L0,80 L20,30"/>
+      <path d="M-30,-20 L-80,0 L-30,20"/>
+      <path d="M30,-20 L80,0 L30,20"/>
+      <!-- Diagonal arms -->
+      <path d="M-60,-60 L-80,-80"/>
+      <path d="M60,-60 L80,-80"/>
+      <path d="M-60,60 L-80,80"/>
+      <path d="M60,60 L80,80"/>
+      <!-- Circular ring -->
+      <circle cx="0" cy="0" r="40" stroke-width="0.8"/>
+      <circle cx="0" cy="0" r="70" stroke-width="0.6"/>
+    </g>
+
+    <!-- Secondary geometric pattern: weaving diamonds -->
+    <g opacity="0.12" fill="none" stroke="#FFF" stroke-width="0.8">
+      <!-- Row 1 -->
+      <path d="M-180,-120 L-160,-140 L-140,-120 L-160,-100 Z"/>
+      <path d="M-100,-150 L-80,-170 L-60,-150 L-80,-130 Z"/>
+      <path d="M100,-150 L120,-170 L140,-150 L120,-130 Z"/>
+      <path d="M140,-120 L160,-140 L180,-120 L160,-100 Z"/>
+      <!-- Row 2 -->
+      <path d="M-220,-50 L-200,-70 L-180,-50 L-200,-30 Z"/>
+      <path d="M-80,-30 L-60,-50 L-40,-30 L-60,-10 Z"/>
+      <path d="M40,-30 L60,-50 L80,-30 L60,-10 Z"/>
+      <path d="M180,-50 L200,-70 L220,-50 L200,-30 Z"/>
+      <!-- Center row -->
+      <path d="M-140,30 L-120,10 L-100,30 L-120,50 Z"/>
+      <path d="M100,30 L120,10 L140,30 L120,50 Z"/>
+      <!-- Bottom row -->
+      <path d="M-180,80 L-160,60 L-140,80 L-160,100 Z"/>
+      <path d="M140,80 L160,60 L180,80 L160,100 Z"/>
+    </g>
+
+    <!-- Glossy highlight on heart -->
+    <path d="M-100,-60 C-60,-180 60,-180 100,-60 C120,-20 100,20 50,40 C0,60 -50,60 -100,40 C-200,20 -220,-20 -200,-60 C-180,-100 -140,-120 -100,-60 Z"
+      fill="white" opacity="0.08"/>
+  </g>
+
+  <!-- "KALKIDAN" wordmark below the heart -->
+  <text x="512" y="830" text-anchor="middle" font-family="'Georgia','Noto Serif Ethiopic',serif" font-weight="bold" font-size="96" fill="#5D4037" letter-spacing="18">
+    KALKIDAN
+  </text>
+
+  <!-- Amharic subtitle "ካልኪዳን" -->
+  <text x="512" y="910" text-anchor="middle" font-family="'Noto Serif Ethiopic','Nyala',serif" font-weight="normal" font-size="52" fill="#8D6E63" letter-spacing="8">
+    ካልኪዳን
+  </text>
+
+  <!-- Small tagline -->
+  <text x="512" y="960" text-anchor="middle" font-family="'Georgia',serif" font-weight="300" font-size="22" fill="#A1887F" letter-spacing="5" font-style="italic">
+    Promise of Love
+  </text>
+</svg>

@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NAKFA AI Publisher</title>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root,:root[data-theme="light"]{--bg:#fff;--fg:#0a0a0a;--gold:#b8942e;--muted:#888;--card:#f5f5f5;--border:#e5e5e5;--apple:#0071e3;--google:#34a853;--danger:#d33;--success:#2a7a2a;--warn:#c97a00}
+[data-theme="dark"]{--bg:#111;--fg:#e8e8e8;--gold:#d4a830;--muted:#999;--card:#1e1e1e;--border:#333;--apple:#4a9eff;--google:#4caf50;--danger:#f55;--success:#4caf50;--warn:#e6a800}
+body{background:var(--bg);color:var(--fg);font-family:'Outfit',-apple-system,BlinkMacSystemFont,sans-serif;font-weight:500;font-size:16px;line-height:1.6;min-height:100vh}
+.container{max-width:820px;margin:0 auto;padding:48px 24px 120px}
+header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:20px}
+h1{font-family:'Russo One',sans-serif;font-size:2.2rem;font-weight:400;letter-spacing:-1px}h1 span{color:var(--gold)}
+.subhead{font-size:.95rem;color:var(--muted);font-weight:500;margin-top:4px}
+
+/* Shared */
+.shared-section{background:var(--card);padding:24px;margin-bottom:24px}
+.shared-section h2{font-family:'Russo One',sans-serif;font-size:.7rem;color:var(--gold);letter-spacing:4px;text-transform:uppercase;margin-bottom:16px}
+.field{margin-bottom:16px}.field:last-child{margin-bottom:0}
+.field-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+label{display:block;font-size:.7rem;font-weight:600;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}label span{color:#d33}
+input,textarea,select{width:100%;padding:13px 16px;background:var(--bg);border:1px solid var(--border);font-family:'Outfit',sans-serif;font-size:1rem;color:var(--fg);outline:none;transition:box-shadow .2s;font-weight:500}
+input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(184,148,46,.15)}
+textarea{resize:vertical;min-height:70px;line-height:1.6}select{cursor:pointer}
+.inline-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.triple-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.char-count{font-size:.7rem;color:var(--muted);margin-top:4px;font-weight:500}.char-count.over{color:#d33}
+.note{font-size:.75rem;color:var(--muted);font-weight:400;margin-top:4px;line-height:1.5}
+
+.ai-btn{font-size:.6rem;padding:6px 16px;background:var(--gold);color:#fff;border:none;font-family:'Russo One',sans-serif;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;white-space:nowrap}.ai-btn:hover{background:var(--fg);transform:translateY(-1px)}.ai-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* Tabs */
+.tabs{display:flex;gap:0;margin-bottom:0;border-bottom:2px solid var(--border);overflow-x:auto}
+.tab{flex:1;min-width:80px;padding:14px 16px;font-family:'Russo One',sans-serif;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:none;background:var(--bg);color:var(--muted);transition:all .2s;border-bottom:2px solid transparent;margin-bottom:-2px;text-align:center}
+.tab:hover{color:var(--fg)}.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab.active-apple{color:var(--apple);border-bottom-color:var(--apple)}
+.tab.active-google{color:var(--google);border-bottom-color:var(--google)}
+
+/* Panels */
+.panel{display:none;padding:28px 24px 32px;border:1px solid var(--border);border-top:none;margin-bottom:24px}
+.panel.visible{display:block}
+.panel h3{font-family:'Russo One',sans-serif;font-size:.7rem;color:var(--muted);letter-spacing:4px;text-transform:uppercase;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+
+/* Buttons */
+.btn-row{display:flex;gap:12px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.btn{padding:15px 32px;font-family:'Russo One',sans-serif;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;border:none;transition:all .3s}.btn:hover{transform:translateY(-1px)}
+.btn-save{background:var(--card);color:var(--fg);flex:1}.btn-save:hover{background:var(--fg);color:#fff}
+.btn-push-apple{background:var(--apple);color:#fff;flex:2}.btn-push-apple:hover{background:var(--fg)}
+.btn-push-google{background:var(--google);color:#fff;flex:2}.btn-push-google:hover{background:var(--fg)}
+.btn-load{background:var(--card);color:var(--fg);width:100%;padding:14px}.btn-load:hover{background:var(--fg);color:#fff}
+.btn-p{background:var(--gold);color:#fff}.btn-p:hover{background:var(--fg)}
+
+/* Checkboxes */
+.checkbox-group{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.checkbox-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);cursor:pointer;transition:all .2s}
+.checkbox-item:hover{border-color:var(--fg)}.checkbox-item.active{border-color:var(--apple);background:rgba(0,113,227,.04)}
+.checkbox-item input[type="checkbox"]{width:18px;height:18px;cursor:pointer;accent-color:var(--apple)}
+.checkbox-item label{font-size:.75rem;font-weight:500;color:var(--fg);letter-spacing:0;text-transform:none;margin:0;cursor:pointer}
+
+/* Drop zones */
+.drop-zone{border:2px dashed var(--border);padding:28px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.drop-zone:hover{border-color:var(--gold);background:rgba(184,148,46,.04)}
+.drop-zone.has-file{border-style:solid;border-color:var(--success)}
+.drop-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.drop-zone .file-name{color:var(--success);font-size:.8rem;margin-top:8px;font-weight:600}
+.drop-zone .drop-icon{font-size:2rem;display:block;margin-bottom:8px;opacity:.4}
+.preview-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.preview-row img{width:80px;height:auto;cursor:pointer;opacity:.9;border:1px solid var(--border);transition:opacity .2s}.preview-row img:hover{opacity:.5}
+
+/* Icon Maker styles */
+.quality-panel{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.quality-panel .q-item{padding:4px 12px;font-size:.65rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;background:var(--card);color:var(--muted)}
+.quality-panel .q-item.pass{color:var(--success);background:rgba(42,122,42,.06)}
+.quality-panel .q-item.warn{color:var(--warn);background:rgba(201,122,0,.06)}
+.quality-panel .q-item.fail{color:var(--danger);background:rgba(221,51,51,.06)}
+.scale-row{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--card);margin-bottom:14px;flex-wrap:wrap}
+.scale-row .fill-stat{font-size:.8rem;color:var(--fg)}.scale-row .fill-stat span{font-weight:600;color:var(--gold)}
+.scale-row .suggestion{font-size:.75rem;font-weight:500;color:var(--gold)}
+.scale-row .scale-slider{display:flex;align-items:center;gap:10px;margin-left:auto}
+.scale-row input[type="range"]{width:120px;accent-color:var(--gold);padding:0;border:none;box-shadow:none}
+.scale-row .scale-val{font-family:'Russo One',sans-serif;font-size:.85rem;color:var(--gold);min-width:45px;text-align:right}
+.gen-box{padding:16px 20px;background:var(--card);margin-bottom:16px}
+.gen-box textarea{width:100%;padding:12px 16px;background:var(--bg);border:1px solid var(--border);font-family:'Outfit',sans-serif;font-size:.9rem;color:var(--fg);outline:none;resize:vertical;min-height:70px;transition:border-color .2s}
+.gen-box textarea:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(184,148,46,.15)}
+.gen-box .gen-acts{display:flex;gap:10px;margin-top:10px;align-items:center}
+.gen-box .gen-status{font-size:.75rem;color:var(--muted)}
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:20px}
+.icon-card{background:var(--card);overflow:hidden}.icon-card:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.05)}
+.icon-card .cw{display:flex;align-items:center;justify-content:center;padding:12px;min-height:110px}
+.icon-card canvas{border-radius:3px}
+.icon-card .i-info{padding:8px 12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.icon-card .i-label{font-size:.65rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;font-family:'Russo One',sans-serif}
+.icon-card .i-platform{font-size:.6rem;color:var(--muted)}
+.icon-card .i-dl{padding:3px 10px;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;font-family:'Russo One',sans-serif;background:transparent;color:var(--gold);border:1px solid var(--gold);cursor:pointer;transition:all .2s}
+.icon-card .i-dl:hover{background:var(--gold);color:#fff}
+.ss-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:20px}
+.ss-card{background:var(--card);overflow:hidden}.ss-card:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.05)}
+.ss-card .cw{display:flex;align-items:center;justify-content:center;padding:10px;min-height:140px}
+.ss-card canvas{border-radius:4px}
+.ss-card .i-info{padding:8px 12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.ss-card .i-label{font-size:.65rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;font-family:'Russo One',sans-serif}
+.ss-card .i-platform{font-size:.6rem;color:var(--muted)}
+.ss-card .i-dl{padding:3px 10px;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;font-family:'Russo One',sans-serif;background:transparent;color:var(--gold);border:1px solid var(--gold);cursor:pointer;transition:all .2s}
+.ss-card .i-dl:hover{background:var(--gold);color:#fff}
+
+/* Results & Errors */
+.error-panel{display:none;padding:18px;background:rgba(221,51,51,.04);border:1px solid rgba(221,51,51,.15);margin:12px 0}.error-panel.visible{display:block}
+.error-panel h3{font-family:'Russo One',sans-serif;font-size:.7rem;color:#d33;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.error-panel ul{list-style:none}.error-panel li{font-size:.85rem;color:#d33;padding:2px 0 2px 14px;position:relative}.error-panel li::before{content:'•';position:absolute;left:2px}
+.result-panel{display:none;padding:20px;margin:12px 0;line-height:1.7}.result-panel.visible{display:block}
+.result-panel.success{border:1px solid rgba(16,185,129,.25);background:rgba(16,185,129,.04);color:#065f46}
+.result-panel .step{font-size:.85rem;padding:2px 0;font-weight:500}.result-panel .step.ok{color:#065f46}
+.result-panel .cmd-box{background:var(--card);padding:10px 14px;margin-top:6px;font-weight:500;border-left:3px solid var(--gold)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);padding:14px 32px;background:var(--fg);color:#fff;font-family:'Russo One',sans-serif;font-size:.7rem;letter-spacing:3px;z-index:999;opacity:0;transition:all .4s;text-transform:uppercase;pointer-events:none}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="container">
+<header style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px"><div><h1>NAKFA AI <span>Publisher</span></h1><p class="subhead">Icons → Screenshots → Publish. All in one.</p></div><button id="darkToggle" onclick="toggleDark()" style="background:none;border:1px solid var(--gold);color:var(--gold);width:36px;height:36px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s" title="Toggle dark mode">🌙</button></header>
+
+<div class="shared-section">
+  <h2>📋 App Details</h2>
+  <div class="inline-row">
+    <div class="field"><label>App <span>*</span></label>
+      <select id="appSelect" onchange="onAppChange()">
+        <option value="">— Select —</option>
+        <option value="GeezEasy">GeezEasy</option><option value="agelbook">Agelbook</option>
+        <option value="ammanuniverse">Ammanuniverse</option><option value="ethiocoffee">EthioCoffee</option>
+        <option value="genzeb">Genzeb</option><option value="gottasee">Gottasee</option>
+        <option value="kalkidan">Kalkidan</option><option value="latindance">Latin Dance Hub</option>
+        <option value="mizaney1">Mizaney</option><option value="Orominia">Orominia</option>
+        <option value="fideltype">FidelType</option><option value="pixwee">Pixwee</option><option value="vibecode">Vibecode</option>
+        <option value="__other__">✏️ Other</option>
+      </select></div>
+    <div class="field"><label>Project Folder</label><input type="text" id="projectFolder" placeholder="e.g. pixwee" oninput="autoSave()"><div class="note">Used for ZIP paths: {folder}/frontend/public/icons/</div></div>
+  </div>
+  <div style="margin-top:16px;display:flex;gap:10px;align-items:center">
+    <button class="btn btn-load" onclick="document.getElementById('projectJsonFile').click()" style="width:auto;padding:10px 20px;font-size:.65rem">📂 Load from Project</button>
+    <input type="file" id="projectJsonFile" accept=".json" hidden onchange="loadProjectJson(this.files[0])">
+    <span style="font-size:.7rem;color:var(--muted)">Select {app}-store.json from project</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" id="tabIcons" onclick="switchTab('icons')">📐 ICONS</button>
+  <button class="tab" id="tabScreenshots" onclick="switchTab('screenshots')">🖼 SCREENSHOTS</button>
+  <button class="tab" id="tabApple" onclick="switchTab('apple')">🍎 Apple</button>
+  <button class="tab" id="tabGoogle" onclick="switchTab('google')">🤖 Google</button>
+</div>
+
+<!-- ICONS PANEL -->
+<div class="panel visible" id="panelIcons">
+  <div class="gen-box">
+  <textarea id="iconPrompt" placeholder="Describe the icon you want... e.g. Dark navy background, gold circle, white ✓ inside, FIDELTYPE text in gold below"></textarea>
+  <div class="gen-acts">
+    <button class="btn btn-p" onclick="aiGenerateIcon()">🎨 Generate</button>
+    <button class="btn btn-p" onclick="loadTemplate(getAppName())" id="loadTemplateBtn" style="display:none">📋 Load Template</button>
+    <span class="gen-status" id="genStatus">AI uses DeepSeek — key from AI Fill</span>
+  </div>
+</div>
+<div class="drop-zone" id="iconDrop" onclick="document.getElementById('iconFile').click()">
+    <input type="file" id="iconFile" accept=".svg" hidden>
+    <span class="drop-icon" id="iconDropIcon">⬆</span>
+    <span style="font-size:.85rem;font-weight:500;color:var(--fg)">Drop SVG here for app icon</span>
+    <span style="font-size:.7rem;color:var(--muted);display:block">or click — .svg only</span>
+    <div class="file-name" id="iconFileName" style="display:none"></div>
+  </div>
+  <div class="quality-panel" id="qualityPanel" style="display:none">
+    <div class="q-item" id="qRes">—</div><div class="q-item" id="qFill">—</div><div class="q-item" id="qRaster">—</div>
+  </div>
+  <div class="scale-row" id="scaleRow" style="display:none">
+    <div class="fill-stat" id="fillStat">Fill: —</div>
+    <div class="suggestion" id="suggestion" style="display:none"></div>
+    <div class="scale-slider">
+      <span style="font-size:.65rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Scale</span>
+      <input type="range" id="scaleSlider" min="0.3" max="3" step="0.01" value="1">
+      <div class="scale-val" id="scaleVal">1.00×</div>
+    </div>
+  </div>
+  <div class="icon-grid" id="iconGrid"><div class="empty-state" style="text-align:center;padding:40px;color:var(--muted);grid-column:1/-1"><div style="font-size:2rem;margin-bottom:8px">📐</div><p>Upload an SVG to generate app icons</p></div></div>
+  <div class="btn-row" id="iconDlRow" style="display:none">
+    <button class="btn btn-p" id="downloadIconsZip">Download Icons (ZIP)</button>
+    <button class="btn btn-save" id="downloadIconsIndv">Download All</button>
+  </div>
+</div>
+
+<!-- SCREENSHOTS PANEL -->
+<div class="panel" id="panelScreenshots">
+  <div style="margin-bottom:20px;padding:14px 16px;background:var(--card);font-size:.75rem;line-height:1.8">
+    <span style="color:var(--fg);font-weight:600">App Store screenshots:</span>
+    <span style="color:var(--success)">iPhone = portrait only</span> · 
+    <span style="color:var(--warn)">iPad = portrait + landscape</span> · 
+    <span style="color:var(--gold)">Use JPEG</span> · 
+    <span style="color:var(--muted)">No alpha</span> · 
+    <span style="color:var(--muted)">No frames</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+    <div class="drop-zone" id="ssiPhoneDrop" onclick="document.getElementById('ssiPhoneFile').click()" style="border-color:var(--gold)">
+      <input type="file" id="ssiPhoneFile" accept=".png,.jpg,.jpeg" hidden multiple>
+      <span class="drop-icon">📱</span>
+      <span style="font-size:.85rem;font-weight:500;color:var(--fg);display:block">iPhone Portrait</span>
+      <span style="font-size:.7rem;color:var(--muted);display:block">6.7" + 6.1" + 4.7" · drop multiple · order = position</span>
+      <span style="font-size:.65rem;color:var(--gold);display:block">1290×2796 / 1179×2556 / 750×1334</span>
+      <div class="file-name" id="ssiPhoneName" style="display:none"></div>
+    </div>
+    <div class="drop-zone" id="ssiPadDrop" onclick="document.getElementById('ssiPadFile').click()" style="border-color:var(--gold)">
+      <input type="file" id="ssiPadFile" accept=".png,.jpg,.jpeg" hidden multiple>
+      <span class="drop-icon">📱</span>
+      <span style="font-size:.85rem;font-weight:500;color:var(--fg);display:block">iPad Portrait</span>
+      <span style="font-size:.7rem;color:var(--muted);display:block">12.9" + 11" · drop multiple · order = position</span>
+      <span style="font-size:.65rem;color:var(--gold);display:block">2048×2732 / 1668×2388</span>
+      <div class="file-name" id="ssiPadName" style="display:none"></div>
+    </div>
+    <div class="drop-zone" id="ssLandscapeDrop" onclick="document.getElementById('ssLandscapeFile').click()">
+      <input type="file" id="ssLandscapeFile" accept=".png,.jpg,.jpeg" hidden multiple>
+      <span class="drop-icon">🖥</span>
+      <span style="font-size:.85rem;font-weight:500;color:var(--fg);display:block">iPad Landscape</span>
+      <span style="font-size:.7rem;color:var(--muted);display:block">12.9" + 11" wide · drop multiple · order = position</span>
+      <span style="font-size:.65rem;color:var(--gold);display:block">2732×2048 / 2388×1668</span>
+      <div class="file-name" id="ssLandscapeName" style="display:none"></div>
+    </div>
+  </div>
+  <div class="ss-grid" id="ssGrid"><div class="empty-state" style="text-align:center;padding:40px;color:var(--muted);grid-column:1/-1"><div style="font-size:2rem;margin-bottom:8px">🖼</div><p>Upload portrait + landscape screenshots above</p></div></div>
+  <div class="btn-row" id="ssDlRow" style="display:none">
+    <button class="btn btn-p" id="downloadSsZip">Download Screenshots (ZIP)</button>
+    <button class="btn btn-save" id="downloadSsIndv">Download All</button>
+  </div>
+  <div style="margin-top:16px;padding:14px 18px;background:rgba(184,148,46,.06);border-left:3px solid var(--gold);font-size:.7rem;line-height:1.8;color:var(--muted)">
+    <strong style="color:var(--gold);font-family:'Russo One',sans-serif;font-size:.6rem;letter-spacing:2px;text-transform:uppercase">📸 How Screenshots Work</strong><br>
+    <strong>1 upload = all device sizes generated for you.</strong><br>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;margin:8px 0;font-size:.65rem;line-height:1.9">
+      <span style="font-weight:600;color:var(--fg)">You upload (source)</span>
+      <span style="font-weight:600;color:var(--fg)">Tool generates →</span>
+      <span>📱 1 iPhone portrait</span>
+      <span>iPhone 6.7" / 6.1" / 4.7" + Samsung S24 + Pixel 9</span>
+      <span>📱 1 iPad portrait</span>
+      <span>iPad Pro 12.9" / iPad 11"</span>
+      <span>🖥 1 iPad landscape</span>
+      <span>iPad 12.9" L / 11" L + Android Tab L</span>
+    </div>
+    <span style="color:var(--fg);font-weight:500">How many?</span> Apple: min 1 per orientation, ideal 4-6. Google: min 2 phone, ideal 4-8.<br>
+    <span style="color:var(--fg);font-weight:500">Output:</span> <code style="background:var(--bg);padding:1px 4px;font-size:.65rem">pixwee-iphone-15promax-01.jpg</code> — named per device + position.<br>
+    <span style="color:var(--gold);font-weight:500">After download → say "wapp"</span> to upload + metadata to Apple/Google.<br>
+    <span style="color:var(--warn)">⚠ Use JPEG, no alpha channel, no device frames. Old TestFlight builds auto-expire in 90 days.</span>
+  </div>
+</div>
+
+<!-- FIELD LIMITS REFERENCE -->
+<div class="shared-section" style="background:rgba(184,148,46,.04);border:1px solid rgba(184,148,46,.15);padding:16px 20px;margin-bottom:16px">
+  <h2 style="margin-bottom:10px">📏 Field Limits — App Store / Google Play</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:4px 16px;font-size:.7rem;line-height:2">
+    <span style="font-weight:600;color:var(--fg)">Field</span>
+    <span style="font-weight:600;color:var(--fg)">Apple</span>
+    <span style="font-weight:600;color:var(--fg)">Google</span>
+    <span>Title</span><span>30 chars max</span><span>50 chars max</span>
+    <span>Short Description</span><span>80 chars (subtitle)</span><span>80 chars</span>
+    <span>Full Description</span><span>4,000 chars · no emoji</span><span>4,000 chars</span>
+    <span>Keywords</span><span>100 chars · single words</span><span>— (uses desc)</span>
+    <span>Promotional Text</span><span>170 chars · no emoji</span><span>—</span>
+  </div>
+  <div style="margin-top:8px;padding:8px 12px;background:var(--card);font-size:.65rem;color:var(--muted);line-height:1.6">
+    <strong style="color:#d33">🚫</strong> Emoji in any field → Apple rejection<br>
+    <strong style="color:#d33">🚫</strong> Multi-word keywords → Apple rejection (single words only)<br>
+    <strong style="color:#d33">🚫</strong> Pricing info in description → both stores reject<br>
+    <strong style="color:#2a7a2a">✓</strong> Bullet points (use -) for features. 4-6 paragraphs ideal for full desc.
+  </div>
+</div>
+
+<!-- APPLE PANEL -->
+<div class="panel" id="panelApple">
+  <!-- AI Quick Chat -->
+  <div style="margin-bottom:20px;padding:18px 20px;background:var(--card)">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <span style="font-family:'Russo One',sans-serif;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold)">🤖 AI Write</span>
+      <span style="font-size:.7rem;color:var(--muted)">Type what you want — fills all fields at once</span>
+    </div>
+    <div style="display:flex;gap:8px">
+      <textarea id="aiChatInput" placeholder="Describe your app: what it does, who it's for, key features. The AI fills description, keywords, short desc, and promo text — all at once." style="flex:1;padding:12px 16px;background:var(--bg);border:1px solid var(--border);font-family:'Outfit',sans-serif;font-size:.9rem;color:var(--fg);outline:none;resize:vertical;min-height:60px;line-height:1.6" rows="2"></textarea>
+      <button class="btn btn-push-apple" onclick="aiChat()" id="aiChatBtn" style="flex:0 0 auto;padding:12px 24px;white-space:nowrap;align-self:stretch;font-size:.7rem">Send →</button>
+    </div>
+    <div id="aiChatStatus" style="font-size:.75rem;color:var(--muted);margin-top:6px;min-height:20px"></div>
+  </div>
+  <div style="margin-bottom:20px;padding:14px 18px;background:rgba(0,113,227,.06);border-left:3px solid var(--apple);font-size:.75rem;line-height:1.8">
+    <strong style="color:var(--apple);font-family:'Russo One',sans-serif;font-size:.65rem;letter-spacing:2px;text-transform:uppercase">🚀 TestFlight Flow</strong><br>
+    <strong>Internal Testing:</strong> No Apple review. Instant. Up to 100 testers. Use this first.<br>
+    <strong>External Testing:</strong> Requires Beta App Review (1-2 days). Up to 10,000 testers.<br>
+    <span style="color:var(--muted)">After pushing → say "wapp" to submit metadata + screenshots + review.</span>
+  </div>
+  <h3>🍏 App Store Connect</h3>
+  <div class="field"><label>Bundle ID <span>*</span></label><input type="text" id="bundleId" placeholder="com.yourapp.ios" oninput="autoSaveApple()"></div>
+  <h3 style="margin-top:20px">📝 Metadata <span style="font-weight:400;font-size:.7rem;color:var(--muted)">· <button id="syncFromLiveBtn" class="ai-btn" style="font-size:.55rem;padding:3px 12px" onclick="syncFromLive()">🔄 Sync from App Store</button></span></h3>
+  <div class="field"><div class="field-header"><label>Title <span>*</span></label><div><button class="ai-btn" id="undoTitle" onclick="undoAI('title')" style="display:none">↩</button><button class="ai-btn" onclick="aiFill('title')">✨ AI Fill</button></div></div><input type="text" id="title" placeholder="App name" oninput="updateTitleCount();autoSave()"><div class="char-count" id="titleCount">0 / 30 (Apple) · 0 / 50 (Google)</div><div class="note">Apple: max 30 chars. Google Play: max 50 chars.</div></div>
+  <div class="field"><div class="field-header"><label>Short Description <span>*</span></label><div><button class="ai-btn" id="undoShortDesc" onclick="undoAI('shortDesc')" style="display:none">↩</button><button class="ai-btn" onclick="aiFill('shortDesc')">✨ AI Fill</button></div></div><textarea id="shortDesc" placeholder="Brief summary, max 80 chars" oninput="updateCharCounts();autoSave()"></textarea><div class="char-count" id="shortCount">0 / 80</div>
+  <div class="note" style="color:var(--warn)">Max 80 characters. No emoji. Should summarize the app in one sentence.</div></div>
+  <div class="field"><div class="field-header"><label>Full Description <span>*</span></label><div><button class="ai-btn" id="undoFullDesc" onclick="undoAI('fullDesc')" style="display:none">↩</button><button class="ai-btn" onclick="aiFill('fullDesc')">✨ AI Fill</button></div></div><textarea id="fullDesc" placeholder="Detailed description, max 4000 chars" oninput="updateCharCounts();autoSave()"></textarea><div class="char-count" id="fullCount">0 / 4000</div>
+  <div class="note" style="margin-top:12px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f0ad4e;line-height:1.8">
+    <strong style="color:#856404">📋 App Store rules:</strong><br>
+    <span style="color:#d33">🚫 NO emoji</span> (✅ ✨ → rejected)<br>
+    <span style="color:#d33">🚫 NO pricing</span> (Apple handles that)<br>
+    <span style="color:#d33">🚫 NO "coming soon"</span> or unreleased features<br>
+    <span style="color:#2a7a2a">✅ Real features, use cases, bullet points</span><br>
+    <span style="color:#2a7a2a">✅ What makes your app unique</span><br>
+    <span style="color:#888">Max 4000 characters. Use - for bullet lists.</span>
+  </div></div>
+  <div class="field"><div class="field-header"><label>Keywords</label><div><button class="ai-btn" id="undoKeywords" onclick="undoAI('keywords')" style="display:none">↩</button><button class="ai-btn" onclick="aiFill('keywords')">✨ AI Fill</button></div></div><input type="text" id="keywords" placeholder="event photo, wedding, qr code, sell photos, photographer" oninput="updateKeywordCount();autoSaveApple()"><div class="char-count" id="keywordCount">0 / 100</div><div class="note">Comma-separated, max 100 chars. Single words only — no phrases.</div></div>
+  <div class="field"><div class="field-header"><label>Promotional Text</label><div><button class="ai-btn" id="undoPromoText" onclick="undoAI('promoText')" style="display:none">↩</button><button class="ai-btn" onclick="aiFill('promoText')">✨ AI Fill</button></div></div><textarea id="promoText" placeholder="Shows above description. Max 170 chars." oninput="updatePromoCount();autoSaveApple()"></textarea><div class="char-count" id="promoCount">0 / 170</div><div class="note">Optional. Appears above the description. No emoji.</div></div>
+  <div class="field"><label>Privacy URL</label><input type="url" id="privacyUrl" readonly placeholder="Auto-filled" style="background:var(--card);color:#666"><div class="note">nakfaai.com/apps/{app}/privacy</div></div>
+  <div class="field"><label>Support URL</label><input type="url" id="supportUrl" placeholder="https://nakfaai.com/apps/{app}/support" oninput="autoSaveApple()"><div class="note">Help/contact page for users</div></div>
+  <div class="field"><label>Version String</label><input type="text" id="versionString" placeholder="e.g. 1.6.3" oninput="autoSaveApple()"><div class="note">Current app version. Auto-filled from store.json liveMetadata.</div></div>
+  <div class="field"><label>Support Email</label><input type="email" id="email" value="support@nakfaai.com" oninput="autoSave()"></div>
+  <h3 style="margin-top:20px">👤 Review Contact</h3>
+  <div class="triple-row">
+    <div class="field"><label>Name <span>*</span></label><input type="text" id="reviewName" value="Ammaniel Hintza" oninput="autoSaveApple()"></div>
+    <div class="field"><label>Email <span>*</span></label><input type="email" id="reviewEmail" value="support@nakfaai.com" oninput="autoSaveApple()"></div>
+    <div class="field"><label>Phone <span>*</span></label><input type="tel" id="reviewPhone" value="+1 (469) 829-5404" placeholder="+1-555-..." oninput="autoSaveApple()"></div>
+  </div>
+  <h3 style="margin-top:20px">🔑 Demo Account</h3>
+  <div class="inline-row">
+    <div class="field"><label>Username / Email</label><input type="text" id="demoUser" value="demo@nakfaai.com" oninput="autoSaveApple()"></div>
+    <div class="field"><label>Password</label><input type="text" id="demoPass" value="password1234" oninput="autoSaveApple()"></div>
+  </div>
+  <h3 style="margin-top:20px">⚖️ Compliance</h3>
+  <div class="checkbox-group">
+    <div class="checkbox-item" onclick="this.classList.toggle('active');this.querySelector('input').checked=!this.querySelector('input').checked;autoSaveApple()"><input type="checkbox" id="encryption"><label for="encryption">Uses encryption</label></div>
+    <div class="checkbox-item" onclick="this.classList.toggle('active');this.querySelector('input').checked=!this.querySelector('input').checked;autoSaveApple()"><input type="checkbox" id="exportCompliance"><label for="exportCompliance">Export compliance</label></div>
+    <div class="checkbox-item" onclick="this.classList.toggle('active');this.querySelector('input').checked=!this.querySelector('input').checked;autoSaveApple()"><input type="checkbox" id="thirdParty"><label for="thirdParty">Third-party content</label></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-save" onclick="saveApple()">💾 Save</button>
+    <button class="btn btn-push-apple" onclick="pushApple()">🚀 Push to Apple</button>
+  </div>
+  <div class="error-panel" id="appleErrors"><h3>Fix before pushing:</h3><ul id="appleErrorList"></ul></div>
+  <div class="result-panel" id="appleResult"></div>
+</div>
+
+<!-- GOOGLE PANEL -->
+<div class="panel" id="panelGoogle">
+  <button class="btn btn-load" onclick="loadFromApple()" style="margin-bottom:20px">📥 Load from Apple</button>
+  <h3>🤖 Google Play Console</h3>
+  <div class="field"><label>Package Name <span>*</span></label><input type="text" id="packageName" placeholder="com.yourapp.android" oninput="autoSaveGoogle()"></div>
+  <div class="field"><label>Privacy URL <span>*</span></label><input type="url" id="googlePrivacyUrl" placeholder="https://nakfaai.com/apps/{app}/privacy" oninput="autoSaveGoogle()"><div class="note">Required by Google Play. Auto-filled from app name.</div></div>
+  <div class="field"><label>Support URL</label><input type="url" id="googleSupportUrl" placeholder="https://nakfaai.com/apps/{app}/support" oninput="autoSaveGoogle()"><div class="note">Auto-filled. Help/contact page for users.</div></div>
+  <div class="field"><label>Track</label><select id="track" onchange="autoSaveGoogle()"><option value="internal">Internal Testing</option><option value="alpha">Closed Alpha</option><option value="beta">Closed Beta</option><option value="production">Production</option></select></div>
+  <div class="field"><label>Release Notes</label><textarea id="releaseNotes" placeholder="What's new in this release?" oninput="autoSaveGoogle()"></textarea></div>
+  <div class="field"><label>Testers (for closed tracks)</label><textarea id="testers" placeholder="One email per line" oninput="autoSaveGoogle()"></textarea></div>
+  <div class="btn-row">
+    <button class="btn btn-save" onclick="saveGoogle()">💾 Save</button>
+    <button class="btn btn-push-google" onclick="pushGoogle()">🚀 Push to Google</button>
+  </div>
+  <div class="error-panel" id="googleErrors"><h3>Fix before pushing:</h3><ul id="googleErrorList"></ul></div>
+  <div class="result-panel" id="googleResult"></div>
+</div>
+
+</div>
+<div class="toast" id="toastEl"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+/* ═══════ PUBLISHER STATE ═══════ */
+const appPackages={
+  'GeezEasy':{ios:'com.geezeasy.app',android:'com.geezeasy.app'},
+  'agelbook':{ios:'com.agelbook.app',android:'com.agelbook.app'},
+  'ammanuniverse':{ios:'com.ammanuniverse.app',android:'com.ammanuniverse.app'},
+  'ethiocoffee':{ios:'com.ethiocoffee.app',android:'com.ethiocoffee.app'},
+  'genzeb':{ios:'com.genzeb.app',android:'com.genzeb.app'},
+  'gottasee':{ios:'com.gottasee.app',android:'com.gottasee.app'},
+  'kalkidan':{ios:'com.kalkidan.app',android:'com.kalkidan.app'},
+  'latindance':{ios:'com.latindance.app',android:'com.latindance.app'},
+  'mizaney1':{ios:'com.mizaney.app',android:'com.mizaney.app'},
+  'Orominia':{ios:'com.orominia.app',android:'com.orominia.app'},
+  'fideltype':{ios:'com.fideltype.app',android:'com.fideltype.app'},
+  'pixwee':{ios:'com.pixwee.app',android:'com.pixwee.app'},
+  'vibecode':{ios:'com.vibecode.app',android:'com.vibecode.app'}
+};
+let k=localStorage.getItem('deepseek_key')||'';
+const screenshots={apple:[],google:[]};
+
+/* ── AI generation history (for undo) ── */
+let aiHistory = {};
+function saveAIHistory(field){
+  const el = document.getElementById(field==='title'?'title':field==='shortDesc'?'shortDesc':field==='fullDesc'?'fullDesc':field==='keywords'?'keywords':field==='promoText'?'promoText':'');
+  if(!el) return;
+  const val = el.value.trim();
+  if(!val) return;
+  if(!aiHistory[field]) aiHistory[field] = [];
+  aiHistory[field].push(val);
+  if(aiHistory[field].length > 10) aiHistory[field].shift(); // keep last 10
+}
+function undoAI(field){
+  if(!aiHistory[field] || aiHistory[field].length===0) return;
+  const prev = aiHistory[field].pop();
+  const el = document.getElementById(field==='title'?'title':field==='shortDesc'?'shortDesc':field==='fullDesc'?'fullDesc':field==='keywords'?'keywords':'promoText');
+  if(!el) return;
+  el.value = prev;
+  const undoBtn = document.getElementById('undo'+field.charAt(0).toUpperCase()+field.slice(1));
+  if(undoBtn) undoBtn.style.display = (aiHistory[field].length > 0) ? 'inline-flex' : 'none';
+  autoSave(); updateCharCounts(); updateKeywordCount(); updatePromoCount(); updateTitleCount();
+  showToast('↩ Restored previous version');
+}
+
+/* ── Dark Mode ── */
+function toggleDark(){
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  localStorage.setItem('publisher_theme', isDark ? 'light' : 'dark');
+  document.getElementById('darkToggle').textContent = isDark ? '🌙' : '☀️';
+}
+// Init dark mode
+(function(){
+  const saved = localStorage.getItem('publisher_theme');
+  if(saved) document.documentElement.setAttribute('data-theme', saved);
+  if(saved==='dark') document.getElementById('darkToggle').textContent = '☀️';
+})();
+
+function getAppName(){const s=document.getElementById('appSelect').value;return s==='__other__'?'myapp':s}
+function getAppSlug(){return getAppName().toLowerCase().replace(/[^a-z0-9]/g,'')}
+function getProject(){return document.getElementById('projectFolder').value||getAppSlug()}
+
+function onAppChange(){
+  const v=document.getElementById('appSelect').value;
+  if(v==='__other__'){document.getElementById('privacyUrl').value='';restoreAll();return}
+  const slug=v.toLowerCase().replace(/[^a-z0-9]/g,'');
+  document.getElementById('privacyUrl').value='https://nakfaai.com/apps/'+slug+'/privacy';
+  document.getElementById('googlePrivacyUrl').value='https://nakfaai.com/apps/'+slug+'/privacy';
+  document.getElementById('googleSupportUrl').value='https://nakfaai.com/apps/'+slug+'/support';
+  document.getElementById('supportUrl').value='https://nakfaai.com/apps/'+slug+'/support';
+  if(!document.getElementById('projectFolder').value)document.getElementById('projectFolder').value=slug;
+  if(appPackages[v]){
+    document.getElementById('bundleId').value=appPackages[v].ios||'';
+    document.getElementById('packageName').value=appPackages[v].android||'';
+  }
+  // Check localStorage for saved per-app data — restore if exists
+  const hasSaved = localStorage.getItem(storeKey('shared'));
+  if(hasSaved){ restoreAll(); }
+  // Show Load Template button if app has a template
+  const hasTemplate = !!TEMPLATES[getAppName()];
+  const loadBtn = document.getElementById('loadTemplateBtn');
+  if(loadBtn) loadBtn.style.display = hasTemplate ? 'inline-flex' : 'none';
+  // Auto-load template when app is selected
+  if(hasTemplate) { loadTemplate(getAppName()); }
+  if(!hasSaved) autoSave();
+  // If app has preloaded metadata, auto-populate empty fields and set liveMeta
+  const meta = APP_METADATA[document.getElementById('appSelect').value];
+  if(meta) {
+    liveMeta = meta;
+    if(!document.getElementById('fullDesc').value) document.getElementById('fullDesc').value = meta.description;
+    if(!document.getElementById('keywords').value) document.getElementById('keywords').value = meta.keywords;
+    if(!document.getElementById('promoText').value) document.getElementById('promoText').value = meta.promotionalText;
+    if(meta.supportUrl && !document.getElementById('supportUrl').value) document.getElementById('supportUrl').value = meta.supportUrl;
+    document.getElementById('versionString').value = meta.versionString || '1.0';
+    if(!document.getElementById('googleSupportUrl').value) document.getElementById('googleSupportUrl').value = meta.supportUrl;
+    updateCharCounts(); updateKeywordCount(); updatePromoCount();
+  }
+  autoSaveGoogle();
+}
+
+function loadTemplate(appName){
+  const svg = TEMPLATES[appName];
+  if(!svg) return;
+  const blob = new Blob([svg], {type: 'image/svg+xml'});
+  const file = new File([blob], appName.toLowerCase()+'-icon.svg', {type: 'image/svg+xml'});
+  switchTab('icons');
+  const dataTransfer = new DataTransfer();
+  dataTransfer.items.add(file);
+  document.getElementById('iconFile').files = dataTransfer.files;
+  document.getElementById('iconFile').dispatchEvent(new Event('change'));
+  showToast('✅ '+appName+' template loaded');
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>{t.classList.remove('active','active-apple','active-google');if(t.id==='tab'+tab.charAt(0).toUpperCase()+tab.slice(1)){const cls=['active'];if(tab==='apple')cls.push('active-apple');if(tab==='google')cls.push('active-google');t.classList.add(...cls)}});
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('visible'));
+  document.getElementById('panel'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('visible');
+  if(tab!=='icons'&&tab!=='screenshots')clearErrors();
+}
+
+/* ── Validate AI output against field limits ── */
+function updateTitleCount(){
+  const t=document.getElementById('title');
+  document.getElementById('titleCount').textContent=t.value.length+' / 30 (Apple) · '+t.value.length+' / 50 (Google)';
+}
+
+function validateAIFields(){
+  const warnings=[];
+  const sd=document.getElementById('shortDesc').value;
+  const fd=document.getElementById('fullDesc').value;
+  const kw=document.getElementById('keywords').value;
+  const pt=document.getElementById('promoText').value;
+  const tl=document.getElementById('title').value;
+  if(tl){
+    if(tl.length>30) warnings.push('Title '+tl.length+' chars — Apple max is 30');
+    if(tl.length>50) warnings.push('Title '+tl.length+' chars — Google max is 50');
+  }
+  if(sd){
+    if(sd.length<70) warnings.push('Short desc '+sd.length+' chars — needs 70-80');
+    if(sd.length>80) warnings.push('Short desc '+sd.length+' chars — over 80');
+  }
+  if(fd){
+    if(fd.length<1000) warnings.push('Desc only '+fd.length+' chars — aim 1500+');
+    if(fd.length>4000) warnings.push('Desc '+fd.length+' chars — over 4000');
+    if(!fd.includes('- ')) warnings.push('Desc missing bullet points (use -)');
+    const paras=fd.split(/\n\s*\n/).filter(Boolean);
+    if(paras.length<3) warnings.push('Desc has '+paras.length+' paragraphs — aim 4-6');
+    if(paras.length>12) warnings.push('Desc has '+paras.length+' paragraphs — too many');
+  }
+  if(kw){
+    if(kw.length>100) warnings.push('Keywords '+kw.length+' chars — over 100');
+    const wordList=kw.split(',').map(w=>w.trim()).filter(Boolean);
+    if(wordList.some(w=>w.includes(' '))) warnings.push('Keywords has multi-word entries — Apple rejects');
+    if(wordList.length<8) warnings.push('Keywords: '+wordList.length+' words — aim 8-15');
+    if(wordList.length>15) warnings.push('Keywords: '+wordList.length+' words — too many');
+  }
+  if(pt){
+    if(pt.length<100) warnings.push('Promo text '+pt.length+' chars — aim 130-170');
+    if(pt.length>170) warnings.push('Promo text '+pt.length+' chars — over 170');
+  }
+  if(warnings.length) showToast('⚠️ '+warnings.slice(0,3).join(' • '),8000);
+  updateTitleCount();
+}
+
+/* ── Build app context for AI prompts ── */
+function buildAppContext(){
+  const n=getAppName();
+  let ctx = 'App name: "'+n+'"';
+  // Add existing App Store description as context
+  if(liveMeta){
+    if(liveMeta.description) ctx += '\nCurrent App Store description:\n"""\n'+liveMeta.description+'\n"""';
+    if(liveMeta.keywords) ctx += '\nCurrent App Store keywords: '+liveMeta.keywords;
+    if(liveMeta.promotionalText) ctx += '\nCurrent promotional text: '+liveMeta.promotionalText;
+    if(liveMeta.projectContext) ctx += '\nProject context:\n"""\n'+liveMeta.projectContext+'\n"""';
+  }
+  // Also check if user typed context into the AI chat input
+  const userInput = document.getElementById('aiChatInput').value.trim();
+  if(userInput && userInput.length > 20) ctx += '\nUser notes: '+userInput;
+  return ctx;
+}
+
+/* ═══════ PUBLISHER: AI CHAT (fill all fields at once) ═══════ */
+async function aiChat(){
+  const input=document.getElementById('aiChatInput').value.trim();
+  if(!input){showToast('Type what you want first');return}
+  const n=getAppName();
+  const appCtx=buildAppContext();
+  if(!k){const key=prompt('Enter DeepSeek API key:');if(key){k=key;localStorage.setItem('deepseek_key',key)}else{showToast('API key required');return}}
+  const btn=document.getElementById('aiChatBtn');const st=document.getElementById('aiChatStatus');
+  btn.disabled=true;btn.textContent='⏳';st.textContent='Generating...';st.style.color='var(--muted)';
+  try{
+    const prompt='You are a professional App Store copywriter. User wants metadata for "'+n+'".\n\nApp context:\n'+appCtx+'\n\nUser notes: '+input+'\n\nRespond with ONLY a valid JSON object, no markdown, no explanation. FOLLOW THESE EXACT LIMITS:\n{"shortDesc":"EXACTLY 70-80 characters. ONE sentence only. No emoji.","fullDesc":"1500-4000 chars recommended. Structure: 1 hook paragraph → 3-6 bullet features (use -) → 1 audience paragraph → 1 closing tagline. Aim for 4-6 total paragraphs. No emoji, no pricing, no coming soon.","keywords":"max 100 chars total. Single words only (no phrases, no spaces within keywords). 8-15 keywords covering: category, features, use cases, audience. Example: photo,event,wedding,sell,photographer,ghost,party,qr,code,download","promotionalText":"130-170 characters. ONE punchy sentence showing above description. No emoji."}';
+    const r=await fetch('https://api.deepseek.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+k},body:JSON.stringify({model:'deepseek-chat',messages:[{role:'user',content:prompt}],max_tokens:2000,temperature:.7})});
+    if(!r.ok){if(r.status===401){k='';localStorage.removeItem('deepseek_key')}throw new Error('API error: '+r.status)}
+    const d=await r.json();const t=d.choices[0].message.content.trim();
+    const json=t.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
+    const parsed=JSON.parse(json);
+    if(parsed.shortDesc)document.getElementById('shortDesc').value=parsed.shortDesc;
+    if(parsed.fullDesc)document.getElementById('fullDesc').value=parsed.fullDesc;
+    if(parsed.keywords)document.getElementById('keywords').value=parsed.keywords;
+    if(parsed.promotionalText)document.getElementById('promoText').value=parsed.promotionalText;
+    autoSave();autoSaveApple();updateCharCounts();updateKeywordCount();updatePromoCount();
+    st.textContent='All fields filled '+Object.keys(parsed).length+'/'+4;st.style.color='var(--success)';
+    showToast('AI filled all fields');
+    ['shortDesc','fullDesc','keywords','promoText'].forEach(f=>saveAIHistory(f));
+  }catch(e){st.textContent='Error: '+(e.message||'Invalid response');st.style.color='#d33';showToast('AI chat failed')}setTimeout(validateAIFields,500)
+  btn.disabled=false;btn.textContent='Send →'
+}
+
+/* ═══════ PUBLISHER: AI FILL ═══════ */
+async function aiFill(field){
+  const n=getAppName();const btn=event.target;btn.disabled=true;btn.textContent='⏳';
+  const appCtx=buildAppContext();
+  try{
+    if(field==='title'){
+      saveAIHistory('title');
+      p='You are an App Store naming expert. Generate a short, catchy app title for "'+n+'".\n\nApp context:\n'+appCtx+'\n\nRULES:\n- Apple App Store: MAX 30 characters\n- Google Play: MAX 50 characters\n- MUST be under 30 chars to work on both stores\n- Include the core app name, optionally add a short descriptor\n- Example: "pixwee" → "Pixwee - Event Photos" (24 chars)\n- No emoji. No special characters. Clean and memorable.\n- Respond with ONLY the title text, nothing else.';
+      if(!k){const key=prompt('Enter DeepSeek API key:');if(key){k=key;localStorage.setItem('deepseek_key',key)}else{btn.disabled=false;btn.textContent='✨ AI Fill';return}}
+      const r=await fetch('https://api.deepseek.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+k},body:JSON.stringify({model:'deepseek-chat',messages:[{role:'user',content:p}],max_tokens:100,temperature:.5})});
+      if(!r.ok){if(r.status===401){k='';localStorage.removeItem('deepseek_key')}throw new Error('API error: '+r.status)}
+      const d=await r.json(),t=d.choices[0].message.content.trim();
+      if(t && t.length <= 50){
+        const cleaned = t.replace(/["']/g,'').trim();
+        document.getElementById('title').value=cleaned;
+        document.getElementById('undoTitle').style.display='inline-flex';
+        autoSave();updateTitleCount();showToast('✅ Title generated')
+      } else showToast('AI title too long — try again or type manually');
+      btn.disabled=false;btn.textContent='✨ AI Fill';return
+    }
+    let p='';
+    if(field==='shortDesc'){
+      saveAIHistory('shortDesc');
+      p='You are a professional App Store copywriter. Write a short App Store subtitle for "'+n+'".\n\nApp context:\n'+appCtx+'\n\nRULES:\n- EXACTLY 70-80 characters (count carefully — this will be rejected outside this range)\n- ONE sentence only\n- No emoji, no hype — clear, benefit-driven\n- Summarize what the app does in one compelling line\n- Write it better than the current version';
+    }
+    else if(field==='fullDesc'){
+      saveAIHistory('fullDesc');
+      p='You are a professional App Store copywriter. Write a full App Store description for "'+n+'".\n\nApp context:\n'+appCtx+'\n\nRULES:\n- 1500-4000 characters (aim for substantial but concise — around 2000-3000 is ideal)\n- Structure into 4-6 paragraphs:\n  1. Opening hook paragraph (what the app does, why it matters)\n  2. Key features — 3 to 6 bullet points using dash (-) prefixes\n  3. Target audience paragraph (who this is for)\n  4. Closing tagline paragraph\n- NO emoji, NO pricing info, NO "coming soon" or placeholder features\n- Professional, benefit-focused, clean. Write it significantly better than any current version.';
+    }
+    else if(field==='keywords'){
+      saveAIHistory('keywords');
+      p='You are an App Store keyword strategist. Write keywords for "'+n+'".\n\nApp context:\n'+appCtx+'\n\nRULES:\n- max 100 characters TOTAL\n- SINGLE WORDS ONLY (no spaces within keywords, no phrases — Apple rejects multi-word keywords)\n- 8 to 15 keywords\n- Cover: app category, features, use cases, target audience, related search terms\n- Example: photo,event,wedding,sell,photographer,ghost,party,qr,code,download';
+    }
+    else if(field==='promoText'){
+      saveAIHistory('promoText');
+      p='You are a professional App Store copywriter. Write promotional text for "'+n+'".\n\nApp context:\n'+appCtx+'\n\nRULES:\n- 130-170 characters (shorter is better but must be complete)\n- ONE punchy sentence\n- Shows ABOVE the description in App Store\n- Highlight the single most compelling benefit or feature update\n- No emoji. Make it actionable.';
+    }
+    if(!k){const key=prompt('Enter DeepSeek API key:');if(key){k=key;localStorage.setItem('deepseek_key',key)}else{btn.disabled=false;btn.textContent='✨ AI Fill';return}}
+    const r=await fetch('https://api.deepseek.com/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+k},
+      body:JSON.stringify({
+        model:'deepseek-chat',
+        messages:[{role:'user',content:p}],
+        max_tokens:2000,
+        temperature:.7
+      })
+    });
+    if(!r.ok){if(r.status===401){k='';localStorage.removeItem('deepseek_key')}throw new Error('API error: '+r.status)}
+    const d=await r.json(),t=d.choices[0].message.content.trim();
+    if(field==='shortDesc'||field==='fullDesc'||field==='keywords'||field==='promoText'){
+      document.getElementById(field).value=t;
+      const undoId = 'undo'+field.charAt(0).toUpperCase()+field.slice(1);
+      document.getElementById(undoId).style.display='inline-flex';
+    }
+    saveAIHistory(field);
+    autoSave();updateCharCounts();updateKeywordCount();updatePromoCount();updateTitleCount()
+  }catch(e){showToast(e.message||'AI fill failed')}setTimeout(validateAIFields,500)
+  btn.disabled=false;btn.textContent='✨ AI Fill'
+}
+
+/* ═══════ PUBLISHER: SCREENSHOTS (Apple/Google) ═══════ */
+function handleScreenshots(platform,files){
+  for(const x of files){
+    const r=new FileReader();
+    r.onload=e=>{screenshots[platform].push({name:x.name,data:e.target.result.split(',')[1],type:x.type});renderPreviews(platform)};
+    r.readAsDataURL(x)
+  }
+}
+function renderPreviews(platform){
+  const c=document.getElementById(platform+'Previews');if(!c)return;
+  c.innerHTML='';
+  screenshots[platform].forEach((s,i)=>{const img=document.createElement('img');img.src='data:'+s.type+';base64,'+s.data;img.title=s.name;img.onclick=()=>{screenshots[platform].splice(i,1);renderPreviews(platform);autoSave()};c.appendChild(img)});
+  autoSave()
+}
+
+/* ═══════ PUBLISHER: AUTO-SAVE ═══════ */
+function storeKey(suffix){const a=getAppName();return 'apppub_'+suffix+(a?'_'+a:'')}
+function autoSave(){
+  const d={app:document.getElementById('appSelect').value,appName:getAppName(),title:document.getElementById('title').value,shortDesc:document.getElementById('shortDesc').value,fullDesc:document.getElementById('fullDesc').value,privacyUrl:document.getElementById('privacyUrl').value,projectFolder:document.getElementById('projectFolder').value,email:document.getElementById('email').value,savedAt:new Date().toISOString()};
+  localStorage.setItem(storeKey('shared'),JSON.stringify(d))
+}
+function autoSaveApple(){autoSave();const d=JSON.parse(localStorage.getItem(storeKey('shared'))||'{}');d.bundleId=document.getElementById('bundleId').value;d.supportUrl=document.getElementById('supportUrl').value;d.versionString=document.getElementById('versionString').value;d.keywords=document.getElementById('keywords').value;d.promotionalText=document.getElementById('promoText').value;d.reviewName=document.getElementById('reviewName').value;d.reviewEmail=document.getElementById('reviewEmail').value;d.reviewPhone=document.getElementById('reviewPhone').value;d.demoUser=document.getElementById('demoUser').value;d.demoPass=document.getElementById('demoPass').value;d.encryption=document.getElementById('encryption').checked;d.exportCompliance=document.getElementById('exportCompliance').checked;d.thirdParty=document.getElementById('thirdParty').checked;d.screenshots=screenshots.apple;localStorage.setItem(storeKey('apple'),JSON.stringify(d))}
+function autoSaveGoogle(){autoSave();const d=JSON.parse(localStorage.getItem(storeKey('shared'))||'{}');d.packageName=document.getElementById('packageName').value;d.googlePrivacyUrl=document.getElementById('googlePrivacyUrl').value;d.googleSupportUrl=document.getElementById('googleSupportUrl').value;d.track=document.getElementById('track').value;d.releaseNotes=document.getElementById('releaseNotes').value;d.testers=document.getElementById('testers').value;d.screenshots=screenshots.google;localStorage.setItem(storeKey('google'),JSON.stringify(d))}
+function restoreAll(){
+  const a=getAppName();if(!a)return;
+  const s=localStorage.getItem(storeKey('shared'));
+  if(s){const d=JSON.parse(s);document.getElementById('appSelect').value=d.app||'';document.getElementById('title').value=d.title||'';document.getElementById('shortDesc').value=d.shortDesc||'';document.getElementById('fullDesc').value=d.fullDesc||'';document.getElementById('projectFolder').value=d.projectFolder||'';document.getElementById('email').value=d.email||'support@nakfaai.com'}
+  const ap=localStorage.getItem(storeKey('apple'));
+  if(ap){const d=JSON.parse(ap);document.getElementById('bundleId').value=d.bundleId||'';document.getElementById('supportUrl').value=d.supportUrl||'';document.getElementById('versionString').value=d.versionString||'';document.getElementById('keywords').value=d.keywords||'';document.getElementById('promoText').value=d.promotionalText||'';document.getElementById('reviewName').value=d.reviewName||'Ammaniel Hintza';document.getElementById('reviewEmail').value=d.reviewEmail||'support@nakfaai.com';document.getElementById('reviewPhone').value=d.reviewPhone||'';document.getElementById('demoUser').value=d.demoUser||'demo@nakfaai.com';document.getElementById('demoPass').value=d.demoPass||'password1234';document.getElementById('encryption').checked=d.encryption||false;document.getElementById('exportCompliance').checked=d.exportCompliance||false;document.getElementById('thirdParty').checked=d.thirdParty||false;if(d.screenshots){screenshots.apple=d.screenshots;renderPreviews('apple')}}
+  const g=localStorage.getItem(storeKey('google'));
+  if(g){const d=JSON.parse(g);document.getElementById('packageName').value=d.packageName||'';const slug=getAppSlug();document.getElementById('googlePrivacyUrl').value=d.googlePrivacyUrl||'https://nakfaai.com/apps/'+slug+'/privacy';document.getElementById('googleSupportUrl').value=d.googleSupportUrl||'https://nakfaai.com/apps/'+slug+'/support';document.getElementById('track').value=d.track||'internal';document.getElementById('releaseNotes').value=d.releaseNotes||'';document.getElementById('testers').value=d.testers||'';if(d.screenshots){screenshots.google=d.screenshots;renderPreviews('google')}}
+  updateCharCounts()
+}
+function loadProjectJson(file){
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const d = JSON.parse(e.target.result);
+      // Store live metadata for push validation
+      liveMeta = d.liveMetadata || null;
+      // Shared fields
+      if(d.app) document.getElementById('appSelect').value = d.app;
+      if(d.title) document.getElementById('title').value = d.title;
+      if(d.shortDesc) document.getElementById('shortDesc').value = d.shortDesc;
+      if(d.fullDesc) document.getElementById('fullDesc').value = d.fullDesc;
+      // Auto-populate from liveMetadata (fields that live on App Store/Google Play)
+      if(d.liveMetadata){
+        if(d.liveMetadata.description&&!d.fullDesc) document.getElementById('fullDesc').value = d.liveMetadata.description;
+        if(d.liveMetadata.keywords&&!d.keywords) document.getElementById('keywords').value = d.liveMetadata.keywords;
+        if(d.liveMetadata.promotionalText&&!d.promotionalText) document.getElementById('promoText').value = d.liveMetadata.promotionalText;
+        if(d.liveMetadata.versionString) document.getElementById('versionString').value = d.liveMetadata.versionString;
+      }
+      if(d.privacyUrl) document.getElementById('privacyUrl').value = d.privacyUrl;
+      if(d.supportUrl) document.getElementById('supportUrl').value = d.supportUrl;
+      if(d.projectFolder) document.getElementById('projectFolder').value = d.projectFolder;
+      if(d.email) document.getElementById('email').value = d.email;
+      // Apple fields
+      if(d.bundleId) document.getElementById('bundleId').value = d.bundleId;
+      if(d.reviewName) document.getElementById('reviewName').value = d.reviewName||'Ammaniel Hintza';
+      if(d.reviewEmail) document.getElementById('reviewEmail').value = d.reviewEmail||'support@nakfaai.com';
+      if(d.reviewPhone) document.getElementById('reviewPhone').value = d.reviewPhone||'';
+      if(d.demoUser) document.getElementById('demoUser').value = d.demoUser||'demo@nakfaai.com';
+      if(d.demoPass) document.getElementById('demoPass').value = d.demoPass||'password1234';
+      document.getElementById('encryption').checked = !!d.encryption;
+      document.getElementById('exportCompliance').checked = !!d.exportCompliance;
+      document.getElementById('thirdParty').checked = !!d.thirdParty;
+      // Google fields
+      if(d.packageName) document.getElementById('packageName').value = d.packageName;
+      if(d.googlePrivacyUrl) document.getElementById('googlePrivacyUrl').value = d.googlePrivacyUrl;
+      if(d.googleSupportUrl) document.getElementById('googleSupportUrl').value = d.googleSupportUrl;
+      if(d.track) document.getElementById('track').value = d.track;
+      if(d.releaseNotes) document.getElementById('releaseNotes').value = d.releaseNotes||'';
+      if(d.testers) document.getElementById('testers').value = d.testers||'';
+      onAppChange(); updateCharCounts(); autoSave(); autoSaveApple(); autoSaveGoogle();
+      showToast('✅ '+(d.app||'project')+' data loaded'+(d.liveMetadata?' — live metadata restored':' — auto-saved'));
+    } catch(err) { showToast('❌ Invalid JSON file'); }
+  };
+  reader.readAsText(file);
+}
+function loadFromApple(){
+  const d=JSON.parse(localStorage.getItem(storeKey('apple')));
+  if(!d){showToast('⚠ No Apple data — push to Apple first');return}
+  const app=d.app||document.getElementById('appSelect').value;
+  if(app)document.getElementById('appSelect').value=app;
+  document.getElementById('title').value=d.title||'';document.getElementById('shortDesc').value=d.shortDesc||'';document.getElementById('fullDesc').value=d.fullDesc||'';document.getElementById('privacyUrl').value=d.privacyUrl||'';document.getElementById('email').value='support@nakfaai.com';
+  const slug=app.toLowerCase().replace(/[^a-z0-9]/g,'');
+  document.getElementById('googlePrivacyUrl').value=d.privacyUrl||'https://nakfaai.com/apps/'+slug+'/privacy';
+  document.getElementById('googleSupportUrl').value=d.supportUrl||'https://nakfaai.com/apps/'+slug+'/support';
+  if(appPackages[app])document.getElementById('packageName').value=appPackages[app].android||'';
+  updateCharCounts();autoSave();switchTab('google');showToast('✅ Apple data loaded — ready for Google Push')
+}
+function syncFromLive(){
+  if(!liveMeta){showToast('⚠ No live metadata — select an app first');return}
+  let filled=0;
+  if(liveMeta.description){document.getElementById('fullDesc').value=liveMeta.description;filled++}
+  if(liveMeta.keywords){document.getElementById('keywords').value=liveMeta.keywords;filled++}
+  if(liveMeta.promotionalText){document.getElementById('promoText').value=liveMeta.promotionalText;filled++}
+  if(liveMeta.supportUrl) document.getElementById('supportUrl').value=liveMeta.supportUrl;
+  if(liveMeta.versionString) document.getElementById('versionString').value=liveMeta.versionString;
+  if(liveMeta.googleTitle) document.getElementById('title').value=liveMeta.googleTitle;
+  if(liveMeta.googleShortDesc) document.getElementById('shortDesc').value=liveMeta.googleShortDesc;
+  if(liveMeta.googleFullDesc && !liveMeta.description) document.getElementById('fullDesc').value=liveMeta.googleFullDesc;
+  if(filled>0){autoSave();autoSaveApple();autoSaveGoogle();updateCharCounts();updateKeywordCount();updatePromoCount();updateTitleCount();showToast('✅ Restored '+filled+' field'+(filled!==1?'s':'')+' from live App Store data')}
+  else showToast('No live metadata fields to restore')
+}
+function pushApple(){
+  autoSaveApple();
+  const d=JSON.parse(localStorage.getItem(storeKey('apple')));const el=document.getElementById('appleErrorList'),ep=document.getElementById('appleErrors'),rp=document.getElementById('appleResult');
+  ep.classList.remove('visible');rp.classList.remove('visible','success');el.innerHTML='';
+  const errs=[];
+  if(!d.app||d.app==='__other__')errs.push('Select an app');if(!d.bundleId)errs.push('Bundle ID required');if(!d.title)errs.push('Title required');
+  if(!d.shortDesc||d.shortDesc.length<5)errs.push('Short description too short');if(d.shortDesc.length>80)errs.push('Short desc >80 chars');
+  if(!d.fullDesc||d.fullDesc.length<50)errs.push('Full description too short (min 50)');
+  const emojiRegex=/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2B50}\u{2764}\u{2705}\u{274C}\u{2714}]/u;
+  if(emojiRegex.test(d.fullDesc||''))errs.push('Description has emoji — Apple rejects them');
+  if(emojiRegex.test(d.shortDesc||''))errs.push('Short description has emoji');
+  if(!d.reviewName||!d.reviewEmail||!d.reviewPhone)errs.push('Review contact required');
+  if(errs.length){el.innerHTML=errs.map(x=>'<li>'+x+'</li>').join('');ep.classList.add('visible');return}
+  // Live metadata guard: warn if local field is blank but live has a value
+  if(liveMeta){
+    const liveWarns=[];
+    if((!d.fullDesc||d.fullDesc.length<10)&&liveMeta.description)liveWarns.push('Description is empty — App Store has "'+liveMeta.description.slice(0,80)+'…"');
+    if((!d.keywords||d.keywords.length<2)&&liveMeta.keywords)liveWarns.push('Keywords are empty — App Store has "'+liveMeta.keywords+'"');
+    if((!d.promotionalText||d.promotionalText.length<2)&&liveMeta.promotionalText)liveWarns.push('Promotional text is empty — App Store has "'+liveMeta.promotionalText.slice(0,60)+'…"');
+    if(liveWarns.length){el.innerHTML=[...errs,...liveWarns].map(x=>'<li>'+x+'</li>').join('')+'<li style="color:var(--gold)">→ Use "🔄 Sync from App Store" button above to restore live values, or type new ones</li>';ep.classList.add('visible');return}
+  }
+  const slug=getAppSlug(),ts=new Date().toISOString().replace(/[:.]/g,'-').slice(0,19),fn='testflight-'+slug+'-'+ts+'.json';
+  const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;a.click();
+  rp.className='result-panel visible success';rp.innerHTML='<strong>✅ '+fn+'</strong> downloaded<div style="margin-top:10px;font-weight:500;color:#333">Say:</div><div class="cmd-box">wapp</div>';showToast('✅ Apple push ready!')
+}
+function pushGoogle(){
+  autoSaveGoogle();
+  const d=JSON.parse(localStorage.getItem(storeKey('google')));const el=document.getElementById('googleErrorList'),ep=document.getElementById('googleErrors'),rp=document.getElementById('googleResult');
+  ep.classList.remove('visible');rp.classList.remove('visible','success');el.innerHTML='';
+  const errs=[];
+  if(!d.app||d.app==='__other__')errs.push('Select an app');if(!d.packageName)errs.push('Package name required');if(!d.title)errs.push('Title required');
+  if(!d.shortDesc||d.shortDesc.length<5)errs.push('Short description too short');if(d.shortDesc.length>80)errs.push('Short desc >80 chars');
+  if(!d.fullDesc||d.fullDesc.length<50)errs.push('Full description too short (min 50)');if(!d.googlePrivacyUrl)errs.push('Privacy URL required');
+  if(errs.length){el.innerHTML=errs.map(x=>'<li>'+x+'</li>').join('');ep.classList.add('visible');return}
+  const slug=getAppSlug(),ts=new Date().toISOString().replace(/[:.]/g,'-').slice(0,19),fn='googleplay-'+slug+'-'+ts+'.json';
+  const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;a.click();
+  rp.className='result-panel visible success';rp.innerHTML='<strong>✅ '+fn+'</strong> downloaded<div style="margin-top:10px;font-weight:500;color:#333">Say:</div><div class="cmd-box">wapp google</div>';showToast('✅ Google push ready!')
+}
+function saveApple(){autoSaveApple();showToast('✅ Apple draft saved')}
+function saveGoogle(){autoSaveGoogle();showToast('✅ Google draft saved')}
+function clearErrors(){document.querySelectorAll('.error-panel').forEach(e=>e.classList.remove('visible'));document.querySelectorAll('.result-panel').forEach(e=>e.classList.remove('visible','success'))}
+function updateCharCounts(){const s=document.getElementById('shortDesc'),f=document.getElementById('fullDesc');document.getElementById('shortCount').textContent=s.value.length+' / 80';document.getElementById('fullCount').textContent=f.value.length+' / 4000';updateTitleCount()}
+function updateKeywordCount(){const el=document.getElementById('keywordCount');if(el)el.textContent=(document.getElementById('keywords')?.value.length||0)+' / 100'}
+function updatePromoCount(){const el=document.getElementById('promoCount');if(el)el.textContent=(document.getElementById('promoText')?.value.length||0)+' / 170'}
+function showToast(m){let t=document.getElementById('toastEl');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
+
+/* ═══════ ICON MAKER ═══════ */
+const ICON_SIZES=[
+  {size:1024,label:'1024×1024',platform:'App Store',display:120,slug:'ios'},
+  {size:512,label:'512×512',platform:'Google Play',display:120,slug:'android'},
+  {size:256,label:'256×256',platform:'Website/PWA',display:120,slug:'web'},
+  {size:192,label:'192×192',platform:'Android',display:96,slug:'android'},
+  {size:180,label:'180×180',platform:'iPhone @3x',display:90,slug:'ios'},
+  {size:144,label:'144×144',platform:'Android',display:72,slug:'android'},
+  {size:120,label:'120×120',platform:'iPhone @2x',display:60,slug:'ios'},
+  {size:96,label:'96×96',platform:'Android/Web',display:48,slug:'web'},
+  {size:64,label:'64×64',platform:'Favicon',display:64,slug:'web'},
+  {size:32,label:'32×32',platform:'Favicon sm',display:32,slug:'web'},
+];
+const TARGET_FILL=0.95;
+const TEMPLATES={
+'GeezEasy':`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024"><defs><path id="p" d="M0,-200 C65,-430 200,-460 200,-280 C200,-140 65,-50 0,0 C-65,-50 -200,-140 -200,-280 C-200,-460 -65,-430 0,-200 Z"/><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#078930"/><stop offset="100%" stop-color="#50C878"/></linearGradient><linearGradient id="y" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFDE00"/><stop offset="100%" stop-color="#FFE55C"/></linearGradient><linearGradient id="r" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#DA121A"/><stop offset="100%" stop-color="#FF6B6B"/></linearGradient><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#005BBB"/><stop offset="100%" stop-color="#4DABF7"/></linearGradient><linearGradient id="n" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#078930"/><stop offset="30%" stop-color="#FFDE00"/><stop offset="60%" stop-color="#DA121A"/><stop offset="100%" stop-color="#005BBB"/></linearGradient></defs><rect width="1024" height="1024" rx="185" fill="#fff"/><g transform="translate(512,460)"><use href="#p" transform="rotate(0)" fill="url(#g)" fill-opacity="0.85"/><use href="#p" transform="rotate(60)" fill="url(#y)" fill-opacity="0.85"/><use href="#p" transform="rotate(120)" fill="url(#r)" fill-opacity="0.85"/><use href="#p" transform="rotate(180)" fill="url(#b)" fill-opacity="0.85"/><use href="#p" transform="rotate(240)" fill="url(#g)" fill-opacity="0.85"/><use href="#p" transform="rotate(300)" fill="url(#y)" fill-opacity="0.85"/><text x="0" y="8" font-family="'Kefa III','Geeza Pro','Kefa','Geez',sans-serif" font-size="140" font-weight="800" fill="#fff" text-anchor="middle" dominant-baseline="central">ግዕዝ</text></g><text x="512" y="935" font-family="'Inter','SF Pro Display',sans-serif" font-size="72" font-weight="800" fill="url(#n)" text-anchor="middle" letter-spacing="3">GeezEasy</text></svg>`
+,'FidelType':`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024"><defs><linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#D4AF37"/><stop offset="100%" stop-color="#C5A028"/></linearGradient></defs><rect width="1024" height="1024" rx="224" fill="#0F172A"/><text x="512" y="108" font-family="'Inter','SF Pro Display',-apple-system,sans-serif" font-size="90" font-weight="700" fill="#D4AF37" text-anchor="middle" letter-spacing="8">FidelType</text><circle cx="512" cy="512" r="384" fill="url(#goldGrad)"/><text x="512" y="570" font-family="'Noto Sans Ethiopic','Nyala','Abyssinica SIL',sans-serif" font-size="520" font-weight="700" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">ፊ</text></svg>`
+,'Pixwee':`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024"><defs><linearGradient id="pixGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#FF1744"/><stop offset="40%" stop-color="#FF6D00"/><stop offset="100%" stop-color="#FFD600"/></linearGradient><linearGradient id="weeGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#00B0FF"/><stop offset="50%" stop-color="#2979FF"/><stop offset="100%" stop-color="#AA00FF"/></linearGradient><linearGradient id="lensGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FF1744"/><stop offset="50%" stop-color="#AA00FF"/><stop offset="100%" stop-color="#2979FF"/></linearGradient><path id="petal" d="M0,-320 C90,-320 180,-250 180,-160 C180,-70 90,0 0,0 C-90,0 -180,-70 -180,-160 C-180,-250 -90,-320 0,-320 Z"/></defs><rect width="1024" height="1024" rx="185" fill="#FFFFFF"/><g transform="translate(512, 450)"><use href="#petal" transform="rotate(0)" fill="#FF8C00" opacity="0.65"/><use href="#petal" transform="rotate(45)" fill="#FF1744" opacity="0.65"/><use href="#petal" transform="rotate(90)" fill="#AA00FF" opacity="0.65"/><use href="#petal" transform="rotate(135)" fill="#7C4DFF" opacity="0.65"/><use href="#petal" transform="rotate(180)" fill="#2979FF" opacity="0.65"/><use href="#petal" transform="rotate(225)" fill="#00E676" opacity="0.65"/><use href="#petal" transform="rotate(270)" fill="#00E5FF" opacity="0.65"/><use href="#petal" transform="rotate(315)" fill="#FF6D00" opacity="0.65"/></g><g transform="translate(512, 440)"><rect x="-115" y="-58" width="230" height="145" rx="32" fill="#000" opacity="0.08"/><rect x="-110" y="-65" width="220" height="135" rx="30" fill="#FFFFFF"/><rect x="-40" y="-90" width="80" height="35" rx="14" fill="#FFFFFF"/><circle cx="0" cy="10" r="50" fill="none" stroke="url(#lensGrad)" stroke-width="10"/><circle cx="0" cy="10" r="32" fill="#F8F8F8"/><circle cx="0" cy="10" r="16" fill="url(#lensGrad)"/><circle cx="72" cy="-32" r="10" fill="#FF1744"/></g><text x="512" y="960" font-family="'Inter','SF Pro Display',sans-serif" font-size="155" font-weight="900" text-anchor="middle" letter-spacing="3"><tspan fill="url(#pixGrad)">Pix</tspan><tspan fill="url(#weeGrad)">wee</tspan></text></svg>`
+};
+const DEVICES=[
+  {name:'iPhone 6.7"',w:1290,h:2796,display:180,slug:'iphone-15promax',orient:'iphone'},
+  {name:'iPhone 6.1"',w:1179,h:2556,display:170,slug:'iphone-15pro',orient:'iphone'},
+  {name:'iPhone 4.7"',w:750,h:1334,display:160,slug:'iphone-se',orient:'iphone'},
+  {name:'iPad Pro 12.9"',w:2048,h:2732,display:180,slug:'ipad-pro',orient:'ipad'},
+  {name:'iPad 11"',w:1668,h:2388,display:175,slug:'ipad',orient:'ipad'},
+  {name:'iPad Pro 12.9" L',w:2732,h:2048,display:180,slug:'ipad-pro-landscape',orient:'landscape'},
+  {name:'iPad 11" L',w:2388,h:1668,display:175,slug:'ipad-landscape',orient:'landscape'},
+  {name:'Samsung S24',w:1080,h:2340,display:170,slug:'samsung-s24',orient:'iphone'},
+  {name:'Google Pixel 9',w:1080,h:2400,display:170,slug:'pixel-9',orient:'iphone'},
+  {name:'Android Tab L',w:2560,h:1600,display:180,slug:'android-tablet-landscape',orient:'landscape'},
+];
+
+let originalSvgSource=null,currentSvgSource=null,currentScale=1.0,detectedScale=1.0,contentFillPct=0,iconCanvases=[];
+let uploadedScreenshots={iphone:[],ipad:[],landscape:[]};
+let liveMeta=null;
+/* ── Preloaded metadata per app (auto-populates when app is selected) ── */
+const APP_METADATA = {
+  'Pixwee': {
+    description: "pixwee lets photographers ghost events, capture candid moments, and sell pictures directly to attendees. No watermark, no waiting. Upload photos in real time, set your price, and get paid instantly.\n\n- Photograph events as a ghost shooter without distracting guests\n- Upload and tag photos instantly for attendees to find\n- Set your own pricing per photo or create bundles\n- Receive payments directly to your account\n- Attendees browse, preview, and buy without registration\n- Perfect for weddings, parties, concerts, and corporate events\n\nTurn every event into a revenue stream. Download pixwee and start selling your event photos today.",
+    keywords: "photography,event,photos,sell,ghost,shoot,instant,download,payment,wedding,party,concert",
+    promotionalText: "Ghost events, capture moments, and sell photos instantly to attendees. Start earning with every shot.",
+    supportUrl: "https://nakfaai.com/apps/pixwee/support",
+    versionString: "1.0",
+    googleTitle: "Pixwee",
+    googleShortDesc: 'Pixwee — "Pix of us." Event photos, QR codes, instant sales for photographers.',
+    googleFullDesc: 'Pixwee is the ultimate workflow tool for event photographers who want to deliver photos instantly and get paid on the spot.\n\nShoot with your camera and photos appear on your iPad in seconds. Tap "New Session" to generate a unique QR code for each family or group. They scan, pay, and access their own private gallery — with zero setup, zero apps, and zero hassle.\n\nSmart pricing creates urgency:\n- Prices automatically double after 1 week\n- Countdown timer shows exactly when prices increase\n- Links work forever, prices just increase\n\nSend to payer: If a customer can\'t pay right away, they can send the gallery link to someone else to complete the purchase.\n\nPerfect for:\n- Wedding photographers\n- Family portrait sessions\n- Party and event photographers\n- School photo days\n- Sports teams\n- Any event where people want photos instantly\n\nNo app for customers. No accounts. No complexity. Just photos, for the ones you love.'
+  }
+};
+
+function iconZipPath(size,slug){const n=getProject()+'-'+size+'-'+slug+'.png';return getProject()+'/frontend/public/icons/'+n}
+function ssZipPath(dev,pos){const n=getProject()+'-'+dev.slug+'-'+String(pos).padStart(2,'0')+'.png';return getProject()+'/frontend/public/screenshots/'+n}
+
+/* ── Icons: Drop handlers ── */
+(()=>{
+  const d=document.getElementById('iconDrop'),f=document.getElementById('iconFile');
+  d.addEventListener('dragover',e=>{e.preventDefault();d.style.borderColor='var(--gold)';d.style.background='rgba(184,148,46,.04)'});
+  d.addEventListener('dragleave',()=>{d.style.borderColor='';d.style.background=''});
+  d.addEventListener('drop',e=>{e.preventDefault();d.style.borderColor='';d.style.background='';const x=e.dataTransfer.files[0];if(x&&x.type==='image/svg+xml')loadSvg(x)});
+  f.addEventListener('change',()=>{const x=f.files[0];if(x)loadSvg(x)});
+})();
+
+async function loadSvg(file){
+  const txt=await file.text();
+  originalSvgSource=txt;currentSvgSource=txt;currentScale=1.0;
+  document.getElementById('iconFileName').textContent='✓ '+file.name;document.getElementById('iconFileName').style.display='block';
+  document.getElementById('iconDrop').classList.add('has-file');document.getElementById('iconDropIcon').textContent='✓';
+
+  if(!document.getElementById('projectFolder').value){
+    const nm=file.name.replace(/\.[^.]+$/,'').replace(/[-_]?(app[-_]?)?logo|icon|brand|mark/gi,'').replace(/[-_]+$/,'')||getAppSlug();
+    document.getElementById('projectFolder').value=nm;autoSave();
+  }
+  await analyzeContent();runQualityCheck(txt);
+  document.getElementById('scaleRow').style.display='flex';document.getElementById('iconDlRow').style.display='flex';
+}
+
+async function analyzeContent(){
+  let r=findContentViaDOM(currentSvgSource);
+  if(!r){const b=await pixelScan(currentSvgSource,1024);if(b)r={extent:Math.max(b.x2-b.x1,b.y2-b.y1)/2}}
+  if(!r){document.getElementById('fillStat').textContent='Fill: — (could not detect)';renderIconPreviews();return}
+  contentFillPct=(r.extent*2/1024)*100;detectedScale=detectExistingScale(originalSvgSource);
+  document.getElementById('fillStat').innerHTML='Content: ~'+Math.round(r.extent*2)+'px | Fill: <span>'+contentFillPct.toFixed(1)+'%</span>';
+  const sug=document.getElementById('suggestion');
+  if(Math.abs(contentFillPct-TARGET_FILL*100)<3){sug.textContent='✓ Optimal fill';sug.style.color='var(--success)';currentScale=detectedScale}
+  else{currentScale=Math.round(detectedScale*(TARGET_FILL/(contentFillPct/100))*100)/100;sug.textContent='→ '+currentScale+'× (~95% fill)';sug.style.color='var(--gold)'}
+  sug.style.display='block';document.getElementById('scaleSlider').value=currentScale;document.getElementById('scaleVal').textContent=currentScale.toFixed(2)+'×';
+  applyScaleAndRender();
+}
+document.getElementById('scaleSlider').addEventListener('input',()=>{currentScale=parseFloat(document.getElementById('scaleSlider').value);document.getElementById('scaleVal').textContent=currentScale.toFixed(2)+'×';applyScaleAndRender()});
+
+function runQualityCheck(src){
+  const p=document.getElementById('qualityPanel');p.style.display='flex';
+  const qr=document.getElementById('qRes'),qf=document.getElementById('qFill'),qra=document.getElementById('qRaster');
+  const vb=src.match(/viewBox\s*=\s*["']([\d.\s]+)["']/);
+  if(!vb){qr.textContent='⚠ No viewBox';qr.className='q-item fail'}
+  else{const ps=vb[1].split(/\s+/);const w=parseFloat(ps[2])||parseFloat(ps[0]);qr.textContent=w<512?'⚠ Low res: '+Math.round(w)+'px':'✓ '+Math.round(w)+'px';qr.className=w<512?'q-item warn':'q-item pass'}
+  if(contentFillPct>0){if(contentFillPct<30){qf.textContent='⚠ Fill '+contentFillPct.toFixed(0)+'% — small';qf.className='q-item warn'}else if(contentFillPct>98){qf.textContent='⚠ Fill '+contentFillPct.toFixed(0)+'% — may clip';qf.className='q-item warn'}else{qf.textContent='✓ Fill '+contentFillPct.toFixed(0)+'%';qf.className='q-item pass'}}else{qf.textContent='—';qf.className='q-item'}
+  qra.textContent=/<image\b[^>]+(?:png|jpg|jpeg|webp)/i.test(src)?'⚠ Raster in SVG':'✓ Vector only';qra.className=qra.textContent.includes('⚠')?'q-item warn':'q-item pass';
+}
+
+function findContentViaDOM(src){
+  const doc=new DOMParser().parseFromString(src,'image/svg+xml');const svg=doc.documentElement;if(!svg)return null;
+  for(const g of svg.querySelectorAll('g[transform]')){
+    const m=(g.getAttribute('transform')||'').match(/translate\(\s*([\d.]+)\s*,?\s*([\d.]+)\s*\)/);if(!m)continue;
+    let mr=0,mw=0,mh=0;
+    for(const c of g.children){if(c.tagName!=='g')continue;const rm=(c.getAttribute('transform')||'').match(/translate\(\s*0\s*,?\s*(-?[\d.]+)\s*\)/);if(rm)mr=Math.max(mr,Math.abs(parseFloat(rm[1])));for(const r of c.querySelectorAll('rect')){mw=Math.max(mw,parseFloat(r.getAttribute('width')||'0'));mh=Math.max(mh,parseFloat(r.getAttribute('height')||'0'))}}
+    if(mr>0)return{extent:mr+Math.max(mw,mh)/2}
+  }
+  let ie=0;for(const r of svg.querySelectorAll('rect')){const w=parseFloat(r.getAttribute('width')||'0');if(w===1024||r.getAttribute('fill')==='#ffffff')continue;ie=Math.max(ie,w)}
+  return ie>0?{extent:ie/2}:null;
+}
+
+function pixelScan(src,size){return new Promise(resolve=>{const c=document.createElement('canvas');c.width=size;c.height=size;const ctx=c.getContext('2d'),img=new Image();const blob=new Blob([src],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);const t=setTimeout(()=>{URL.revokeObjectURL(url);resolve(null)},5000);img.onload=()=>{clearTimeout(t);ctx.drawImage(img,0,0,size,size);URL.revokeObjectURL(url);const id=ctx.getImageData(0,0,size,size);resolve(scanPixels(id,size))};img.onerror=()=>{clearTimeout(t);URL.revokeObjectURL(url);resolve(null)};img.src=url})}
+function scanPixels(id,size){const{data,width,height}=id;const step=Math.max(1,Math.floor(size/256));let minX=width,minY=height,maxX=0,maxY=0;const inset=Math.min(5,Math.floor(size*.01));const sb=(x,y)=>{const i=(y*width+x)*4;return[data[i],data[i+1],data[i+2]]};const corners=[sb(inset,inset),sb(width-1-inset,inset),sb(inset,height-1-inset),sb(width-1-inset,height-1-inset)];const bg={};for(const c of corners){const k=c.join(',');bg[k]=(bg[k]||0)+1}const bgKey=Object.entries(bg).sort((a,b)=>b[1]-a[1])[0][0];const[br,bgG,bb]=bgKey.split(',').map(Number);for(let y=0;y<height;y+=step)for(let x=0;x<width;x+=step){const i=(y*width+x)*4;if(data[i+3]<128)continue;if(Math.abs(data[i]-br)+Math.abs(data[i+1]-bgG)+Math.abs(data[i+2]-bb)>30){if(x<minX)minX=x;if(y<minY)minY=y;if(x>maxX)maxX=x;if(y>maxY)maxY=y}}if(minX>maxX)return null;return{x1:Math.max(0,minX-2),y1:Math.max(0,minY-2),x2:Math.min(width-1,maxX+2),y2:Math.min(height-1,maxY+2)}}
+
+function detectExistingScale(src){let m=src.match(/translate\([^)]+\)\s*scale\(\s*([\d.]+)\s*\)/);if(m)return parseFloat(m[1]);m=src.match(/scale\(\s*([\d.]+)\s*\)/);return m?parseFloat(m[1]):1.0}
+
+function applyScaleToSvg(src,s){const doc=new DOMParser().parseFromString(src,'image/svg+xml');const svg=doc.documentElement;if(!svg)return src;let tg=null;for(const g of svg.querySelectorAll('g[transform]')){if((g.getAttribute('transform')||'').match(/translate|scale/)){tg=g;break}}if(tg){let t=tg.getAttribute('transform');t=t.replace(/scale\(\s*[\d.]+\s*\)/,'scale('+s+')');if(!t.includes('scale'))t+=' scale('+s+')';tg.setAttribute('transform',t)}else{const w=doc.createElementNS('http://www.w3.org/2000/svg','g');w.setAttribute('transform','scale('+s+')');const mv=[];for(const c of svg.children)if(c.tagName!=='defs'&&c.tagName!=='style')mv.push(c);for(const c of mv)w.appendChild(c);svg.appendChild(w)}return new XMLSerializer().serializeToString(svg)}
+
+function applyScaleAndRender(){if(!originalSvgSource)return;currentSvgSource=Math.abs(currentScale-detectedScale)<.005?originalSvgSource:applyScaleToSvg(originalSvgSource,currentScale);renderIconPreviews()}
+
+function renderIconPreviews(){if(!currentSvgSource)return;const g=document.getElementById('iconGrid');g.innerHTML='';iconCanvases=[];for(const{size,label,platform,display,slug}of ICON_SIZES){const cd=document.createElement('div');cd.className='icon-card';cd.innerHTML='<div class="cw"></div><div class="i-info"><div><div class="i-label">'+label+'</div><div class="i-platform">'+platform+'</div></div><button class="i-dl">DL</button></div>';const c=document.createElement('canvas');c.width=size;c.height=size;c.style.width=display+'px';c.style.height=display+'px';cd.querySelector('.cw').appendChild(c);iconCanvases.push({canvas:c,size});renderSvgToCanvas(currentSvgSource,size,c);cd.querySelector('.i-dl').addEventListener('click',()=>triggerDownload(c.toDataURL('image/png'),iconZipPath(size,slug)));g.appendChild(cd)}}
+
+function renderSvgToCanvas(src,size,c){const ctx=c.getContext('2d'),img=new Image();const blob=new Blob([src],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);img.onload=()=>{ctx.drawImage(img,0,0,size,size);URL.revokeObjectURL(url)};img.onerror=()=>{URL.revokeObjectURL(url);ctx.fillStyle='#d33';ctx.font='12px sans-serif';ctx.fillText('Error',4,size/2)};img.src=url}
+
+/* ── Icons download ── */
+function svgToDataUrl(src,size){return new Promise(resolve=>{const c=document.createElement('canvas');c.width=size;c.height=size;const img=new Image();const blob=new Blob([src],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);const t=setTimeout(()=>{URL.revokeObjectURL(url);resolve(null)},10000);img.onload=()=>{clearTimeout(t);c.getContext('2d').drawImage(img,0,0,size,size);URL.revokeObjectURL(url);resolve(c.toDataURL('image/png'))};img.onerror=()=>{clearTimeout(t);URL.revokeObjectURL(url);resolve(null)};img.src=url})}
+document.getElementById('downloadIconsZip').addEventListener('click',async()=>{if(typeof JSZip==='undefined')return alert('JSZip not loaded');const zip=new JSZip();await Promise.all(ICON_SIZES.map(async({size,slug})=>{const d=await svgToDataUrl(currentSvgSource,size);if(d)zip.file(iconZipPath(size,slug),d.split(',')[1],{base64:true})}));const blob=await zip.generateAsync({type:'blob'});triggerDownload(URL.createObjectURL(blob),getProject()+'-icons.zip')});
+document.getElementById('downloadIconsIndv').addEventListener('click',async()=>{for(const{size,slug}of ICON_SIZES){const d=await svgToDataUrl(currentSvgSource,size);if(d){triggerDownload(d,iconZipPath(size,slug));await new Promise(r=>setTimeout(r,150))}}});
+
+/* ── AI Generate Icon ── */
+async function aiGenerateIcon(){
+  const prompt=document.getElementById('iconPrompt').value.trim();
+  if(!prompt){showToast('Describe the icon first');return}
+  const k=localStorage.getItem('deepseek_key');
+  if(!k){const key=prompt('Enter DeepSeek API key:');if(key){localStorage.setItem('deepseek_key',key)}else{showToast('API key required');return}}
+  const btn=event.target;btn.disabled=true;btn.textContent='⏳ Generating...';
+  const status=document.getElementById('genStatus');status.textContent='Generating SVG...';
+
+  const fullPrompt='Create a minimal app icon SVG for a mobile app. Requirements:\n\n'
+    + prompt
+    + '\n\nCRITICAL RULES:\n'
+    + '- Canvas: 1024×1024, viewBox="0 0 1024 1024"\n'
+    + '- Rounded background rectangle: rx="224" — this is the app icon shape\n'
+    + '- Keep all important content within the center 80% of canvas\n'
+    + '- SVG must be self-contained — no external font files\n'
+    + '- Use basic shapes (circle, rect, path) and solid colors — no complex gradients\n'
+    + '- For text: use font-family with web-safe fallbacks\n'
+    + '- Output ONLY valid SVG code, no markdown, no explanation, no code fences\n'
+    + '- The SVG MUST start with <svg and end with </svg>';
+
+  try{
+    const r=await fetch('https://api.deepseek.com/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+k},
+      body:JSON.stringify({model:'deepseek-chat',messages:[{role:'user',content:fullPrompt}],max_tokens:4000,temperature:.6})
+    });
+    if(!r.ok){if(r.status===401){localStorage.removeItem('deepseek_key');showToast('Invalid API key')}else{showToast('API error: '+r.status)}btn.disabled=false;btn.textContent='🎨 Generate';return}
+    const d=await r.json();const svg=d.choices[0].message.content.trim();
+
+    // Validate: must start with <svg
+    if(!svg.startsWith('<svg')){status.textContent='❌ Invalid SVG generated — try a different prompt';btn.disabled=false;btn.textContent='🎨 Generate';return}
+
+    // Convert to file and load
+    const blob=new Blob([svg],{type:'image/svg+xml'});
+    const file=new File([blob],'ai-generated-icon.svg',{type:'image/svg+xml'});
+
+    // Trigger the existing loadSvg function with this file
+    const dataTransfer=new DataTransfer();
+    dataTransfer.items.add(file);
+    document.getElementById('iconFile').files=dataTransfer.files;
+    document.getElementById('iconFile').dispatchEvent(new Event('change'));
+
+    status.textContent='✅ SVG generated and loaded!';
+    btn.disabled=false;btn.textContent='🎨 Generate';
+    showToast('✅ Icon generated — check previews below');
+  }catch(e){status.textContent='❌ Error: '+e.message;btn.disabled=false;btn.textContent='🎨 Generate';showToast('Generation failed')}
+}
+
+/* ── Screenshots: Drop handlers (iphone + ipad portrait + landscape) — multi-file with positional naming ── */
+(()=>{
+  const setupDrop=(dropId,fileId,nameId,orient)=>{
+    const d=document.getElementById(dropId),f=document.getElementById(fileId);
+    d.addEventListener('dragover',e=>{e.preventDefault();d.style.borderColor='var(--gold)';d.style.background='rgba(184,148,46,.04)'});
+    d.addEventListener('dragleave',()=>{d.style.borderColor='';d.style.background=''});
+    d.addEventListener('drop',e=>{e.preventDefault();d.style.borderColor='';d.style.background='';
+      const files=Array.from(e.dataTransfer.files).filter(x=>x.type.match(/image\/(png|jpeg)/));
+      if(files.length) appendsScreenshots(files,orient,nameId);
+    });
+    f.addEventListener('change',()=>{const files=Array.from(f.files);if(files.length)appendsScreenshots(files,orient,nameId)});
+  };
+  setupDrop('ssiPhoneDrop','ssiPhoneFile','ssiPhoneName','iphone');
+  setupDrop('ssiPadDrop','ssiPadFile','ssiPadName','ipad');
+  setupDrop('ssLandscapeDrop','ssLandscapeFile','ssLandscapeName','landscape');
+})();
+function appendsScreenshots(files,orient,nameId){
+  const arr=uploadedScreenshots[orient];
+  let loaded=0;
+  files.forEach(file=>{
+    const r=new FileReader();
+    r.onload=()=>{
+      const img=new Image();
+      img.onload=()=>{
+        arr.push({img,name:file.name});
+        loaded++;if(loaded===files.length)finish();
+      };
+      img.src=r.result
+    };
+    r.readAsDataURL(file)
+  });
+  function finish(){
+    document.getElementById(nameId).textContent=arr.length+' screenshot'+(arr.length!==1?'s':'');
+    document.getElementById(nameId).style.display='block';
+    document.getElementById(nameId.replace('Name','')+'Drop').classList.add('has-file');
+    document.getElementById('ssDlRow').style.display='flex';
+    renderDeviceScreenshots()
+  }
+}
+
+function renderDeviceScreenshots(){
+  const g=document.getElementById('ssGrid');g.innerHTML='';
+  const allOrients=['iphone','ipad','landscape'];
+  const maxPos=Math.max(...allOrients.map(o=>uploadedScreenshots[o].length),0);
+  if(maxPos===0){g.innerHTML='<div class="empty-state" style="text-align:center;padding:40px;color:var(--muted);grid-column:1/-1"><div style="font-size:2rem;margin-bottom:8px">🖼</div><p>Upload iPhone portrait + iPad portrait + iPad landscape above</p></div>';return}
+  // Group by position — each position gets a header + device cards
+  for(let pos=1;pos<=maxPos;pos++){
+    // Position header
+    const header=document.createElement('div');
+    header.style.cssText='grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:10px 12px;margin-top:'+(pos>1?'12px':'0')+';background:var(--card);font-size:.7rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:var(--gold)';
+    const nameEl=document.createElement('span');
+    // Find the source image name for this position (first orient that has it)
+    for(const o of allOrients){
+      if(uploadedScreenshots[o][pos-1]){nameEl.textContent='Screenshot #'+pos+' — '+uploadedScreenshots[o][pos-1].name;break}
+    }
+    if(!nameEl.textContent)nameEl.textContent='Screenshot #'+pos;
+    header.appendChild(nameEl);
+    // Remove button for this position
+    const rmBtn=document.createElement('button');
+    rmBtn.textContent='✕ Remove';
+    rmBtn.style.cssText='margin-left:auto;padding:4px 10px;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;background:transparent;color:var(--danger);border:1px solid var(--danger);cursor:pointer;font-family:\'Russo One\',sans-serif;transition:all .2s';
+    rmBtn.addEventListener('mouseenter',()=>{rmBtn.style.background='var(--danger)';rmBtn.style.color='#fff'});
+    rmBtn.addEventListener('mouseleave',()=>{rmBtn.style.background='transparent';rmBtn.style.color='var(--danger)'});
+    rmBtn.addEventListener('click',(()=>{const p=pos;return()=>removeScreenshotAt(p)})(),false);
+    header.appendChild(rmBtn);
+    g.appendChild(header);
+    // Device cards for this position
+    for(const dev of DEVICES){
+      const orientIdx=allOrients.indexOf(dev.orient);if(orientIdx===-1)continue;
+      const entry=uploadedScreenshots[dev.orient][pos-1];
+      if(!entry)continue;
+      const cd=document.createElement('div');cd.className='ss-card';
+      cd.innerHTML='<div class="cw"></div><div class="i-info"><div><div class="i-label">'+dev.name+'</div><div class="i-platform">'+dev.w+'×'+dev.h+' · #'+pos+'</div></div><button class="i-dl">DL</button></div>';
+      const c=document.createElement('canvas');c.width=dev.w;c.height=dev.h;
+      c.style.width=dev.display+'px';c.style.height=(dev.display*dev.h/dev.w)+'px';
+      const ctx=c.getContext('2d');
+      const img=entry.img;
+      const scale=Math.min(dev.w/img.width,dev.h/img.height);
+      const sw=img.width*scale,sh=img.height*scale;
+      ctx.drawImage(img,(dev.w-sw)/2,(dev.h-sh)/2,sw,sh);
+      cd.querySelector('.cw').appendChild(c);
+      cd.querySelector('.i-dl').addEventListener('click',(()=>{const devC=dev,pC=pos;return()=>{c.toBlob(blob=>{triggerDownload(URL.createObjectURL(blob),ssZipPath(devC,pC))},'image/jpeg')}})());
+      g.appendChild(cd)
+    }
+  }
+  // Clear all button
+  let anyLoaded=false;
+  for(const o of allOrients){if(uploadedScreenshots[o].length>0)anyLoaded=true}
+  if(anyLoaded){
+    const clr=document.createElement('div');clr.style.cssText='grid-column:1/-1;text-align:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--border)';
+    clr.innerHTML='<button style="padding:8px 20px;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--danger);border:1px solid var(--danger);cursor:pointer;font-family:\'Russo One\',sans-serif" onclick="clearAllScreenshots()">Clear All Screenshots</button>';
+    g.appendChild(clr)
+  }
+}
+function removeScreenshotAt(pos){
+  ['iphone','ipad','landscape'].forEach(o=>uploadedScreenshots[o].splice(pos-1,1));
+  // Update drop zone labels
+  ['ssiPhoneName','ssiPadName','ssLandscapeName'].forEach(id=>{
+    const orient=id==='ssiPhoneName'?'iphone':id==='ssiPadName'?'ipad':'landscape';
+    const el=document.getElementById(id);
+    const arr=uploadedScreenshots[orient];
+    if(arr.length){el.textContent=arr.length+' screenshot'+(arr.length!==1?'s':'');el.style.display='block'}
+    else{el.style.display='none';document.getElementById(id.replace('Name','')+'Drop').classList.remove('has-file')}
+  });
+  const anyLeft=['iphone','ipad','landscape'].some(o=>uploadedScreenshots[o].length>0);
+  if(!anyLeft)document.getElementById('ssDlRow').style.display='none';
+  renderDeviceScreenshots()
+}
+function clearAllScreenshots(){
+  uploadedScreenshots={iphone:[],ipad:[],landscape:[]};
+  ['ssiPhoneName','ssiPadName','ssLandscapeName'].forEach(id=>{document.getElementById(id).style.display='none';document.getElementById(id.replace('Name','')+'Drop').classList.remove('has-file')});
+  document.getElementById('ssDlRow').style.display='none';
+  renderDeviceScreenshots()
+}
+
+document.getElementById('downloadSsZip').addEventListener('click',async()=>{if(typeof JSZip==='undefined')return alert('JSZip not loaded');const zip=new JSZip();const allOrients=['iphone','ipad','landscape'];for(const orient of allOrients){const arr=uploadedScreenshots[orient];for(let pos=0;pos<arr.length;pos++){const img=arr[pos].img;for(const dev of DEVICES){if(dev.orient!==orient)continue;const c=document.createElement('canvas');c.width=dev.w;c.height=dev.h;const ctx=c.getContext('2d');const scale=Math.min(dev.w/img.width,dev.h/img.height);const sw=img.width*scale,sh=img.height*scale;ctx.drawImage(img,(dev.w-sw)/2,(dev.h-sh)/2,sw,sh);const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.92));if(blob){const buf=await blob.arrayBuffer();zip.file(ssZipPath(dev,pos+1),buf)}}}}const blob=await zip.generateAsync({type:'blob'});triggerDownload(URL.createObjectURL(blob),getProject()+'-screenshots.zip')});
+document.getElementById('downloadSsIndv').addEventListener('click',()=>{document.getElementById('ssGrid').querySelectorAll('.i-dl').forEach(b=>b.click())});
+
+/* ═══════ SHARED ═══════ */
+function triggerDownload(dataUrl,filename){const a=document.createElement('a');a.href=dataUrl;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a)}
+
+restoreAll();
+</script>
+</body>
+</html>

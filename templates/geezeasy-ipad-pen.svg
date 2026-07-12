@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FF3366"/><stop offset="50%" stop-color="#CC33FF"/><stop offset="100%" stop-color="#33CCFF"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5576C"/><stop offset="50%" stop-color="#F093FB"/><stop offset="100%" stop-color="#667EEA"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFDE00"/><stop offset="50%" stop-color="#F5A623"/><stop offset="100%" stop-color="#E53E3E"/>
+    </linearGradient>
+    <linearGradient id="g4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#50C878"/><stop offset="50%" stop-color="#38A169"/><stop offset="100%" stop-color="#2F855A"/>
+    </linearGradient>
+    <linearGradient id="g5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#667EEA"/><stop offset="50%" stop-color="#764BA2"/><stop offset="100%" stop-color="#553C9A"/>
+    </linearGradient>
+    <linearGradient id="g6" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F6AD55"/><stop offset="50%" stop-color="#ED8936"/><stop offset="100%" stop-color="#DD6B20"/>
+    </linearGradient>
+    <linearGradient id="penGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FF3366"/><stop offset="50%" stop-color="#CC33FF"/><stop offset="100%" stop-color="#33CCFF"/>
+    </linearGradient>
+    <linearGradient id="nameGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FF3366"/><stop offset="50%" stop-color="#CC33FF"/><stop offset="100%" stop-color="#33CCFF"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1024" height="1024" rx="185" fill="#FFFFFF"/>
+
+  <g transform="translate(512, 470)">
+    <!-- Back iPads -->
+    <rect x="-300" y="-200" width="160" height="240" rx="20" fill="url(#g2)" opacity="0.55"/>
+    <rect x="-250" y="-220" width="160" height="260" rx="20" fill="url(#g3)" opacity="0.6"/>
+    <rect x="-180" y="-235" width="160" height="280" rx="20" fill="url(#g4)" opacity="0.65"/>
+    <rect x="140" y="-200" width="160" height="240" rx="20" fill="url(#g5)" opacity="0.55"/>
+    <rect x="90" y="-220" width="160" height="260" rx="20" fill="url(#g6)" opacity="0.6"/>
+    <rect x="20" y="-235" width="160" height="280" rx="20" fill="url(#g2)" opacity="0.65"/>
+
+    <!-- CENTER iPad -->
+    <rect x="-180" y="-270" width="360" height="540" rx="34" fill="url(#g1)"/>
+    <rect x="-180" y="-270" width="360" height="540" rx="34" fill="none" stroke="#FFFFFF" stroke-width="3" opacity="0.5"/>
+    <rect x="-155" y="-245" width="310" height="480" rx="14" fill="#FFFFFF" opacity="0.95"/>
+
+    <!-- BIG Ge'ez letters — filling the screen -->
+    <g font-family="'Kefa III','Geeza Pro','Kefa','Geez',sans-serif" font-weight="900">
+      <text x="-140" y="-200" font-size="40" fill="url(#g1)" opacity="0.3">ሀ ለ ሐ መ</text>
+      <text x="-140" y="-155" font-size="46" fill="url(#g2)" opacity="0.4">ሠ ረ ሰ ሸ</text>
+      <text x="-140" y="-105" font-size="52" fill="url(#g3)" opacity="0.5">ቀ በ ተ ቸ</text>
+      <text x="-140" y="-50" font-size="58" fill="url(#g4)" opacity="0.6">ኀ ነ አ ከ</text>
+      <text x="-140" y="10" font-size="64" fill="url(#g5)" opacity="0.7">ወ ዐ ዘ ዠ የ</text>
+      <text x="-140" y="70" font-size="58" fill="url(#g6)" opacity="0.6">ደ ጀ ገ ጠ ጨ</text>
+      <text x="-140" y="125" font-size="48" fill="url(#g1)" opacity="0.45">ጰ ጸ ፀ ፈ ፐ</text>
+      <text x="-140" y="170" font-size="38" fill="url(#g2)" opacity="0.35">ግ ዕ ዝ ን ጉ</text>
+    </g>
+
+    <!-- Pen in iPad gradient — visible against white -->
+    <g transform="rotate(-10) translate(-20, 70)">
+      <rect x="-22" y="-150" width="44" height="320" rx="22" fill="url(#penGrad)" opacity="0.9"/>
+      <polygon points="-22,170 0,200 22,170" fill="#FF3366"/>
+      <rect x="-24" y="-165" width="48" height="18" rx="9" fill="url(#g1)" opacity="0.8"/>
+    </g>
+
+    <!-- Home + Camera -->
+    <circle cx="0" cy="225" r="10" fill="none" stroke="#FFF" stroke-width="2" opacity="0.5"/>
+    <rect x="-2.5" y="223" width="5" height="5" rx="1.5" fill="#FFF" opacity="0.5"/>
+    <circle cx="0" cy="-253" r="4" fill="#FFF" opacity="0.4"/>
+  </g>
+
+  <text x="512" y="940" font-family="'Inter','SF Pro Display',sans-serif" font-size="80" font-weight="900" fill="url(#nameGrad)" text-anchor="middle" letter-spacing="4">GeezEasy</text>
+</svg>

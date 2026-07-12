@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 640" width="1600" height="640">
+  <defs>
+    <linearGradient id="pwGradL" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="25%" stop-color="#FFA94D"/>
+      <stop offset="55%" stop-color="#4DABF7"/>
+      <stop offset="100%" stop-color="#B197FC"/>
+    </linearGradient>
+    <linearGradient id="weeGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="50%" stop-color="#4DABF7"/>
+      <stop offset="100%" stop-color="#B197FC"/>
+    </linearGradient>
+    <filter id="cs2" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="rgba(0,0,0,0.10)"/>
+    </filter>
+  </defs>
+
+  <!-- Soft card background -->
+  <rect width="1600" height="640" rx="48" fill="#FCFCFA"/>
+  <rect width="1600" height="640" rx="48" fill="none" stroke="#E8E6E0" stroke-width="1.5"/>
+
+  <!-- ===== LEFT: Camera-flower icon (scaled 55% from master) ===== -->
+  <g transform="translate(380, 320)">
+    <g transform="scale(0.55)">
+      <!-- Camera 0° — Coral -->
+      <g transform="rotate(0) translate(0, -135)">
+        <rect x="-100" y="-65" width="200" height="130" rx="22" fill="#FF6B6B" fill-opacity="0.92" stroke="#ffffff" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M-24,-65 L-24,-86 Q-24,-100 -10,-100 L10,-100 Q24,-100 24,-86 L24,-65" fill="#FF6B6B" fill-opacity="0.92" stroke="#ffffff" stroke-width="7" stroke-linejoin="round"/>
+        <circle cx="0" cy="0" r="38" fill="rgba(255,255,255,0.30)" stroke="rgba(255,255,255,0.55)" stroke-width="3"/>
+        <circle cx="0" cy="0" r="22" fill="rgba(255,255,255,0.10)"/>
+        <ellipse cx="-12" cy="-10" rx="10" ry="5" fill="rgba(255,255,255,0.35)" transform="rotate(-25 -12 -10)"/>
+        <g transform="translate(64, -40)">
+          <circle cx="0" cy="0" r="12" fill="rgba(255,224,102,0.20)"/>
+          <circle cx="0" cy="0" r="7" fill="#FFE066" stroke="#ffffff" stroke-width="2.5"/>
+          <circle cx="0" cy="0" r="3.5" fill="#ffffff"/>
+        </g>
+      </g>
+
+      <!-- Camera 72° — Orange -->
+      <g transform="rotate(72) translate(0, -135)">
+        <rect x="-100" y="-65" width="200" height="130" rx="22" fill="#FFA94D" fill-opacity="0.92" stroke="#ffffff" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M-24,-65 L-24,-86 Q-24,-100 -10,-100 L10,-100 Q24,-100 24,-86 L24,-65" fill="#FFA94D" fill-opacity="0.92" stroke="#ffffff" stroke-width="7" stroke-linejoin="round"/>
+        <circle cx="0" cy="0" r="38" fill="rgba(255,255,255,0.30)" stroke="rgba(255,255,255,0.55)" stroke-width="3"/>
+        <circle cx="0" cy="0" r="22" fill="rgba(255,255,255,0.10)"/>
+        <ellipse cx="-12" cy="-10" rx="10" ry="5" fill="rgba(255,255,255,0.35)" transform="rotate(-25 -12 -10)"/>
+        <g transform="translate(64, -40)">
+          <circle cx="0" cy="0" r="12" fill="rgba(255,224,102,0.20)"/>
+          <circle cx="0" cy="0" r="7" fill="#FFE066" stroke="#ffffff" stroke-width="2.5"/>
+          <circle cx="0" cy="0" r="3.5" fill="#ffffff"/>
+        </g>
+      </g>
+
+      <!-- Camera 144° — Green -->
+      <g transform="rotate(144) translate(0, -135)">
+        <rect x="-100" y="-65" width="200" height="130" rx="22" fill="#69DB7C" fill-opacity="0.92" stroke="#ffffff" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M-24,-65 L-24,-86 Q-24,-100 -10,-100 L10,-100 Q24,-100 24,-86 L24,-65" fill="#69DB7C" fill-opacity="0.92" stroke="#ffffff" stroke-width="7" stroke-linejoin="round"/>
+        <circle cx="0" cy="0" r="38" fill="rgba(255,255,255,0.30)" stroke="rgba(255,255,255,0.55)" stroke-width="3"/>
+        <circle cx="0" cy="0" r="22" fill="rgba(255,255,255,0.10)"/>
+        <ellipse cx="-12" cy="-10" rx="10" ry="5" fill="rgba(255,255,255,0.35)" transform="rotate(-25 -12 -10)"/>
+        <g transform="translate(64, -40)">
+          <circle cx="0" cy="0" r="12" fill="rgba(255,224,102,0.20)"/>
+          <circle cx="0" cy="0" r="7" fill="#FFE066" stroke="#ffffff" stroke-width="2.5"/>
+          <circle cx="0" cy="0" r="3.5" fill="#ffffff"/>
+        </g>
+      </g>
+
+      <!-- Camera 216° — Blue -->
+      <g transform="rotate(216) translate(0, -135)">
+        <rect x="-100" y="-65" width="200" height="130" rx="22" fill="#4DABF7" fill-opacity="0.92" stroke="#ffffff" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M-24,-65 L-24,-86 Q-24,-100 -10,-100 L10,-100 Q24,-100 24,-86 L24,-65" fill="#4DABF7" fill-opacity="0.92" stroke="#ffffff" stroke-width="7" stroke-linejoin="round"/>
+        <circle cx="0" cy="0" r="38" fill="rgba(255,255,255,0.30)" stroke="rgba(255,255,255,0.55)" stroke-width="3"/>
+        <circle cx="0" cy="0" r="22" fill="rgba(255,255,255,0.10)"/>
+        <ellipse cx="-12" cy="-10" rx="10" ry="5" fill="rgba(255,255,255,0.35)" transform="rotate(-25 -12 -10)"/>
+        <g transform="translate(64, -40)">
+          <circle cx="0" cy="0" r="12" fill="rgba(255,224,102,0.20)"/>
+          <circle cx="0" cy="0" r="7" fill="#FFE066" stroke="#ffffff" stroke-width="2.5"/>
+          <circle cx="0" cy="0" r="3.5" fill="#ffffff"/>
+        </g>
+      </g>
+
+      <!-- Camera 288° — Purple -->
+      <g transform="rotate(288) translate(0, -135)">
+        <rect x="-100" y="-65" width="200" height="130" rx="22" fill="#B197FC" fill-opacity="0.92" stroke="#ffffff" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M-24,-65 L-24,-86 Q-24,-100 -10,-100 L10,-100 Q24,-100 24,-86 L24,-65" fill="#B197FC" fill-opacity="0.92" stroke="#ffffff" stroke-width="7" stroke-linejoin="round"/>
+        <circle cx="0" cy="0" r="38" fill="rgba(255,255,255,0.30)" stroke="rgba(255,255,255,0.55)" stroke-width="3"/>
+        <circle cx="0" cy="0" r="22" fill="rgba(255,255,255,0.10)"/>
+        <ellipse cx="-12" cy="-10" rx="10" ry="5" fill="rgba(255,255,255,0.35)" transform="rotate(-25 -12 -10)"/>
+        <g transform="translate(64, -40)">
+          <circle cx="0" cy="0" r="12" fill="rgba(255,224,102,0.20)"/>
+          <circle cx="0" cy="0" r="7" fill="#FFE066" stroke="#ffffff" stroke-width="2.5"/>
+          <circle cx="0" cy="0" r="3.5" fill="#ffffff"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- Center PW (unscaled, at icon center) -->
+    <g filter="url(#cs2)">
+      <circle cx="0" cy="0" r="34" fill="#ffffff"/>
+    </g>
+    <text x="0" y="8" font-family="'Poppins','SF Pro Rounded','Nunito','Avenir Next',system-ui,sans-serif" font-size="30" font-weight="800" fill="url(#pwGradL)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-0.5">PW</text>
+  </g>
+
+  <!-- ===== RIGHT: "pixwee" wordmark ===== -->
+  <g transform="translate(1070, 320)">
+    <text x="0" y="0" font-family="'Söhne','Avenir Next',-apple-system,BlinkMacSystemFont,system-ui,sans-serif"
+          font-weight="700" font-size="180" letter-spacing="-0.04em" text-anchor="middle"
+          fill="#1a1a1a">pix</text>
+    <text x="340" y="0" font-family="'Söhne','Avenir Next',-apple-system,BlinkMacSystemFont,system-ui,sans-serif"
+          font-weight="700" font-size="180" letter-spacing="-0.04em" text-anchor="middle"
+          fill="url(#weeGrad)">wee</text>
+  </g>
+</svg>

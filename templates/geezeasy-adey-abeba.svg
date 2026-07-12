@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <path id="petal" d="M0,-200 C65,-430 200,-460 200,-280 C200,-140 65,-50 0,0 C-65,-50 -200,-140 -200,-280 C-200,-460 -65,-430 0,-200 Z"/>
+
+    <linearGradient id="green" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#078930"/><stop offset="100%" stop-color="#50C878"/>
+    </linearGradient>
+    <linearGradient id="yellow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFDE00"/><stop offset="100%" stop-color="#FFE55C"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DA121A"/><stop offset="100%" stop-color="#FF6B6B"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#005BBB"/><stop offset="100%" stop-color="#4DABF7"/>
+    </linearGradient>
+
+    <linearGradient id="nameGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#078930"/>
+      <stop offset="30%" stop-color="#FFDE00"/>
+      <stop offset="60%" stop-color="#DA121A"/>
+      <stop offset="100%" stop-color="#005BBB"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1024" height="1024" rx="185" fill="#FFFFFF"/>
+
+  <g transform="translate(512, 460)">
+    <use href="#petal" transform="rotate(0)" fill="url(#green)" fill-opacity="0.85"/>
+    <use href="#petal" transform="rotate(60)" fill="url(#yellow)" fill-opacity="0.85"/>
+    <use href="#petal" transform="rotate(120)" fill="url(#red)" fill-opacity="0.85"/>
+    <use href="#petal" transform="rotate(180)" fill="url(#blue)" fill-opacity="0.85"/>
+    <use href="#petal" transform="rotate(240)" fill="url(#green)" fill-opacity="0.85"/>
+    <use href="#petal" transform="rotate(300)" fill="url(#yellow)" fill-opacity="0.85"/>
+
+    <text x="0" y="8" font-family="'Kefa III','Geeza Pro','Kefa','Geez',sans-serif" font-size="140" font-weight="800" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">ግዕዝ</text>
+  </g>
+
+  <text x="512" y="935" font-family="'Inter','SF Pro Display',sans-serif" font-size="72" font-weight="800" fill="url(#nameGrad)" text-anchor="middle" letter-spacing="3">GeezEasy</text>
+</svg>

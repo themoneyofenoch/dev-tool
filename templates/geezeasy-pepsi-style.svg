@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <clipPath id="clip">
+      <circle cx="512" cy="460" r="370"/>
+    </clipPath>
+
+    <!-- Top section color -->
+    <linearGradient id="topGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF6B6B"/><stop offset="100%" stop-color="#E53E3E"/>
+    </linearGradient>
+
+    <!-- Bottom section color -->
+    <linearGradient id="botGrad" x1="1" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#4DABF7"/><stop offset="100%" stop-color="#1E40AF"/>
+    </linearGradient>
+
+    <linearGradient id="nameGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#E53E3E"/><stop offset="100%" stop-color="#4DABF7"/>
+    </linearGradient>
+
+    <!-- Pepsi wave: single flowing curve from left to right -->
+    <path id="topFill" d="M142,460 C280,280 460,240 660,290 C800,330 882,410 882,410 L882,90 L142,90 Z"/>
+    <path id="botFill" d="M142,460 C280,640 460,680 660,630 C800,590 882,510 882,510 L882,830 L142,830 Z"/>
+  </defs>
+
+  <rect width="1024" height="1024" rx="185" fill="#FFFFFF"/>
+
+  <!-- Top section -->
+  <g clip-path="url(#clip)">
+    <use href="#topFill" fill="url(#topGrad)" opacity="0.92"/>
+  </g>
+
+  <!-- Bottom section -->
+  <g clip-path="url(#clip)">
+    <use href="#botFill" fill="url(#botGrad)" opacity="0.92"/>
+  </g>
+
+  <!-- White wave band (like Pepsi) -->
+  <path d="M142,460 C280,280 460,240 660,290 C800,330 882,410 882,410" fill="none" stroke="#FFFFFF" stroke-width="22" clip-path="url(#clip)" opacity="0.95"/>
+
+  <!-- Dark center -->
+  <circle cx="512" cy="460" r="68" fill="#0F172A"/>
+
+  <!-- ግ — big white -->
+  <text x="512" y="472" font-family="'Kefa III','Geeza Pro','Kefa','Geez',sans-serif" font-size="105" font-weight="800" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">ግ</text>
+
+  <!-- GeezEasy -->
+  <text x="512" y="930" font-family="'Inter','SF Pro Display',sans-serif" font-size="68" font-weight="800" fill="url(#nameGrad)" text-anchor="middle" letter-spacing="3">GeezEasy</text>
+</svg>

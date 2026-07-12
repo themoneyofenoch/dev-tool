@@ -8,6 +8,7 @@
     "dashboard": "node dev-dashboard/index.js",
     "stop": "node dev-stop/index.js",
     "create": "node create-app/index.js",
-    "ls": "node dev-dashboard/status-cli.js"
+    "ls": "node dev-dashboard/status-cli.js",
+    "deploy-setup": "node deploy-setup/index.js"
   }
 }

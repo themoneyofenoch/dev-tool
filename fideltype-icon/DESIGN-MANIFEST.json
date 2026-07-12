@@ -1,0 +1,30 @@
+{
+  "schema": "open-design.design-manifest.v1",
+  "app": "FidelType",
+  "platforms": ["ios", "android"],
+  "canvas": "1024×1024",
+  "colors": {
+    "background": "#1A1A2E",
+    "gold": "#D4A843",
+    "white": "#FFFFFF"
+  },
+  "fonts": {
+    "glyph": "Noto Sans Ethiopic Bold",
+    "label": "Inter SemiBold"
+  },
+  "sizes": {
+    "ios": [180, 152, 167, 120, 76, 60, 40, 29, 20],
+    "android": {
+      "xxxhdpi": 192,
+      "xxhdpi": 144,
+      "xhdpi": 96,
+      "hdpi": 72,
+      "mdpi": 48
+    }
+  },
+  "android_adaptive": {
+    "background": "solid #1A1A2E",
+    "foreground": "gold circle + ፊ glyph, transparent bg",
+    "safe_zone": "72×72 dp"
+  }
+}

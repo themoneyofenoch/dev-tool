@@ -1,14 +1,18 @@
 #!/usr/bin/env node
 
 /**
- * Dev Launcher CLI
- * Numbered menu to pick a project, start it, and open the browser.
+ * Devv Launcher CLI — Customer Pages
+ * Numbered menu to pick a customer project, start it, and open the browser.
  *
- * Usage: node dev-launcher/index.js
+ * Usage: node devv-launcher/index.js
+ *      or: devv (via zsh alias)
  *
- * Reads /Users/ammaniel/myapps/inventory.md for the project table.
+ * Reads /Users/ammaniel/myapps/others/inventory.md for the project table.
  * Detects running status via `lsof -ti :{port}`.
  * Spawns dev server with child_process.spawn and opens browser.
+ *
+ * Separate from the main "dev" launcher — these are customer pages,
+ * not Ammaniel's own projects.
  */
 
 const { spawn } = require("child_process");
@@ -19,11 +23,8 @@ const path = require("path");
 
 // ─── Configuration ───────────────────────────────────────────────────────────
 
-const INVENTORY_PATH = "/Users/ammaniel/myapps/inventory.md";
-const CUSTOMER_INVENTORY = "/Users/ammaniel/myapps/others/inventory.md";
-const APPS_ROOT = "/Users/ammaniel/myapps";
-const CUSTOMER_ROOT = "/Users/ammaniel/myapps/others";
-const RESERVED_PORT = 8888;
+const INVENTORY_PATH = "/Users/ammaniel/myapps/others/inventory.md";
+const APPS_ROOT = "/Users/ammaniel/myapps/others";
 
 // ─── Color helpers (ANSI — no dependencies) ──────────────────────────────────
 
@@ -35,6 +36,7 @@ const YELLOW = "\x1b[33m";
 const CYAN = "\x1b[36m";
 const RED = "\x1b[31m";
 const GRAY = "\x1b[90m";
+const PURPLE = "\x1b[35m";
 
 const GREEN_DOT = `${GREEN}●${RESET}`;
 const GRAY_DOT = `${GRAY}○${RESET}`;
@@ -74,52 +76,6 @@ function getRunningPid(port) {
   }
 }
 
-// ─── Config type normalizer ───────────────────────────────────────────────────
-
-function normalizeType(raw) {
-  const map = {
-    "vite": "vite",
-    "next.js": "nextjs",
-    "nextjs": "nextjs",
-    "express": "express",
-    "dashboard": "dashboard",
-    "cra": "cra",
-    "static": "static",
-  };
-  return map[(raw || "").toLowerCase()] || "npm";
-}
-
-// ─── Framework auto-detection from package.json ──────────────────────────
-
-function detectFramework(projectPath) {
-  try {
-    const pkgPath = path.join(projectPath, "package.json");
-    if (!fs.existsSync(pkgPath)) return null;
-    const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
-    const deps = { ...pkg.dependencies, ...pkg.devDependencies };
-
-    if (deps.vite) return "vite";
-    if (deps.next) return "nextjs";
-    if (deps.expo) return "expo";
-    if (deps.express) return "express";
-    if (deps["react-scripts"]) return "cra";
-
-    return null;
-  } catch {
-    return null;
-  }
-}
-
-// ─── Combine projects with divider ────────────────────────────────────────────
-
-function combineProjects(mainProjects, customerProjects) {
-  const result = [];
-  mainProjects.forEach((p, i) => { p.num = i + 1; result.push(p); });
-  result.push({ divider: true });
-  customerProjects.forEach((p, i) => { p.num = mainProjects.length + i + 1; result.push(p); });
-  return result;
-}
-
 // ─── Inventory parser ────────────────────────────────────────────────────────
 
 /**
@@ -127,7 +83,7 @@ function combineProjects(mainProjects, customerProjects) {
  *
  * Columns: # | App | Path | Port | Config Type | Config Location | Status
  */
-function parseInventory(filePath, rootPath = APPS_ROOT) {
+function parseInventory(filePath) {
   const content = fs.readFileSync(filePath, "utf-8");
   const lines = content.split("\n");
 
@@ -166,11 +122,11 @@ function parseInventory(filePath, rootPath = APPS_ROOT) {
     const name = cells[1];
     const relativePath = cells[2];
     const port = parseInt(cells[3], 10);
-    const configType = normalizeType(cells[4]);
+    const configType = cells[4].toLowerCase();
 
     if (isNaN(port)) continue;
 
-    const fullPath = path.join(rootPath, relativePath);
+    const fullPath = path.join(APPS_ROOT, relativePath);
 
     projects.push({
       num,
@@ -189,24 +145,18 @@ function parseInventory(filePath, rootPath = APPS_ROOT) {
 
 /**
  * Determine the start command for a project based on its config type.
- * Vite   → npx vite --port {port}
- * Next.js → npm run dev
- * Expo   → npx expo start --port {port}
+ *
+ * Supported types:
+ *   vite    → npx vite --port {port}
+ *   nextjs  → npm run dev (port already in project script)
+ *   express → npm run dev (nodemon from package.json)
+ *   cra     → PORT={port} npm start (Create React App)
+ *   static  → npx serve . -l {port} (static HTML)
  */
 function getStartCommand(project) {
-  const { port, configType, name, detectedType } = project;
-  const type = detectedType || configType;
+  const { port, configType, name } = project;
 
-  // WeThePeople uses Expo (per task context and inventory notes)
-  if (name === "WeThePeople") {
-    return {
-      cmd: "npx",
-      args: ["expo", "start", "--port", String(port)],
-      label: `npx expo start --port ${port}`,
-    };
-  }
-
-  if (type === "vite") {
+  if (configType === "vite") {
     return {
       cmd: "npx",
       args: ["vite", "--port", String(port)],
@@ -214,7 +164,7 @@ function getStartCommand(project) {
     };
   }
 
-  if (type === "next.js" || type === "nextjs") {
+  if (configType === "nextjs" || configType === "next.js") {
     return {
       cmd: "npm",
       args: ["run", "dev"],
@@ -222,19 +172,28 @@ function getStartCommand(project) {
     };
   }
 
-  if (type === "dashboard") {
+  if (configType === "express") {
     return {
-      cmd: "node",
-      args: ["index.js"],
-      label: "node index.js",
+      cmd: "npm",
+      args: ["run", "dev"],
+      label: "npm run dev",
     };
   }
 
-  if (type === "express") {
+  if (configType === "cra") {
+    return {
+      cmd: "npm",
+      args: ["start"],
+      label: `PORT=${port} npm start`,
+      env: { ...process.env, PORT: String(port), BROWSER: "none" },
+    };
+  }
+
+  if (configType === "static") {
     return {
       cmd: "npx",
-      args: ["tsx", "server/index.ts"],
-      label: "npx tsx server/index.ts",
+      args: ["serve", ".", "-l", String(port), "--no-clipboard"],
+      label: `npx serve . -l ${port}`,
     };
   }
 
@@ -270,7 +229,7 @@ function launchProject(project) {
     return true;
   }
 
-  const { cmd, args, label } = getStartCommand(project);
+  const { cmd, args, label, env } = getStartCommand(project);
 
   console.log(
     `${colorize("▶", GREEN)} Starting ${bold(name)} on port ${bold(String(port))}…`
@@ -279,12 +238,18 @@ function launchProject(project) {
   console.log("");
 
   try {
-    const child = spawn(cmd, args, {
+    const spawnOpts = {
       cwd: fullPath,
       detached: true,
       stdio: "inherit",
-      shell: true, // needed for npx resolution in some environments
-    });
+      shell: true, // needed for npx resolution
+    };
+
+    if (env) {
+      spawnOpts.env = env;
+    }
+
+    const child = spawn(cmd, args, spawnOpts);
 
     child.on("error", (err) => {
       console.error(
@@ -334,26 +299,24 @@ function renderMenu(projects) {
   console.clear();
 
   console.log("");
-  console.log(`  ${bold("⚡ Dev Launcher")}`);
+  console.log(`  ${bold(`${PURPLE}👥${RESET} Devv Launcher — Customer Pages`)}`);
   console.log(`  ${DIM}────────────────────────────────────────────${RESET}`);
   console.log("");
 
   for (const p of projects) {
-    if (p.divider) {
-      console.log(`  ${DIM}────────────────────────────────────────────${RESET}`);
-      console.log(`  ${DIM}  📋 Customer Pages${RESET}`);
-      console.log("");
-      continue;
-    }
-
     const running = isPortInUse(p.port);
     const dot = running ? GREEN_DOT : GRAY_DOT;
     const numStr = String(p.num).padStart(2, " ");
-    const dt = p.detectedType || p.configType;
-    const typeLabel = p.name === "WeThePeople" ? "Exp" : dt === "vite" ? "Vit" : dt === "dashboard" ? "Dash" : dt === "express" || dt === "expo" ? "Exp" : dt === "cra" ? "CRA" : dt === "static" ? "Stc" : "Nxt";
+    const typeLabel =
+      p.configType === "vite" ? "Vit" :
+      p.configType === "nextjs" ? "Nxt" :
+      p.configType === "express" ? "Exp" :
+      p.configType === "cra" ? "CRA" :
+      p.configType === "static" ? "Stc" :
+      "?";
 
     console.log(
-      `  ${dot} ${bold(colorize(numStr, CYAN))}  ${bold(p.name.padEnd(22, " "))} ${colorize(typeLabel, DIM)}  ${colorize(`:${p.port}`, GRAY)}`
+      `  ${dot} ${bold(colorize(numStr, PURPLE))}  ${bold(p.name.padEnd(22, " "))} ${colorize(typeLabel, DIM)}  ${colorize(`:${p.port}`, GRAY)}`
     );
   }
 
@@ -361,10 +324,8 @@ function renderMenu(projects) {
   console.log(`  ${GRAY_DOT} = stopped    ${GREEN_DOT} = running`);
   console.log("");
   console.log(`  ${DIM}How to use:${RESET}`);
-  console.log(`  ${bold("dev")}     — pick from menu → auto-starts + opens browser`);
-  console.log(`  ${bold("dstop")}    — kill all dev servers on all ports`);
-  console.log(`  ${bold("dboard")}   — open live dashboard at ${CYAN}localhost:1919${RESET}`);
-  console.log(`  ${bold("dcreate")}  — scaffold new project, auto-assign port, update inventory`);
+  console.log(`  ${bold("devv")}    — pick from menu → auto-starts + opens browser`);
+  console.log(`  ${bold("dstop")}   — kill all dev servers on all ports`);
   console.log(`  ${DIM}────────────────────────────────────────────${RESET}`);
   console.log(`  Type a ${bold("number")} to launch, ${bold("r")} to refresh, ${bold("q")} to quit`);
   console.log("");
@@ -373,54 +334,20 @@ function renderMenu(projects) {
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 function main() {
-  // Parse both inventories
-  let mainProjects;
-  let customerProjects;
+  // Parse inventory
+  let projects;
   try {
-    mainProjects = parseInventory(INVENTORY_PATH, APPS_ROOT);
+    projects = parseInventory(INVENTORY_PATH);
   } catch (err) {
-    console.error(`${colorize("✖", RED)} Cannot read main inventory: ${err.message}`);
+    console.error(`${colorize("✖", RED)} Cannot read inventory: ${err.message}`);
+    console.error(`  Expected at: ${INVENTORY_PATH}`);
     process.exit(1);
   }
 
-  try {
-    customerProjects = parseInventory(CUSTOMER_INVENTORY, CUSTOMER_ROOT);
-  } catch (err) {
-    console.error(`${colorize("✖", RED)} Cannot read customer inventory: ${err.message}`);
+  if (projects.length === 0) {
+    console.error(`${colorize("✖", RED)} No projects found in inventory.`);
     process.exit(1);
   }
-
-  // Add Dev Dashboard to main projects if not present
-  const hasDashboard = mainProjects.some((p) => p.name === "Dev Dashboard");
-  if (!hasDashboard) {
-    mainProjects.push({
-      name: "Dev Dashboard",
-      fullPath: path.resolve(__dirname, "..", "dev-dashboard"),
-      port: 1919,
-      configType: "dashboard",
-    });
-  }
-
-  // Add AppPub BE to main projects
-  mainProjects.push({
-    name: "AppPub BE",
-    fullPath: "/Users/ammaniel/myapps/apppub",
-    port: 3456,
-    configType: "express",
-  });
-
-  // Auto-detect framework from package.json for all projects.
-  // Falls back to inventory configType if detection fails.
-  for (const p of [...mainProjects, ...customerProjects]) {
-    if (p.fullPath) {
-      p.detectedType = detectFramework(p.fullPath) || p.configType;
-    } else {
-      p.detectedType = p.configType;
-    }
-  }
-
-  // Combine with divider
-  let projects = combineProjects(mainProjects, customerProjects);
 
   // Setup readline
   const rl = readline.createInterface({
@@ -439,7 +366,7 @@ function main() {
   });
 
   function prompt() {
-    rl.question(`${colorize("→", CYAN)} `, (input) => {
+    rl.question(`${colorize("→", PURPLE)} `, (input) => {
       const trimmed = input.trim().toLowerCase();
 
       if (trimmed === "q" || trimmed === "quit" || trimmed === "exit") {
@@ -450,49 +377,24 @@ function main() {
       }
 
       if (trimmed === "r" || trimmed === "refresh") {
+        // Re-parse to pick up any changes
         try {
-          mainProjects = parseInventory(INVENTORY_PATH, APPS_ROOT);
-          customerProjects = parseInventory(CUSTOMER_INVENTORY, CUSTOMER_ROOT);
-          projects = combineProjects(mainProjects, customerProjects);
-        } catch {
-          // keep existing
+          projects = parseInventory(INVENTORY_PATH);
+          console.log(`\n${colorize("✓", GREEN)} Inventory refreshed — ${projects.length} projects loaded.\n`);
+        } catch (err) {
+          console.log(`\n${colorize("✖", RED)} Failed to refresh: ${err.message}\n`);
         }
-        renderMenu(projects);
-        prompt();
-        return;
-      }
-
-      if (trimmed === "d" || trimmed === "dboard") {
-        // Start dashboard in background + open browser
-        const dashboardPath = path.resolve(__dirname, "..", "dev-dashboard");
-        if (!fs.existsSync(dashboardPath)) {
-          console.log(`${colorize("✖", RED)} Dashboard not found at ${dashboardPath}`);
-          prompt();
-          return;
-        }
-        if (isPortInUse(1919)) {
-          console.log(`${colorize("⚠", YELLOW)} Dashboard already running on port 1919`);
-        } else {
-          const child = spawn("node", ["index.js"], {
-            cwd: dashboardPath,
-            detached: true,
-            stdio: "inherit",
-          });
-          child.unref();
-        }
-        setTimeout(() => openBrowser(1919), 1500);
         setTimeout(() => {
           renderMenu(projects);
           prompt();
-        }, 2000);
+        }, 800);
         return;
       }
 
       const num = parseInt(trimmed, 10);
-      const maxNum = projects.filter((p) => !p.divider).length;
-      if (isNaN(num) || num < 1 || num > maxNum) {
+      if (isNaN(num) || num < 1 || num > projects.length) {
         console.log(
-          `${colorize("⚠", YELLOW)} Enter a number 1–${maxNum}, 'dboard', 'r' to refresh, or 'q' to quit`
+          `${colorize("⚠", YELLOW)} Enter a number 1–${projects.length}, 'r' to refresh, or 'q' to quit`
         );
         prompt();
         return;

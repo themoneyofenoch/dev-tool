@@ -1,0 +1,1664 @@
+{
+  "projects": {
+    "kalkidan": {
+      "name": "Kalkidan",
+      "emoji": "\ud83d\udfe3",
+      "type": "Dating App",
+      "version": "1.0.4",
+      "path": "/Users/ammaniel/myapps/kalkidan",
+      "deploy": {
+        "web": true,
+        "ios": "testflight-review",
+        "android": "internal"
+      },
+      "git": {
+        "branch": "main",
+        "uncommitted": true,
+        "prs": 0
+      },
+      "phases": {
+        "auth": {
+          "status": "warn",
+          "detail": "Shared Firebase, no dedicated project"
+        },
+        "payments": {
+          "status": "ok",
+          "detail": "IAP pricing done \u2014 birhan $4.90, gongo $6.90, marriagebadge $9.90, rose $4.90"
+        },
+        "metadata": {
+          "status": "warn",
+          "detail": "Pricing done. Review screenshots still needed for all 7 IAPs."
+        },
+        "deploy": {
+          "status": "warn",
+          "detail": "iOS version drift 1.0.3 vs 1.0.4"
+        }
+      },
+      "aiActions": [
+        {
+          "text": "\u2705 IAP descriptions updated in ASC \u2014 7/7 localizations complete.",
+          "link": "#",
+          "linkText": "Done"
+        },
+        {
+          "text": "\u2705 Premium modals consolidated \u2014 12 modals \u2192 unified PremiumUpgradeModal.",
+          "link": "src/components/PremiumUpgradeModal.tsx",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u2705 Swipe card physics fixed \u2014 card follows finger, spring flyoff exit.",
+          "link": "src/components/SwipeCard.tsx",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u2705 Empty states extracted into reusable EmptyMatchesState + EmptyLikesState.",
+          "link": "src/components/EmptyMatchesState.tsx",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u2705 WeddingReadiness badge added to ValueMatchPreview.",
+          "link": "src/components/ValueMatchPreview.tsx",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u2705 CardStack tests \u2014 20/20 pass.",
+          "link": "src/test/components/CardStack.test.tsx",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u2705 IAP prices set \u2014 birhan $4.90, gongo $6.90, marriagebadge $9.90, rose $4.90 (via new DASF43QDRT key)",
+          "link": "https://appstoreconnect.apple.com/apps/6781901208/in-app-purchases",
+          "linkText": "\ud83d\udd17 ASC"
+        },
+        {
+          "text": "\u2705 Apple keys consolidated \u2014 8 files \u2192 1 (AuthKey_DASF43QDRT.p8), MCP updated",
+          "link": "#",
+          "linkText": "\u2705"
+        }
+      ],
+      "links": [
+        {
+          "label": "App Store Connect",
+          "url": "https://appstoreconnect.apple.com/apps/6781901208",
+          "icon": "\ud83c\udf4e",
+          "color": "#e8f0fe"
+        },
+        {
+          "label": "Google Play Console",
+          "url": "https://play.google.com/console/developers/",
+          "icon": "\u25b6\ufe0f",
+          "color": "#e8f8ee"
+        },
+        {
+          "label": "Firebase Console",
+          "url": "https://console.firebase.google.com/project/geezeasy-69c5c",
+          "icon": "\ud83d\udd25",
+          "color": "#fff0e8"
+        },
+        {
+          "label": "Supabase Dashboard",
+          "url": "https://supabase.com/dashboard/project/imwhaghtqlcangzsarzz",
+          "icon": "\u26a1",
+          "color": "#e0f8e8"
+        },
+        {
+          "label": "Stripe Dashboard",
+          "url": "https://dashboard.stripe.com",
+          "icon": "\ud83d\udcb3",
+          "color": "#e8e0f8"
+        },
+        {
+          "label": "Hostinger hPanel",
+          "url": "https://hpanel.hostinger.com/hosting/kalkidan.app",
+          "icon": "\ud83c\udf10",
+          "color": "#f0e8ff"
+        },
+        {
+          "label": "GitHub Repo",
+          "url": "https://github.com/themoneyofenoch/kalkidan",
+          "icon": "\ud83d\udc19",
+          "color": "#f0f0f5"
+        },
+        {
+          "label": "Live Site",
+          "url": "https://kalkidan.app",
+          "icon": "\ud83c\udf10",
+          "color": "#e8f8ee"
+        }
+      ],
+      "ammanielTodos": [
+        {
+          "text": "\ud83d\udfe1 ASC: Upload review screenshots for all 7 IAPs (pricing done \u2705). Each IAP needs one screenshot showing it in-app.",
+          "done": false,
+          "priority": "high",
+          "link": "https://appstoreconnect.apple.com/apps/6781901208/in-app-purchases"
+        },
+        {
+          "text": "Create OneSignal account \u2192 get App ID for push notifications",
+          "done": false,
+          "priority": "high",
+          "link": "https://onesignal.com"
+        },
+        {
+          "text": "Get Twilio credentials \u2192 uncomment in .env \u2192 upload to hPanel",
+          "done": false,
+          "priority": "high",
+          "link": "https://console.twilio.com"
+        },
+        {
+          "text": "Create dedicated Firebase project for Kalkidan (don't share geezeasy-69c5c)",
+          "done": false,
+          "priority": "mid",
+          "link": "https://console.firebase.google.com"
+        },
+        {
+          "text": "Set up Apple Developer: Sign in with Apple capability for production",
+          "done": false,
+          "priority": "mid",
+          "link": "https://developer.apple.com/account"
+        },
+        {
+          "text": "Clean up unused components (SwipeTutorial, InstallPrompt, MatchModal)",
+          "done": true,
+          "priority": "high"
+        },
+        {
+          "text": "WAPP pipeline: Build \u2192 TestFlight v3 + Google Play v104",
+          "done": true,
+          "priority": "high"
+        }
+      ],
+      "opencodeTodos": [
+        {
+          "text": "Fix IAP product IDs: change swipepass\u2192swipe_pass, premium\u2192premium_monthly, premiumplus\u2192premium_plus_monthly, marriagebadge\u2192marriage_badge in src/services/iap.ts",
+          "done": false
+        },
+        {
+          "text": "Fix iOS version drift: update MARKETING_VERSION in project.pbxproj from 1.0.3 to 1.0.4",
+          "done": false
+        },
+        {
+          "text": "Add OneSignal SDK script tag to index.html",
+          "done": false
+        },
+        {
+          "text": "Remove ONE remaining unused import (KalkidanPlusModal) from Router.tsx if not used",
+          "done": false
+        },
+        {
+          "text": "Increase component test coverage from ~10 to 30+ of 109 components",
+          "done": false
+        },
+        {
+          "text": "Wire Supabase realtime for chat (currently broken \u2014 messages stored in KV file)",
+          "done": false
+        }
+      ],
+      "bugLint": [
+        {
+          "text": "1 pre-existing test failure: DailyQuestionTicker test \u2014 data-testid not found in SwipeCard",
+          "severity": "low"
+        },
+        {
+          "text": "iOS PBXPROJ version drift (1.0.3 vs Info.plist 1.0.4)",
+          "severity": "mid"
+        },
+        {
+          "text": "Chat realtime broken (FEATURES.md) \u2014 Supabase subscription returns no data",
+          "severity": "high"
+        }
+      ],
+      "openSourceIdeas": [
+        "react-spring for swipe card animation (replaces custom pan handlers)",
+        "emoji-mart for chat emoji picker (replace 50-emoji grid)",
+        "@react-native-firebase/messaging for push (alternative to OneSignal)",
+        "zod for runtime validation (currently manual type assertions)",
+        "zustand/middleware for better store devtools"
+      ],
+      "publish": {
+        "appStoreId": "6781901208",
+        "playStorePackage": "com.kalkidan.app",
+        "storeJsonPath": "/Users/ammaniel/myapps/kalkidan/kalkidan-store.json",
+        "lastBuild": {
+          "ios": "1.0.4",
+          "android": "104"
+        },
+        "lastUpload": "2026-07-08",
+        "pipeline": "capacitor-ios-android",
+        "reviewContact": {
+          "name": "Ammaniel Hintza",
+          "email": "support@nakfaai.com",
+          "phone": ""
+        },
+        "demoAccount": {
+          "username": "demo@nakfaai.com",
+          "password": "password1234"
+        },
+        "products": {
+          "subscriptions": [
+            "swipe_pass",
+            "premium_monthly",
+            "premium_plus_monthly"
+          ],
+          "consumables": [
+            "rose",
+            "birhan",
+            "gongo",
+            "marriage_badge"
+          ]
+        },
+        "iapStatus": {
+          "ios": "4 of 7 IDs mismatched",
+          "android": "4 products need billing permission"
+        }
+      },
+      "marketing": {
+        "aboutUs": "Kalkidan is the premier dating and discovery app built for the Habesha community \u2014 connecting Ethiopians, Eritreans, and the global diaspora through meaningful relationships, whether friendship, dating, or marriage.",
+        "description": "Find your Kalkidan (destiny). Swipe, match, and connect with Habesha singles worldwide. Premium features include unlimited swipes, spotlight boosts, pre-match messages, and the Marriage Badge.",
+        "keywords": [
+          "dating",
+          "ethiopian",
+          "habesha",
+          "eritrean",
+          "love",
+          "marriage",
+          "singles",
+          "match",
+          "african dating",
+          "diaspora"
+        ],
+        "target": "Habesha diaspora worldwide \u2014 Ethiopians and Eritreans aged 18-45",
+        "hashtags": [
+          "#Kalkidan",
+          "#HabeshaLove",
+          "#EthiopianDating",
+          "#FindYourDestiny",
+          "#EritreanSingles"
+        ],
+        "socialPosts": [
+          {
+            "platform": "instagram",
+            "type": "reel",
+            "prompt": "Show two hands reaching toward each other with Ethiopian coffee (buna) in the background. Text overlay: 'Your Kalkidan is waiting \u2615\ud83d\udc9c'. Show the app interface briefly \u2014 a match notification popping up.",
+            "hashtags": [
+              "#Kalkidan",
+              "#HabeshaLove",
+              "#EthiopianDating"
+            ]
+          },
+          {
+            "platform": "instagram",
+            "type": "post",
+            "prompt": "Split-screen carousel: Left side shows a beautiful Habesha wedding photo. Right side shows the app's Marriage Badge feature. Caption: 'Some swipes lead to forever \ud83d\udc8d The Marriage Badge shows you're serious.'",
+            "hashtags": [
+              "#Kalkidan",
+              "#HabeshaWedding",
+              "#MarriageGoals"
+            ]
+          },
+          {
+            "platform": "tiktok",
+            "type": "reel",
+            "prompt": "Fast-cut montage: Person scrolling bored on generic dating apps \u2192 deletes them \u2192 downloads Kalkidan \u2192 immediate match \u2192 excited reaction. Text: 'Tired of apps that don't get your culture? \ud83d\ude44 Try the one built for YOU.' Trending Ethiopian music in background.",
+            "hashtags": [
+              "#Kalkidan",
+              "#DatingApp",
+              "#HabeshaTikTok",
+              "#EthiopianTikTok"
+            ]
+          },
+          {
+            "platform": "tiktok",
+            "type": "reel",
+            "prompt": "POV style: You're at a Habesha wedding. Everyone asks 'when is yours?' Cut to phone showing Kalkidan app with the Marriage Badge. Text: 'Speed up the process \ud83d\ude09\ud83d\udc9c'",
+            "hashtags": [
+              "#Kalkidan",
+              "#HabeshaWedding",
+              "#MarriageBadge",
+              "#POV"
+            ]
+          },
+          {
+            "platform": "instagram",
+            "type": "story",
+            "prompt": "Poll sticker: 'What's most important in a partner?' Options: 'Shared Culture \ud83c\uddea\ud83c\uddf9\ud83c\uddea\ud83c\uddf7', 'Ambition \ud83d\udcbc', 'Family Values \ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67\u200d\ud83d\udc66', 'Sense of Humor \ud83d\ude02'. Link sticker to kalkidan.app.",
+            "hashtags": [
+              "#Kalkidan",
+              "#DatingPoll"
+            ]
+          }
+        ],
+        "screenshots": [],
+        "icons": ""
+      },
+      "dependencies": {
+        "current": [
+          {
+            "name": "react",
+            "version": "18",
+            "bundle": "42KB",
+            "purpose": "UI framework"
+          },
+          {
+            "name": "zustand",
+            "version": "4",
+            "bundle": "2.5KB",
+            "purpose": "State management"
+          },
+          {
+            "name": "supabase-js",
+            "version": "2",
+            "bundle": "18KB",
+            "purpose": "Backend + DB"
+          },
+          {
+            "name": "tailwindcss",
+            "version": "4",
+            "bundle": "0KB (build-time)",
+            "purpose": "CSS framework"
+          },
+          {
+            "name": "capacitor",
+            "version": "8",
+            "bundle": "1.2MB (native)",
+            "purpose": "Native mobile wrapper"
+          }
+        ],
+        "alternatives": [
+          {
+            "current": "zustand",
+            "better": "jotai",
+            "reason": "Smaller (1.2KB), simpler API, built-in TypeScript",
+            "advantage": "52% smaller bundle, 0 boilerplate"
+          },
+          {
+            "current": "supabase-js",
+            "better": "trpc",
+            "reason": "End-to-end typesafe APIs, no REST client needed",
+            "advantage": "Full type safety, auto-generated endpoints"
+          },
+          {
+            "current": "supabase-js",
+            "better": "convex",
+            "reason": "Realtime without polling, built-in reactive queries, less boilerplate than Supabase for chat features",
+            "advantage": "1/3 the code for realtime features"
+          },
+          {
+            "current": "react@18",
+            "better": "solid-js",
+            "reason": "No virtual DOM, ~50% smaller bundle, fine-grained reactivity, better performance on low-end devices",
+            "advantage": "50% smaller bundle, 30% faster render"
+          }
+        ],
+        "competitors": [
+          {
+            "name": "Tinder",
+            "stack": [
+              "react-native",
+              "realm",
+              "firebase",
+              "fastlane"
+            ],
+            "notes": "Industry leader, heavy native investment"
+          },
+          {
+            "name": "Bumble",
+            "stack": [
+              "swift-ui",
+              "kotlin",
+              "firebase",
+              "sentry"
+            ],
+            "notes": "Native iOS/Android, strong women-first UX"
+          },
+          {
+            "name": "Hinge",
+            "stack": [
+              "expo",
+              "supabase",
+              "typescript",
+              "apollo"
+            ],
+            "notes": "Most similar stack to Kalkidan"
+          }
+        ]
+      },
+      "envVars": {
+        "BETTER_AUTH_SECRET": "<your-secret-key>",
+        "BETTER_AUTH_URL": "https://kalkidan.app",
+        "GOOGLE_CLIENT_ID": "406856810282-u9imcalfp1pncl9dhv4rsuq97ecmbknv.apps.googleusercontent.com",
+        "APPLE_CLIENT_ID": "com.kalkidan.app",
+        "DATABASE_URL": "mysql://...hostinger...",
+        "STRIPE_SECRET_KEY": "sk_live_...",
+        "HOSTINGER_SITE": "kalkidan.app",
+        "DEPLOY_METHOD": "Hostinger API MCP"
+      },
+      "agents": {
+        "path": "/Users/ammaniel/myapps/kalkidan/AGENTS.md",
+        "mcps": [
+          "app-store-connect \u2705",
+          "google-play \u2705",
+          "hostinger-api \u2705",
+          "firebase \u2705"
+        ],
+        "auth": "Supabase Auth (email/password + social providers)",
+        "stack": "React 18 + Vite + Zustand + Supabase + Tailwind 4 + Capacitor",
+        "deploy": "Hostinger API MCP (web) + Publisher MCP (iOS/Android)",
+        "test": "Vitest",
+        "lint": "Biome",
+        "cicd": "GitHub Actions",
+        "lastUpdated": "2026-07-08"
+      }
+    },
+    "pixwee": {
+      "name": "Pixwee",
+      "emoji": "\ud83d\udcf8",
+      "type": "Event Photography Platform",
+      "version": "0.1.0",
+      "path": "/Users/ammaniel/myapps/pixwee",
+      "deploy": {
+        "web": true,
+        "ios": "testflight-review",
+        "android": "internal"
+      },
+      "git": {
+        "branch": "main",
+        "uncommitted": true,
+        "prs": 0
+      },
+      "phases": {
+        "auth": {
+          "status": "warn",
+          "detail": "JWT auth working, AppleSignIn plugin added. Firebase mixed in but no dedicated project (shared geezeasy-69c5c)"
+        },
+        "payments": {
+          "status": "warn",
+          "detail": "Stripe in test mode. IAP plans defined (Free/Pro $29/Business $59/Enterprise $99) but not built. Subscription webhooks missing."
+        },
+        "metadata": {
+          "status": "good",
+          "detail": "Store metadata ready in pixwee-store.json. Both App Store + Play Store connected."
+        },
+        "deploy": {
+          "status": "warn",
+          "detail": "Web deployed. TestFlight + Play Store internal track configured. Many uncommitted changes on main."
+        }
+      },
+      "aiActions": [
+        {
+          "text": "Wire Stripe subscription webhooks \u2014 STRIPE_WEBHOOK_SECRET needed.",
+          "link": "src/services/stripe.ts",
+          "linkText": "\ud83d\udcdd Edit stripe.ts"
+        },
+        {
+          "text": "Build IAP products for App Store Connect \u2014 Free/Pro/Business/Enterprise tiers.",
+          "link": "https://appstoreconnect.apple.com/apps/",
+          "linkText": "\ud83d\udd17 Open ASC"
+        },
+        {
+          "text": "Seed admin/seller accounts in local DB for testing.",
+          "link": "src/scripts/seed.ts",
+          "linkText": "\ud83d\udcdd Run seed"
+        },
+        {
+          "text": "Camera Connect QR \u2014 scan to auto-configure camera FTP.",
+          "link": "frontend/src/pages/photographer/SessionDetailPage.tsx",
+          "linkText": "\ud83d\udcdd QR Feature"
+        },
+        {
+          "text": "TestFlight build \u2014 Xcode Archive \u2192 Upload for iOS.",
+          "link": "frontend/ios/App",
+          "linkText": "\ud83c\udf4e Build iOS"
+        },
+        {
+          "text": "Commit and push uncommitted changes (auth, stripe, deploy configs).",
+          "link": "#",
+          "linkText": "\ud83d\udd00 git push"
+        }
+      ],
+      "links": [
+        {
+          "label": "Live Site",
+          "url": "https://pixwee.com",
+          "icon": "\ud83c\udf10",
+          "color": "#e8f8ee"
+        },
+        {
+          "label": "App Store Connect",
+          "url": "https://appstoreconnect.apple.com/apps/",
+          "icon": "\ud83c\udf4e",
+          "color": "#e8f0fe"
+        },
+        {
+          "label": "Google Play Console",
+          "url": "https://play.google.com/console/developers/7261266503268954658",
+          "icon": "\u25b6\ufe0f",
+          "color": "#e8f8ee"
+        },
+        {
+          "label": "Firebase Console",
+          "url": "https://console.firebase.google.com/project/geezeasy-69c5c",
+          "icon": "\ud83d\udd25",
+          "color": "#fff0e8"
+        },
+        {
+          "label": "Stripe Dashboard",
+          "url": "https://dashboard.stripe.com",
+          "icon": "\ud83d\udcb3",
+          "color": "#e8e0f8"
+        },
+        {
+          "label": "Hostinger hPanel",
+          "url": "https://hpanel.hostinger.com/hosting/pixwee.com",
+          "icon": "\ud83c\udf10",
+          "color": "#f0e8ff"
+        },
+        {
+          "label": "GitHub Repo",
+          "url": "https://github.com/themoneyofenoch/pixwee",
+          "icon": "\ud83d\udc19",
+          "color": "#f0f0f5"
+        }
+      ],
+      "ammanielTodos": [
+        {
+          "text": "Get Stripe test keys from dashboard.stripe.com/test/apikeys",
+          "done": false,
+          "priority": "high",
+          "link": "https://dashboard.stripe.com/test/apikeys"
+        },
+        {
+          "text": "Restart production backend on hPanel \u2192 pixwee.com \u2192 restart Node.js app",
+          "done": false,
+          "priority": "high",
+          "link": "https://hpanel.hostinger.com/hosting/pixwee.com"
+        },
+        {
+          "text": "Set up GitHub auto-deploy: hPanel \u2192 connect repo, root=backend, framework=Express",
+          "done": false,
+          "priority": "high",
+          "link": "https://hpanel.hostinger.com/hosting/pixwee.com"
+        },
+        {
+          "text": "Create dedicated Firebase project for Pixwee (not shared geezeasy-69c5c)",
+          "done": false,
+          "priority": "mid",
+          "link": "https://console.firebase.google.com"
+        },
+        {
+          "text": "Set up Apple Sign in with Apple capability for production",
+          "done": false,
+          "priority": "mid",
+          "link": "https://developer.apple.com/account"
+        },
+        {
+          "text": "Upload .env vars to Hostinger hPanel (DB_HOST, JWT_SECRET, R2 keys, Stripe, Resend)",
+          "done": false,
+          "priority": "high",
+          "link": "#"
+        }
+      ],
+      "opencodeTodos": [
+        {
+          "text": "Wire Stripe subscription webhooks (handle checkout.session.completed, customer.subscription.updated)",
+          "done": false
+        },
+        {
+          "text": "Build IAP subscription products in App Store Connect (Free, Pro $29/mo, Business $59/mo, Enterprise $99/mo)",
+          "done": false
+        },
+        {
+          "text": "Seed admin/seller accounts in local DB",
+          "done": false
+        },
+        {
+          "text": "End-to-end Stripe payments flow (gallery access \u2192 photo purchase \u2192 upgrade)",
+          "done": false
+        },
+        {
+          "text": "Camera Connect QR code \u2014 embed FTP connection details for auto-config",
+          "done": false
+        },
+        {
+          "text": "Real-time FTP file notification (replace 3s polling with fs.watch or inotify)",
+          "done": false
+        },
+        {
+          "text": "Password-protected FTP connections for camera uploads",
+          "done": false
+        },
+        {
+          "text": "TestFlight build \u2014 Xcode Archive \u2192 Upload IPA via altool",
+          "done": false
+        },
+        {
+          "text": "Google Play AAB upload via MCP \u2192 internal track",
+          "done": false
+        },
+        {
+          "text": "Pricing page + upgrade flow with tier badges on dashboard",
+          "done": false
+        },
+        {
+          "text": "Staff manager page (list/remove photographers)",
+          "done": false
+        },
+        {
+          "text": "Onboarding page for new photographers",
+          "done": false
+        }
+      ],
+      "bugLint": [
+        {
+          "text": "PROD: gallery.js missing /events route \u2014 compiled JS on Hostinger lacks the endpoint. TS source has it, compiled JS doesn't.",
+          "severity": "high"
+        },
+        {
+          "text": "PROD: Root / returns Cannot GET \u2014 Express handler needs to be registered early for SPA catch-all.",
+          "severity": "high"
+        },
+        {
+          "text": "Uncommitted changes on main \u2014 47 modified files, 32 untracked frontend build assets",
+          "severity": "mid"
+        },
+        {
+          "text": "Stripe test mode only \u2014 no live keys, subscription webhooks need live config",
+          "severity": "high"
+        },
+        {
+          "text": "BLE pairing unreliable on iOS 27 \u2014 camera can enter unrecoverable state requiring reset",
+          "severity": "mid"
+        },
+        {
+          "text": "Shared Firebase project (geezeasy-69c5c) \u2014 should have dedicated project",
+          "severity": "low"
+        }
+      ],
+      "openSourceIdeas": [
+        "react-dropzone for drag-and-drop photo uploads (replace custom DropZone)",
+        "framer-motion for smoother photo grid animations",
+        "react-hot-toast for consistent notifications across the app",
+        "date-fns for better date formatting in session management",
+        "zod for runtime validation of Stripe webhook payloads"
+      ],
+      "publish": {
+        "appStoreId": "",
+        "playStorePackage": "com.pixwee.app",
+        "storeJsonPath": "/Users/ammaniel/myapps/pixwee/pixwee-store.json",
+        "lastBuild": {
+          "ios": "1.0 (Build 44)",
+          "android": "Build 18"
+        },
+        "lastUpload": "2026-07-07",
+        "pipeline": "capacitor-ios-android",
+        "reviewContact": {
+          "name": "Ammaniel Hintza",
+          "email": "support@nakfaai.com",
+          "phone": ""
+        },
+        "demoAccount": {
+          "username": "demo@nakfaai.com",
+          "password": "password1234"
+        },
+        "products": {
+          "subscriptions": [
+            "pro_monthly",
+            "business_monthly",
+            "enterprise_monthly"
+          ],
+          "consumables": []
+        },
+        "iapStatus": {
+          "ios": "Planned \u2014 not yet created in ASC",
+          "android": "Planned \u2014 not yet created in Play Console"
+        }
+      },
+      "marketing": {
+        "aboutUs": "Pixwee lets photographers ghost events, capture candid moments, and sell pictures directly to attendees. No watermark, no waiting. Upload photos in real time, set your price, and get paid instantly.",
+        "description": "Ghost events, capture moments, and sell photos instantly to attendees. Start earning with every shot. Turn every event into a revenue stream.",
+        "keywords": [
+          "photography",
+          "event",
+          "photos",
+          "sell",
+          "ghost",
+          "shoot",
+          "instant",
+          "download",
+          "payment",
+          "wedding",
+          "party",
+          "concert"
+        ],
+        "target": "Event photographers, wedding photographers, party hosts, concert organizers \u2014 anyone who captures events and wants to sell photos directly to attendees",
+        "hashtags": [
+          "#Pixwee",
+          "#EventPhotography",
+          "#GhostShooting",
+          "#PhotoSales",
+          "#InstantPhotos"
+        ],
+        "socialPosts": [],
+        "screenshots": [],
+        "icons": ""
+      },
+      "dependencies": {
+        "current": [
+          {
+            "name": "express",
+            "version": "4",
+            "bundle": "10KB",
+            "purpose": "Backend API server"
+          },
+          {
+            "name": "react",
+            "version": "18",
+            "bundle": "42KB",
+            "purpose": "Frontend UI"
+          },
+          {
+            "name": "stripe",
+            "version": "14",
+            "bundle": "12KB",
+            "purpose": "Payment processing"
+          },
+          {
+            "name": "capacitor",
+            "version": "8",
+            "bundle": "1.2MB (native)",
+            "purpose": "Native iOS/Android wrapper"
+          },
+          {
+            "name": "tailwindcss",
+            "version": "3",
+            "bundle": "0KB (build-time)",
+            "purpose": "CSS framework"
+          },
+          {
+            "name": "mysql2",
+            "version": "3",
+            "bundle": "5KB",
+            "purpose": "MySQL database driver"
+          },
+          {
+            "name": "sharp",
+            "version": "0.33",
+            "bundle": "6KB",
+            "purpose": "Image processing + watermarking"
+          }
+        ],
+        "alternatives": [],
+        "competitors": [
+          {
+            "name": "SmugMug",
+            "stack": [
+              "php",
+              "aws",
+              "ios",
+              "android"
+            ],
+            "notes": "Established photo sales platform, no ghost shooting focus"
+          },
+          {
+            "name": "ShootProof",
+            "stack": [
+              "ruby on rails",
+              "aws",
+              "web"
+            ],
+            "notes": "Gallery + sales, web-only, no real-time event focus"
+          }
+        ]
+      },
+      "envVars": {
+        "PORT": "2025",
+        "DB_HOST": "127.0.0.1",
+        "DB_NAME": "pixwee",
+        "JWT_SECRET": "<secret>",
+        "STRIPE_SECRET_KEY": "sk_test_...",
+        "STRIPE_WEBHOOK_SECRET": "whsec_...",
+        "RESEND_API_KEY": "re_...",
+        "R2_ENDPOINT": "<cloudflare r2>",
+        "R2_BUCKET": "pixwee",
+        "DEPLOY_METHOD": "Hostinger API MCP"
+      },
+      "agents": {
+        "path": "/Users/ammaniel/myapps/pixwee/AGENTS.md",
+        "mcps": [
+          "app-store-connect",
+          "google-play",
+          "hostinger-api",
+          "firebase"
+        ],
+        "auth": "JWT (httpOnly cookies + Bearer token). Photographer/Admin/Seller roles. AppleSignIn Capacitor plugin. Firebase mixed in for native auth.",
+        "stack": "Express + TypeScript (backend) / React 18 + Vite + Tailwind 3 (frontend) / MySQL + Cloudflare R2 / Capacitor 8",
+        "deploy": "Hostinger API MCP (web), Xcode + altool (iOS TestFlight), Google Play MCP (Android internal)",
+        "test": "Vitest (unit) + Playwright (e2e smoke)",
+        "lint": "ESLint + Prettier",
+        "cicd": "GitHub Actions (deploy-backend.yml, deploy-frontend.yml)",
+        "lastUpdated": "2026-07-09"
+      }
+    },
+    "gezeeasy": {
+      "name": "GeezEasy",
+      "emoji": "\ud83d\udcda",
+      "type": "Education",
+      "version": "1.6.2",
+      "path": "/Users/ammaniel/myapps/GeezEasy",
+      "deploy": {
+        "web": true,
+        "ios": "prepare-for-submission",
+        "android": "internal"
+      },
+      "phases": {
+        "auth": {
+          "status": "ok",
+          "detail": "Firebase Auth: Google, Apple, Email/password \u2014 working"
+        },
+        "payments": {
+          "status": "bad",
+          "detail": "IAP pricing just set \u2705 $6.99/mo monthly, $34.95/yr lifetime. Localizations added. May take a moment for Apple to clear MISSING_METADATA."
+        },
+        "metadata": {
+          "status": "warn",
+          "detail": "Description \u2705, keywords \u2705, subtitle \u2705, promo text \u2705, privacy URL \u2705, age rating 4+ \u2705. Screenshots \u274c ZERO uploaded."
+        },
+        "deploy": {
+          "status": "warn",
+          "detail": "iOS Build 68 VALID (Jul 2), PREPARE_FOR_SUBMISSION. Android versionCode 16 on internal track. Old app (ID 6760924194) not yet deleted. Bundle ID fixed to com.geezeasy.app."
+        }
+      },
+      "aiActions": [
+        {
+          "text": "\u2705 Bundle ID fixed \u2192 com.geezeasy.app (was com.geezeasy.geezeasy)",
+          "link": "ios/App/App.xcodeproj/project.pbxproj",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u2705 IAP pricing set via API \u2014 $6.99/mo monthly, $34.95/yr lifetime",
+          "link": "https://appstoreconnect.apple.com/apps/6778180849/subscriptions",
+          "linkText": "\ud83d\udd17 ASC"
+        },
+        {
+          "text": "\u2705 iap.ts product IDs updated to match new subscriptions",
+          "link": "src/app/services/iap.ts",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u2705 Description + keywords + subtitle + privacy URL updated in ASC",
+          "link": "https://appstoreconnect.apple.com/apps/6778180849",
+          "linkText": "\ud83d\udd17 ASC"
+        },
+        {
+          "text": "\u2705 AGENTS.md pre-submission checklist added with scan template",
+          "link": "AGENTS.md",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u2705 7 browser screenshots saved, need resizing to 1320\u00d72868 for ASC",
+          "link": "screenshots/",
+          "linkText": "\ud83d\udcc1 View"
+        }
+      ],
+      "links": [
+        {
+          "label": "App Store Connect",
+          "url": "https://appstoreconnect.apple.com/apps/6778180849",
+          "icon": "\ud83c\udf4e",
+          "color": "#e8f0fe"
+        },
+        {
+          "label": "App Store Connect (old app)",
+          "url": "https://appstoreconnect.apple.com/apps/6760924194",
+          "icon": "\ud83d\uddd1\ufe0f",
+          "color": "#ffe8e8"
+        },
+        {
+          "label": "Google Play Console",
+          "url": "https://play.google.com/console/developers/",
+          "icon": "\u25b6\ufe0f",
+          "color": "#e8f8ee"
+        },
+        {
+          "label": "Firebase Console",
+          "url": "https://console.firebase.google.com/project/geezeasy-69c5c",
+          "icon": "\ud83d\udd25",
+          "color": "#fff0e8"
+        },
+        {
+          "label": "Screenshots",
+          "url": "file:///Users/ammaniel/myapps/GeezEasy/screenshots",
+          "icon": "\ud83d\uddbc\ufe0f",
+          "color": "#f0f0f5"
+        }
+      ],
+      "ammanielTodos": [
+        {
+          "text": "\ud83d\udd34 Set IAP prices ($6.99/mo, $34.95/lifetime) \u2192 ASC \u2192 GeezEasy \u2192 Subscriptions \u2192 Add Price Tier for both subscriptions",
+          "done": false,
+          "priority": "high",
+          "link": "https://appstoreconnect.apple.com/apps/6778180849/subscriptions"
+        },
+        {
+          "text": "\ud83d\udd34 Delete 'GeezEasy old' app (ID 6760924194) \u2192 ASC \u2192 App Information \u2192 Remove App",
+          "done": false,
+          "priority": "high",
+          "link": "https://appstoreconnect.apple.com/apps/6760924194/app/info"
+        },
+        {
+          "text": "\ud83d\udfe1 Upload screenshots (1320\u00d72868 PNG, 3-6 images) \u2192 ASC \u2192 GeezEasy \u2192 Prepare for Submission \u2192 upload to 6.9\" display",
+          "done": false,
+          "priority": "high"
+        },
+        {
+          "text": "\ud83d\udfe1 Verify IAP MISSING_METADATA clears \u2014 prices set via API but Apple may take time to process",
+          "done": false,
+          "priority": "mid"
+        },
+        {
+          "text": "\ud83d\udfe1 Verify Android IAP product IDs match in Google Play Console",
+          "done": false,
+          "priority": "mid"
+        }
+      ],
+      "opencodeTodos": [
+        {
+          "text": "Resize browser screenshots to 1320\u00d72868 PNG or take new ones at that viewport",
+          "done": false
+        },
+        {
+          "text": "Google Play listing \u2014 add description, screenshots, category",
+          "done": false
+        },
+        {
+          "text": "Commit 242 uncommitted files (bundle ID fix, IAP IDs, metadata updates, screenshots)",
+          "done": false
+        }
+      ],
+      "bugLint": [
+        {
+          "text": "IAP pricing now set via API ($6.99/$34.95) \u2014 waiting for Apple to process. Previously blocking submission.",
+          "severity": "mid"
+        },
+        {
+          "text": "Zero screenshots uploaded to App Store \u2014 will be rejected without them",
+          "severity": "high"
+        },
+        {
+          "text": "Privacy policy URL set but not live (geezeasy.com/privacy not deployed yet)",
+          "severity": "mid"
+        },
+        {
+          "text": "242 uncommitted files on working tree",
+          "severity": "low"
+        }
+      ],
+      "openSourceIdeas": [],
+      "publish": {
+        "appStoreId": "6778180849",
+        "playStorePackage": "com.geezeasy.app",
+        "storeJsonPath": "",
+        "lastBuild": {
+          "ios": "Build 68 (v1.6.2)",
+          "android": "versionCode 16"
+        },
+        "lastUpload": "2026-07-02",
+        "pipeline": "capacitor-ios-android",
+        "reviewContact": {
+          "name": "Ammaniel Hintza",
+          "email": "support@geezeasy.com",
+          "phone": ""
+        },
+        "demoAccount": {
+          "username": "",
+          "password": ""
+        },
+        "products": {
+          "subscriptions": [
+            "geezeasy_monthly_1",
+            "geezeasy_lifetime_1"
+          ],
+          "consumables": []
+        },
+        "iapStatus": {
+          "ios": "Pricing set via API ($6.99/mo, $34.95/lifetime). May take time to clear MISSING_METADATA.",
+          "android": "Not yet created in Play Console"
+        }
+      },
+      "marketing": {
+        "aboutUs": "GeezEasy makes learning the Ge'ez (Fidel) script fun and interactive. Master Tigrinya and Amharic alphabets through tracing, games, and quizzes.",
+        "description": "Master the ancient Ge'ez (Fidel) script with fun, interactive lessons! GeezEasy makes learning Tigrinya and Amharic alphabets exciting for all ages. Features include letter tracing with guided strokes, memory games and quizzes, streaks and badges, parent zone, and more. Works offline.",
+        "keywords": [
+          "Ge'ez",
+          "Fidel",
+          "Tigrinya",
+          "Amharic",
+          "alphabet",
+          "tracing",
+          "kids",
+          "learning",
+          "education",
+          "Ethiopian",
+          "Eritrean",
+          "preschool",
+          "letters"
+        ],
+        "target": "Ethiopian and Eritrean families, diaspora kids, language learners of all ages",
+        "hashtags": [
+          "#GeezEasy",
+          "#GeEzScript",
+          "#Fidel",
+          "#Tigrinya",
+          "#Amharic",
+          "#Ethiopian",
+          "#Eritrean",
+          "#LearnScript"
+        ],
+        "socialPosts": [],
+        "screenshots": [],
+        "icons": ""
+      },
+      "agents": {
+        "path": "/Users/ammaniel/myapps/GeezEasy/AGENTS.md",
+        "mcps": [
+          "app-store-connect \u2705",
+          "google-play \u2705",
+          "hostinger-api \u2705",
+          "firebase \u2705"
+        ],
+        "auth": "Firebase Auth (Google, Apple, Email/password) + Passkey/WebAuthn",
+        "stack": "React 18 + Vite 6 + MUI 7 + Tailwind 4 + Capacitor 8 + Firebase + Supabase",
+        "deploy": "Xcode + altool (iOS TestFlight), Google Play MCP (Android internal), Hostinger (web)",
+        "test": "Vitest (262 tests passing)",
+        "lint": "Biome",
+        "cicd": "None yet",
+        "lastUpdated": "2026-07-10"
+      }
+    },
+    "nakfaai": {
+      "name": "NakfaAI",
+      "emoji": "\ud83d\udcb3",
+      "type": "Payment Platform",
+      "version": "?",
+      "path": "/Users/ammaniel/myapps/nakfaai",
+      "deploy": {
+        "web": true,
+        "ios": "none",
+        "android": "none"
+      },
+      "phases": {
+        "auth": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "payments": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "metadata": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "deploy": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        }
+      },
+      "aiActions": [
+        {
+          "text": "\u26a0\ufe0f Dashboard not yet populated for NakfaAI. Tell Sisyphus: 'Populate NakfaAI dashboard data.'",
+          "link": "#",
+          "linkText": "Run explore \u2192 populate"
+        }
+      ],
+      "links": [],
+      "ammanielTodos": [],
+      "opencodeTodos": [],
+      "bugLint": [],
+      "openSourceIdeas": [],
+      "publish": {
+        "appStoreId": "",
+        "playStorePackage": "",
+        "storeJsonPath": "",
+        "lastBuild": {},
+        "lastUpload": "",
+        "pipeline": "none",
+        "products": {},
+        "iapStatus": {}
+      },
+      "marketing": {
+        "aboutUs": "",
+        "description": "",
+        "keywords": [],
+        "target": "",
+        "hashtags": [],
+        "socialPosts": [],
+        "screenshots": [],
+        "icons": ""
+      },
+      "agents": {
+        "path": "",
+        "mcps": [],
+        "auth": "",
+        "stack": "",
+        "deploy": "",
+        "test": "",
+        "lint": "",
+        "cicd": "",
+        "lastUpdated": ""
+      }
+    },
+    "gottasee": {
+      "name": "Gottasee",
+      "emoji": "\ud83d\udc40",
+      "type": "Discovery",
+      "version": "?",
+      "path": "/Users/ammaniel/myapps/gottasee",
+      "deploy": {
+        "web": true,
+        "ios": "none",
+        "android": "none"
+      },
+      "phases": {
+        "auth": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "payments": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "metadata": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "deploy": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        }
+      },
+      "aiActions": [
+        {
+          "text": "\u26a0\ufe0f Dashboard not yet populated for Gottasee. Tell Sisyphus: 'Populate Gottasee dashboard data.'",
+          "link": "#",
+          "linkText": "Run explore \u2192 populate"
+        }
+      ],
+      "links": [],
+      "ammanielTodos": [],
+      "opencodeTodos": [],
+      "bugLint": [],
+      "openSourceIdeas": [],
+      "publish": {
+        "appStoreId": "",
+        "playStorePackage": "",
+        "storeJsonPath": "",
+        "lastBuild": {},
+        "lastUpload": "",
+        "pipeline": "none",
+        "products": {},
+        "iapStatus": {}
+      },
+      "marketing": {
+        "aboutUs": "",
+        "description": "",
+        "keywords": [],
+        "target": "",
+        "hashtags": [],
+        "socialPosts": [],
+        "screenshots": [],
+        "icons": ""
+      },
+      "agents": {
+        "path": "",
+        "mcps": [],
+        "auth": "",
+        "stack": "",
+        "deploy": "",
+        "test": "",
+        "lint": "",
+        "cicd": "",
+        "lastUpdated": ""
+      }
+    },
+    "latindance": {
+      "name": "LatinDance",
+      "emoji": "\ud83d\udc83",
+      "type": "Dance Platform",
+      "version": "?",
+      "path": "/Users/ammaniel/myapps/latindance",
+      "deploy": {
+        "web": true,
+        "ios": "none",
+        "android": "none"
+      },
+      "phases": {
+        "auth": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "payments": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "metadata": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "deploy": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        }
+      },
+      "aiActions": [
+        {
+          "text": "\u26a0\ufe0f Dashboard not yet populated for LatinDance. Tell Sisyphus: 'Populate LatinDance dashboard data.'",
+          "link": "#",
+          "linkText": "Run explore \u2192 populate"
+        }
+      ],
+      "links": [],
+      "ammanielTodos": [],
+      "opencodeTodos": [],
+      "bugLint": [],
+      "openSourceIdeas": [],
+      "publish": {
+        "appStoreId": "",
+        "playStorePackage": "",
+        "storeJsonPath": "",
+        "lastBuild": {},
+        "lastUpload": "",
+        "pipeline": "none",
+        "products": {},
+        "iapStatus": {}
+      },
+      "marketing": {
+        "aboutUs": "",
+        "description": "",
+        "keywords": [],
+        "target": "",
+        "hashtags": [],
+        "socialPosts": [],
+        "screenshots": [],
+        "icons": ""
+      },
+      "agents": {
+        "path": "",
+        "mcps": [],
+        "auth": "",
+        "stack": "",
+        "deploy": "",
+        "test": "",
+        "lint": "",
+        "cicd": "",
+        "lastUpdated": ""
+      }
+    },
+    "orominia": {
+      "name": "Orominia",
+      "emoji": "\ud83c\udf0d",
+      "type": "Community",
+      "version": "?",
+      "path": "/Users/ammaniel/myapps/Orominia",
+      "deploy": {
+        "web": true,
+        "ios": "none",
+        "android": "none"
+      },
+      "phases": {
+        "auth": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "payments": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "metadata": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "deploy": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        }
+      },
+      "aiActions": [
+        {
+          "text": "\u26a0\ufe0f Dashboard not yet populated for Orominia. Tell Sisyphus: 'Populate Orominia dashboard data.'",
+          "link": "#",
+          "linkText": "Run explore \u2192 populate"
+        }
+      ],
+      "links": [],
+      "ammanielTodos": [],
+      "opencodeTodos": [],
+      "bugLint": [],
+      "openSourceIdeas": [],
+      "publish": {
+        "appStoreId": "",
+        "playStorePackage": "",
+        "storeJsonPath": "",
+        "lastBuild": {},
+        "lastUpload": "",
+        "pipeline": "none",
+        "products": {},
+        "iapStatus": {}
+      },
+      "marketing": {
+        "aboutUs": "",
+        "description": "",
+        "keywords": [],
+        "target": "",
+        "hashtags": [],
+        "socialPosts": [],
+        "screenshots": [],
+        "icons": ""
+      },
+      "agents": {
+        "path": "",
+        "mcps": [],
+        "auth": "",
+        "stack": "",
+        "deploy": "",
+        "test": "",
+        "lint": "",
+        "cicd": "",
+        "lastUpdated": ""
+      }
+    },
+    "mizaney": {
+      "name": "Mizaney",
+      "emoji": "\u2696\ufe0f",
+      "type": "Legal",
+      "version": "?",
+      "path": "/Users/ammaniel/myapps/mizaney1",
+      "deploy": {
+        "web": true,
+        "ios": "none",
+        "android": "none"
+      },
+      "phases": {
+        "auth": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "payments": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "metadata": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "deploy": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        }
+      },
+      "aiActions": [
+        {
+          "text": "\u26a0\ufe0f Dashboard not yet populated for Mizaney. Tell Sisyphus: 'Populate Mizaney dashboard data.'",
+          "link": "#",
+          "linkText": "Run explore \u2192 populate"
+        }
+      ],
+      "links": [],
+      "ammanielTodos": [],
+      "opencodeTodos": [],
+      "bugLint": [],
+      "openSourceIdeas": [],
+      "publish": {
+        "appStoreId": "",
+        "playStorePackage": "",
+        "storeJsonPath": "",
+        "lastBuild": {},
+        "lastUpload": "",
+        "pipeline": "none",
+        "products": {},
+        "iapStatus": {}
+      },
+      "marketing": {
+        "aboutUs": "",
+        "description": "",
+        "keywords": [],
+        "target": "",
+        "hashtags": [],
+        "socialPosts": [],
+        "screenshots": [],
+        "icons": ""
+      },
+      "agents": {
+        "path": "",
+        "mcps": [],
+        "auth": "",
+        "stack": "",
+        "deploy": "",
+        "test": "",
+        "lint": "",
+        "cicd": "",
+        "lastUpdated": ""
+      }
+    },
+    "agelbook": {
+      "name": "Agelbook",
+      "emoji": "\ud83d\udcd6",
+      "type": "Book Platform",
+      "version": "?",
+      "path": "/Users/ammaniel/myapps/agelbook",
+      "deploy": {
+        "web": true,
+        "ios": "none",
+        "android": "none"
+      },
+      "phases": {
+        "auth": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "payments": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "metadata": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "deploy": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        }
+      },
+      "aiActions": [
+        {
+          "text": "\u26a0\ufe0f Dashboard not yet populated for Agelbook. Tell Sisyphus: 'Populate Agelbook dashboard data.'",
+          "link": "#",
+          "linkText": "Run explore \u2192 populate"
+        }
+      ],
+      "links": [],
+      "ammanielTodos": [],
+      "opencodeTodos": [],
+      "bugLint": [],
+      "openSourceIdeas": [],
+      "publish": {
+        "appStoreId": "",
+        "playStorePackage": "",
+        "storeJsonPath": "",
+        "lastBuild": {},
+        "lastUpload": "",
+        "pipeline": "none",
+        "products": {},
+        "iapStatus": {}
+      },
+      "marketing": {
+        "aboutUs": "",
+        "description": "",
+        "keywords": [],
+        "target": "",
+        "hashtags": [],
+        "socialPosts": [],
+        "screenshots": [],
+        "icons": ""
+      },
+      "agents": {
+        "path": "",
+        "mcps": [],
+        "auth": "",
+        "stack": "",
+        "deploy": "",
+        "test": "",
+        "lint": "",
+        "cicd": "",
+        "lastUpdated": ""
+      }
+    },
+    "vibecode": {
+      "name": "Vibecode",
+      "emoji": "\ud83c\udfb5",
+      "type": "Music Platform",
+      "version": "?",
+      "path": "/Users/ammaniel/myapps/vibecode",
+      "deploy": {
+        "web": true,
+        "ios": "none",
+        "android": "none"
+      },
+      "phases": {
+        "auth": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "payments": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "metadata": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "deploy": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        }
+      },
+      "aiActions": [
+        {
+          "text": "\u26a0\ufe0f Dashboard not yet populated for Vibecode. Tell Sisyphus: 'Populate Vibecode dashboard data.'",
+          "link": "#",
+          "linkText": "Run explore \u2192 populate"
+        }
+      ],
+      "links": [],
+      "ammanielTodos": [],
+      "opencodeTodos": [],
+      "bugLint": [],
+      "openSourceIdeas": [],
+      "publish": {
+        "appStoreId": "",
+        "playStorePackage": "",
+        "storeJsonPath": "",
+        "lastBuild": {},
+        "lastUpload": "",
+        "pipeline": "none",
+        "products": {},
+        "iapStatus": {}
+      },
+      "marketing": {
+        "aboutUs": "",
+        "description": "",
+        "keywords": [],
+        "target": "",
+        "hashtags": [],
+        "socialPosts": [],
+        "screenshots": [],
+        "icons": ""
+      },
+      "agents": {
+        "path": "",
+        "mcps": [],
+        "auth": "",
+        "stack": "",
+        "deploy": "",
+        "test": "",
+        "lint": "",
+        "cicd": "",
+        "lastUpdated": ""
+      }
+    },
+    "apppub": {
+      "name": "AppPub",
+      "emoji": "\ud83d\udcf1",
+      "type": "Publisher Tool",
+      "version": "?",
+      "path": "/Users/ammaniel/myapps/AppPub",
+      "deploy": {
+        "web": true,
+        "ios": "none",
+        "android": "none"
+      },
+      "phases": {
+        "auth": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "payments": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "metadata": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        },
+        "deploy": {
+          "status": "missing",
+          "detail": "Run explore agent to assess"
+        }
+      },
+      "aiActions": [
+        {
+          "text": "\u26a0\ufe0f Dashboard not yet populated for AppPub. Tell Sisyphus: 'Populate AppPub dashboard data.'",
+          "link": "#",
+          "linkText": "Run explore \u2192 populate"
+        }
+      ],
+      "links": [],
+      "ammanielTodos": [],
+      "opencodeTodos": [],
+      "bugLint": [],
+      "openSourceIdeas": [],
+      "publish": {
+        "appStoreId": "",
+        "playStorePackage": "",
+        "storeJsonPath": "",
+        "lastBuild": {},
+        "lastUpload": "",
+        "pipeline": "none",
+        "products": {},
+        "iapStatus": {}
+      },
+      "marketing": {
+        "aboutUs": "",
+        "description": "",
+        "keywords": [],
+        "target": "",
+        "hashtags": [],
+        "socialPosts": [],
+        "screenshots": [],
+        "icons": ""
+      },
+      "agents": {
+        "path": "",
+        "mcps": [],
+        "auth": "",
+        "stack": "",
+        "deploy": "",
+        "test": "",
+        "lint": "",
+        "cicd": "",
+        "lastUpdated": ""
+      }
+    }
+  },
+  "lastUpdated": "2026-07-09T20:00:00.000Z"
+}

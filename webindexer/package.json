@@ -1,0 +1,12 @@
+{
+  "name": "webindexer",
+  "version": "0.1.0",
+  "description": "Website knowledge graph — crawl, analyze, and index any website for AI agents",
+  "type": "module",
+  "bin": {
+    "webindexer": "./index.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.60.0"
+  }
+}

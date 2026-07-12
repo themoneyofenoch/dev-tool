@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App Icon Maker</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-hover: #1c2333;
+  --border: #30363d;
+  --border-accent: #58a6ff;
+  --text: #c9d1d9;
+  --text-secondary: #8b949e;
+  --accent: #58a6ff;
+  --accent-glow: rgba(88, 166, 255, 0.15);
+  --success: #3fb950;
+  --warning: #d29922;
+  --danger: #f85149;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --mono: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.header h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #58a6ff 0%, #a371f7 50%, #ff6b6b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+/* ── Drop Zone ── */
+.drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 60px 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--surface);
+  position: relative;
+}
+.drop-zone.dragover {
+  border-color: var(--border-accent);
+  background: var(--accent-glow);
+  transform: scale(1.01);
+}
+.drop-zone.has-file {
+  border-style: solid;
+  border-color: var(--success);
+  padding: 24px 40px;
+}
+.drop-zone-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  display: block;
+  opacity: 0.6;
+}
+.drop-zone h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.drop-zone p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+.drop-zone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.drop-zone .file-name {
+  color: var(--success);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+/* ── Scale Info ── */
+.scale-info {
+  display: none;
+  margin: 24px 0;
+  padding: 16px 24px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.scale-info.visible { display: flex; }
+.scale-info .fill-stat {
+  color: var(--text);
+}
+.scale-info .fill-stat span {
+  color: var(--accent);
+  font-weight: 600;
+}
+.scale-info .suggestion {
+  color: var(--success);
+  font-weight: 600;
+}
+.scale-info .warning {
+  color: var(--warning);
+  font-size: 0.8rem;
+}
+.scale-slider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+.scale-slider label {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+.scale-slider input[type="range"] {
+  width: 160px;
+  accent-color: var(--accent);
+}
+.scale-slider .scale-val {
+  color: var(--accent);
+  font-weight: 600;
+  min-width: 50px;
+  text-align: right;
+}
+/* ── Filter Warning ── */
+.filter-warning {
+  display: none;
+  margin: 16px 0;
+  padding: 12px 20px;
+  background: rgba(210, 153, 34, 0.1);
+  border: 1px solid rgba(210, 153, 34, 0.25);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  color: var(--warning);
+}
+.filter-warning.visible { display: block; }
+/* ── Controls ── */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 0;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.controls-left {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font);
+  background: var(--surface);
+  color: var(--text);
+  white-space: nowrap;
+}
+.btn:hover { background: var(--surface-hover); border-color: var(--text-secondary); }
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.btn-primary:hover { background: #4090e0; border-color: #4090e0; }
+.btn-success {
+  background: var(--success);
+  color: #fff;
+  border-color: var(--success);
+}
+.btn-success:hover { opacity: 0.9; }
+.btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+.toggle-group {
+  display: flex;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.toggle-btn {
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all 0.15s ease;
+}
+.toggle-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+.toggle-btn:first-child { border-right: 1px solid var(--border); }
+/* ── Preview Grid ── */
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+.preview-grid.fullscreen {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  margin: 24px auto;
+}
+.preview-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.preview-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--text-secondary);
+}
+.preview-card .canvas-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background:
+    repeating-conic-gradient(var(--border) 0% 25%, transparent 0% 50%) 50% / 16px 16px;
+  min-height: 180px;
+}
+.preview-card.fullscreen .canvas-wrap {
+  min-height: 600px;
+  padding: 40px;
+}
+.preview-card canvas {
+  border-radius: 4px;
+  image-rendering: auto;
+}
+.preview-card .info {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.preview-card .info .label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.preview-card .info .platform {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+.preview-card .btn-dl {
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--accent);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all 0.15s ease;
+}
+.preview-card .btn-dl:hover { background: var(--accent-glow); border-color: var(--accent); }
+/* ── Download Section ── */
+.download-section {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.download-section .btn {
+  font-size: 1rem;
+  padding: 14px 32px;
+}
+/* ── Empty State ── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+.empty-state .icon { font-size: 3rem; opacity: 0.3; margin-bottom: 16px; }
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .container { padding: 24px 16px 60px; }
+  .header h1 { font-size: 1.6rem; }
+  .preview-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .preview-card .canvas-wrap { min-height: 140px; padding: 14px; }
+  .controls { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 480px) {
+  .preview-grid { grid-template-columns: repeat(2, 1fr); }
+  .drop-zone { padding: 40px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="header">
+    <h1>App Icon Maker</h1>
+    <p>Drop an SVG → preview all icon sizes → download PNGs</p>
+  </header>
+
+  <!-- Drop Zone -->
+  <div class="drop-zone" id="dropZone">
+    <span class="drop-zone-icon">🎯</span>
+    <h2>Drop your SVG here</h2>
+    <p>or click to browse — .svg files only</p>
+    <input type="file" id="fileInput" accept=".svg">
+    <div class="file-name" id="fileName" style="display:none"></div>
+  </div>
+
+  <!-- Scale Info -->
+  <div class="scale-info" id="scaleInfo">
+    <div class="fill-stat" id="fillStat">Fill: —</div>
+    <div class="suggestion" id="suggestion" style="display:none"></div>
+    <div class="scale-slider">
+      <label>Scale</label>
+      <input type="range" id="scaleSlider" min="0.3" max="3" step="0.01" value="1">
+      <div class="scale-val" id="scaleVal">1.00×</div>
+    </div>
+  </div>
+
+  <!-- Filter Warning -->
+  <div class="filter-warning" id="filterWarning">
+    ⚠️ This SVG has filter effects (e.g. drop shadows, blurs) that may not render in canvas-based preview. Downloaded PNGs use the original SVG rendered at full resolution for accuracy.
+  </div>
+
+  <!-- Controls -->
+  <div class="controls" id="controls" style="display:none">
+    <div class="controls-left">
+      <div class="toggle-group" id="viewToggle">
+        <button class="toggle-btn active" data-view="grid">Grid</button>
+        <button class="toggle-btn" data-view="full">1024px</button>
+      </div>
+      <button class="btn btn-sm" id="applySuggested">🎯 Apply Suggested Scale</button>
+    </div>
+    <button class="btn btn-sm" id="resetBtn" style="display:none">↺ Reset SVG</button>
+  </div>
+
+  <!-- Preview Grid -->
+  <div class="preview-grid" id="previewGrid">
+    <div class="empty-state">
+      <div class="icon">⬆️</div>
+      <p>Upload an SVG to see icon previews</p>
+    </div>
+  </div>
+
+  <!-- Download Section -->
+  <div class="download-section" id="downloadSection" style="display:none">
+    <button class="btn btn-primary" id="downloadAllZip">📦 Download All (ZIP)</button>
+    <button class="btn" id="downloadAllIndv">📥 Download All (Individual)</button>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+// ── Constants ──
+const ICON_SIZES = [
+  { size: 1024, label: '1024×1024', platform: 'App Store',         display: 140 },
+  { size: 512,  label: '512×512',   platform: 'Google Play',        display: 140 },
+  { size: 256,  label: '256×256',   platform: 'Website / PWA',      display: 140 },
+  { size: 192,  label: '192×192',   platform: 'Android',            display: 96 },
+  { size: 180,  label: '180×180',   platform: 'iPhone @3x',         display: 90 },
+  { size: 144,  label: '144×144',   platform: 'Android',            display: 72 },
+  { size: 120,  label: '120×120',   platform: 'iPhone @2x',         display: 60 },
+  { size: 96,   label: '96×96',     platform: 'Android / Web',      display: 48 },
+  { size: 64,   label: '64×64',     platform: 'Favicon',             display: 64 },
+  { size: 32,   label: '32×32',     platform: 'Favicon (small)',     display: 32 },
+];
+const TARGET_FILL = 0.73;
+
+// ── State ──
+let originalSvgSource = null;
+let currentSvgSource = null;  // modified source with scale applied
+let currentScale = 1.0;
+let detectedScale = 1.0;
+let contentFillPct = 0;
+let canvasRefs = [];
+let viewMode = 'grid';
+
+// ── DOM refs ──
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const fileName = document.getElementById('fileName');
+const scaleInfo = document.getElementById('scaleInfo');
+const fillStat = document.getElementById('fillStat');
+const suggestion = document.getElementById('suggestion');
+const scaleSlider = document.getElementById('scaleSlider');
+const scaleVal = document.getElementById('scaleVal');
+const previewGrid = document.getElementById('previewGrid');
+const downloadSection = document.getElementById('downloadSection');
+const controls = document.getElementById('controls');
+const filterWarning = document.getElementById('filterWarning');
+const applySuggested = document.getElementById('applySuggested');
+const resetBtn = document.getElementById('resetBtn');
+
+// ── Event Listeners ──
+
+dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type === 'image/svg+xml') loadSvgFile(file);
+});
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files[0];
+  if (file) loadSvgFile(file);
+});
+
+scaleSlider.addEventListener('input', () => {
+  currentScale = parseFloat(scaleSlider.value);
+  scaleVal.textContent = currentScale.toFixed(2) + '×';
+  applyScaleAndRender();
+});
+
+applySuggested.addEventListener('click', () => {
+  const multiplier = TARGET_FILL / (contentFillPct / 100);
+  currentScale = Math.round(detectedScale * multiplier * 100) / 100;
+  scaleSlider.value = currentScale;
+  scaleVal.textContent = currentScale.toFixed(2) + '×';
+  applyScaleAndRender();
+});
+
+resetBtn.addEventListener('click', () => {
+  currentScale = detectedScale;
+  currentSvgSource = originalSvgSource;
+  scaleSlider.value = currentScale;
+  scaleVal.textContent = currentScale.toFixed(2) + '×';
+  renderAllPreviews();
+  suggestScale();
+});
+
+// View toggle
+document.getElementById('viewToggle').addEventListener('click', (e) => {
+  if (!e.target.classList.contains('toggle-btn')) return;
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  viewMode = e.target.dataset.view;
+  previewGrid.classList.toggle('fullscreen', viewMode === 'full');
+  document.querySelectorAll('.preview-card').forEach(c => c.classList.toggle('fullscreen', viewMode === 'full'));
+  // Re-render canvases to update display size
+  if (currentSvgSource) renderAllPreviews();
+});
+
+// Download buttons
+document.getElementById('downloadAllZip').addEventListener('click', downloadAllZip);
+document.getElementById('downloadAllIndv').addEventListener('click', downloadAllIndividual);
+
+// ── SVG Loading ──
+async function loadSvgFile(file) {
+  const text = await file.text();
+  originalSvgSource = text;
+  currentSvgSource = text;
+  currentScale = 1.0;
+
+  // Show file name
+  fileName.textContent = '✓ ' + file.name;
+  fileName.style.display = 'block';
+  dropZone.classList.add('has-file');
+  dropZone.querySelector('.drop-zone-icon').textContent = '✅';
+
+  // Check for filter effects
+  const hasFilters = /<filter\b/i.test(text) || /filter\s*=\s*["']url\(#/i.test(text);
+  filterWarning.classList.toggle('visible', hasFilters);
+
+  // Analyze (triggers render when done)
+  await analyzeContent();
+  // Show UI
+  scaleInfo.classList.add('visible');
+  controls.style.display = 'flex';
+  downloadSection.style.display = 'flex';
+  resetBtn.style.display = 'none';
+}
+
+// ── Content Analysis (DOM-based, fast & precise) ──
+async function analyzeContent() {
+  let result = findContentViaDOM(currentSvgSource);
+
+  if (!result) {
+    // Fallback to pixel scanning
+    const bbox = await findContentBBox(currentSvgSource, 1024);
+    if (bbox) {
+      result = {
+        extent: Math.max(bbox.x2 - bbox.x1, bbox.y2 - bbox.y1) / 2,
+        method: 'pixel-scan'
+      };
+    }
+  }
+
+  if (!result) {
+    showNoContent();
+    return;
+  }
+
+  contentFillPct = (result.extent * 2 / 1024) * 100;
+  detectedScale = detectExistingScale(originalSvgSource);
+
+  fillStat.innerHTML = `Content: ~${Math.round(result.extent * 2)}px | Fill: <span>${contentFillPct.toFixed(1)}%</span>`;
+
+  if (Math.abs(contentFillPct - TARGET_FILL * 100) < 3) {
+    suggestion.textContent = '✓ Optimal fill';
+    suggestion.style.color = 'var(--success)';
+    suggestion.style.display = 'block';
+    currentScale = detectedScale;
+  } else {
+    const multiplier = TARGET_FILL / (contentFillPct / 100);
+    currentScale = Math.round(detectedScale * multiplier * 100) / 100;
+    suggestion.textContent = `→ Auto-scaled to ~73% fill (${currentScale}×)`;
+    suggestion.style.color = 'var(--accent)';
+    suggestion.style.display = 'block';
+  }
+
+  scaleSlider.value = currentScale;
+  scaleVal.textContent = currentScale.toFixed(2) + '×';
+  applyScaleAndRender();
+}
+
+function findContentViaDOM(svgSource) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(svgSource, 'image/svg+xml');
+  const svg = doc.documentElement;
+  if (!svg || svg.tagName !== 'svg') return null;
+
+  // Strategy 1: Find <g transform="translate(cx,cy)"> with rotated children (AI icon pattern)
+  const groups = svg.querySelectorAll('g[transform]');
+  for (const g of groups) {
+    const t = g.getAttribute('transform') || '';
+    const m = t.match(/translate\(\s*([\d.]+)\s*,?\s*([\d.]+)\s*\)/);
+    if (!m) continue;
+
+    let maxRadius = 0, maxChildW = 0, maxChildH = 0;
+
+    for (const child of g.children) {
+      if (child.tagName !== 'g') continue;
+      const ct = child.getAttribute('transform') || '';
+      // Pattern: rotate(N) translate(0, -R)
+      const rm = ct.match(/translate\(\s*0\s*,?\s*(-?[\d.]+)\s*\)/);
+      if (rm) maxRadius = Math.max(maxRadius, Math.abs(parseFloat(rm[1])));
+
+      const rects = child.querySelectorAll('rect');
+      for (const r of rects) {
+        maxChildW = Math.max(maxChildW, parseFloat(r.getAttribute('width') || '0'));
+        maxChildH = Math.max(maxChildH, parseFloat(r.getAttribute('height') || '0'));
+      }
+    }
+
+    if (maxRadius > 0) {
+      const extent = maxRadius + Math.max(maxChildW, maxChildH) / 2;
+      return { extent, method: 'dom-group' };
+    }
+  }
+
+  // Strategy 2: Find largest background-less rect (the content "canvas" inside)
+  let innerRectExtent = 0;
+  const rects = svg.querySelectorAll('rect');
+  for (const r of rects) {
+    const w = parseFloat(r.getAttribute('width') || '0');
+    const h = parseFloat(r.getAttribute('height') || '0');
+    const fill = r.getAttribute('fill') || '';
+    // Skip full-size background rects
+    if ((w === 1024 && h === 1024) || fill === '#ffffff' || fill === 'white' || fill === '#fff') continue;
+    innerRectExtent = Math.max(innerRectExtent, w, h);
+  }
+  if (innerRectExtent > 0) {
+    return { extent: innerRectExtent / 2, method: 'dom-rect' };
+  }
+
+  return null; // fallback to pixel scan
+}
+
+function showNoContent() {
+  contentFillPct = 100;
+  detectedScale = 1;
+  fillStat.textContent = 'Fill: — (could not detect)';
+  suggestion.textContent = '';
+  suggestion.style.display = 'none';
+  currentScale = 1;
+  scaleSlider.value = 1;
+  scaleVal.textContent = '1.00×';
+  applyScaleAndRender();
+}
+
+function suggestScale() {
+  const result = findContentViaDOM(currentSvgSource);
+  if (!result) {
+    fillStat.textContent = 'Fill: —';
+    return;
+  }
+  contentFillPct = (result.extent * 2 / 1024) * 100;
+  fillStat.innerHTML = `Content: ~${Math.round(result.extent * 2)}px | Fill: <span>${contentFillPct.toFixed(1)}%</span>`;
+
+  if (Math.abs(contentFillPct - TARGET_FILL * 100) < 3) {
+    suggestion.textContent = '✓ Optimal fill';
+    suggestion.style.color = 'var(--success)';
+  } else {
+    const multiplier = TARGET_FILL / (contentFillPct / 100);
+    const total = Math.round(detectedScale * multiplier * 100) / 100;
+    suggestion.textContent = `→ Suggested: 73% fill (total scale ${total}×)`;
+    suggestion.style.color = 'var(--accent)';
+  }
+  suggestion.style.display = 'block';
+}
+
+// ── Bounding Box via Pixel Scanning ──
+function findContentBBox(svgSource, size) {
+  return new Promise((resolve) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    const blob = new Blob([svgSource], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+
+    const timeout = setTimeout(() => {
+      URL.revokeObjectURL(url);
+      resolve(null);
+    }, 5000);
+
+    img.onload = () => {
+      clearTimeout(timeout);
+      ctx.drawImage(img, 0, 0, size, size);
+      URL.revokeObjectURL(url);
+      const imageData = ctx.getImageData(0, 0, size, size);
+      const bbox = scanPixels(imageData, size);
+      resolve(bbox);
+    };
+    img.onerror = () => {
+      clearTimeout(timeout);
+      URL.revokeObjectURL(url);
+      resolve(null);
+    };
+    img.src = url;
+  });
+}
+
+function scanPixels(imageData, size) {
+  const { data, width, height } = imageData;
+  const step = Math.max(1, Math.floor(size / 256)); // sample every N pixels
+  let minX = width, minY = height, maxX = 0, maxY = 0;
+
+  // Determine background: sample 2px from corners
+  const sampleBg = (x, y) => {
+    const i = (y * width + x) * 4;
+    return [data[i], data[i + 1], data[i + 2], data[i + 3]];
+  };
+  // Sample 4 corners at 5px inset
+  const inset = Math.min(5, Math.floor(size * 0.01));
+  const corners = [
+    sampleBg(inset, inset),
+    sampleBg(width - 1 - inset, inset),
+    sampleBg(inset, height - 1 - inset),
+    sampleBg(width - 1 - inset, height - 1 - inset),
+  ];
+  // Most common corner color = background
+  const bgCounts = {};
+  for (const c of corners) {
+    const key = c.join(',');
+    bgCounts[key] = (bgCounts[key] || 0) + 1;
+  }
+  const bgKey = Object.entries(bgCounts).sort((a, b) => b[1] - a[1])[0][0];
+  const [bgR, bgG, bgB] = bgKey.split(',').map(Number);
+
+  const THRESHOLD = 30;
+
+  for (let y = 0; y < height; y += step) {
+    for (let x = 0; x < width; x += step) {
+      const i = (y * width + x) * 4;
+      const r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
+      if (a < 128) continue;
+      const diff = Math.abs(r - bgR) + Math.abs(g - bgG) + Math.abs(b - bgB);
+      if (diff > THRESHOLD) {
+        if (x < minX) minX = x;
+        if (y < minY) minY = y;
+        if (x > maxX) maxX = x;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+
+  if (minX > maxX || minY > maxY) return null;
+  // Add small padding
+  minX = Math.max(0, minX - 2);
+  minY = Math.max(0, minY - 2);
+  maxX = Math.min(width - 1, maxX + 2);
+  maxY = Math.min(height - 1, maxY + 2);
+
+  return { x1: minX, y1: minY, x2: maxX, y2: maxY };
+}
+
+// ── Existing Scale Detection ──
+function detectExistingScale(svgSource) {
+  // Pattern 1: translate(cx,cy) scale(N) — most common for AI icons
+  let m = svgSource.match(/translate\([^)]+\)\s*scale\(\s*([\d.]+)\s*\)/);
+  if (m) return parseFloat(m[1]);
+
+  // Pattern 2: scale(N) anywhere in transform
+  m = svgSource.match(/scale\(\s*([\d.]+)\s*\)/);
+  if (m) return parseFloat(m[1]);
+
+  return 1.0;
+}
+
+// ── Scale Application ──
+function applyScaleToSvg(source, scaleFactor) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(source, 'image/svg+xml');
+  const svg = doc.documentElement;
+  if (!svg || svg.tagName !== 'svg') return source;
+
+  // Find the main content group (first <g> with transform, or wrap all content)
+  let targetGroup = null;
+
+  // Look for a <g> with transform containing translate (common pattern for centered content)
+  const groups = svg.querySelectorAll('g[transform]');
+  for (const g of groups) {
+    const t = g.getAttribute('transform') || '';
+    if (t.includes('translate') || t.includes('scale')) {
+      targetGroup = g;
+      break;
+    }
+  }
+
+  if (targetGroup) {
+    let t = targetGroup.getAttribute('transform') || '';
+    // Replace or add scale
+    if (t.includes('scale(')) {
+      t = t.replace(/scale\s*\(\s*[\d.]+\s*\)/, `scale(${scaleFactor})`);
+    } else {
+      t += ` scale(${scaleFactor})`;
+    }
+    targetGroup.setAttribute('transform', t);
+  } else {
+    // No transform group found — wrap all direct children (except defs) in a <g>
+    const wrapper = doc.createElementNS('http://www.w3.org/2000/svg', 'g');
+    wrapper.setAttribute('transform', `scale(${scaleFactor})`);
+    const toMove = [];
+    for (const child of svg.children) {
+      if (child.tagName === 'defs' || child.tagName === 'style' || child.tagName === 'title') continue;
+      toMove.push(child);
+    }
+    for (const child of toMove) {
+      wrapper.appendChild(child);
+    }
+    svg.appendChild(wrapper);
+  }
+
+  return new XMLSerializer().serializeToString(svg);
+}
+
+function applyScaleAndRender() {
+  if (!originalSvgSource) return;
+  if (Math.abs(currentScale - detectedScale) < 0.005) {
+    currentSvgSource = originalSvgSource;
+  } else {
+    currentSvgSource = applyScaleToSvg(originalSvgSource, currentScale);
+  }
+  resetBtn.style.display = Math.abs(currentScale - detectedScale) > 0.01 ? 'inline-flex' : 'none';
+  renderAllPreviews();
+}
+
+// ── Rendering ──
+async function renderAllPreviews() {
+  if (!currentSvgSource) return;
+  previewGrid.innerHTML = '';
+  canvasRefs = [];
+
+  for (const { size, label, platform, display } of ICON_SIZES) {
+    const card = document.createElement('div');
+    card.className = 'preview-card' + (viewMode === 'full' ? ' fullscreen' : '');
+    card.innerHTML = `
+      <div class="canvas-wrap"></div>
+      <div class="info">
+        <div>
+          <div class="label">${label}</div>
+          <div class="platform">${platform}</div>
+        </div>
+        <button class="btn-dl">⤓ PNG</button>
+      </div>
+    `;
+    const canvasWrap = card.querySelector('.canvas-wrap');
+    const dlBtn = card.querySelector('.btn-dl');
+
+    // Create canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const displaySize = viewMode === 'full' ? Math.min(600, size) : display;
+    canvas.style.width = displaySize + 'px';
+    canvas.style.height = displaySize + 'px';
+
+    canvasWrap.appendChild(canvas);
+    canvasRefs.push({ canvas, size, label });
+
+    // Render
+    renderSvgToCanvas(currentSvgSource, size, canvas);
+
+    // Download btn
+    dlBtn.addEventListener('click', () => downloadSingle(size, label));
+  }
+}
+
+function renderSvgToCanvas(svgSource, size, canvas) {
+  const ctx = canvas.getContext('2d');
+  const img = new Image();
+  const blob = new Blob([svgSource], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+  img.onload = () => {
+    ctx.clearRect(0, 0, size, size);
+    ctx.drawImage(img, 0, 0, size, size);
+    URL.revokeObjectURL(url);
+  };
+  img.onerror = () => {
+    URL.revokeObjectURL(url);
+    ctx.fillStyle = '#f85149';
+    ctx.font = '12px system-ui';
+    ctx.fillText('Render error', 4, size / 2);
+  };
+  img.src = url;
+}
+
+function svgToDataUrl(svgSource, size) {
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  const img = new Image();
+  const blob = new Blob([svgSource], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+  return new Promise((resolve) => {
+    const timeout = setTimeout(() => { URL.revokeObjectURL(url); resolve(null); }, 10000);
+    img.onload = () => {
+      clearTimeout(timeout);
+      ctx.drawImage(img, 0, 0, size, size);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.onerror = () => {
+      clearTimeout(timeout);
+      URL.revokeObjectURL(url);
+      resolve(null);
+    };
+    img.src = url;
+  });
+}
+
+// ── Download ──
+function downloadSingle(size, label) {
+  const name = `icon-${size}.png`;
+  const matchingRef = canvasRefs.find(r => r.size === size);
+  if (matchingRef) {
+    const dataUrl = matchingRef.canvas.toDataURL('image/png');
+    triggerDownload(dataUrl, name);
+  }
+}
+
+async function downloadAllZip() {
+  if (typeof JSZip === 'undefined') {
+    alert('JSZip not loaded. Check your internet connection and refresh.');
+    return;
+  }
+  const zip = new JSZip();
+  const promises = ICON_SIZES.map(async ({ size }) => {
+    const dataUrl = await svgToDataUrl(currentSvgSource, size);
+    if (dataUrl) {
+      const base64 = dataUrl.split(',')[1];
+      zip.file(`icon-${size}.png`, base64, { base64: true });
+    }
+  });
+  await Promise.all(promises);
+  const blob = await zip.generateAsync({ type: 'blob' });
+  triggerDownload(URL.createObjectURL(blob), 'app-icons.zip');
+}
+
+async function downloadAllIndividual() {
+  for (const { size } of ICON_SIZES) {
+    const dataUrl = await svgToDataUrl(currentSvgSource, size);
+    if (dataUrl) triggerDownload(dataUrl, `icon-${size}.png`);
+    // Small delay to avoid browser blocking multiple downloads
+    await new Promise(r => setTimeout(r, 150));
+  }
+}
+
+function triggerDownload(dataUrl, filename) {
+  const a = document.createElement('a');
+  a.href = dataUrl;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+</script>
+</body>
+</html>

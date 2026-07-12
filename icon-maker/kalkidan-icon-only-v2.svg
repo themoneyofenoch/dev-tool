@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="heartGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#F9A825"/>
+      <stop offset="30%" stop-color="#F57C00"/>
+      <stop offset="60%" stop-color="#E91E63"/>
+      <stop offset="100%" stop-color="#C62828"/>
+    </linearGradient>
+    <filter id="softShadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#E91E63" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Pure white background -->
+  <rect width="1024" height="1024" fill="#FFFFFF"/>
+
+  <!-- Ethiopian cross pattern — subtle background -->
+  <g opacity="0.05" fill="none" stroke="#D84315" stroke-width="1">
+    <g transform="translate(512,512)">
+      <path d="M0,-100 L6,-108 L12,-100 L6,-92 Z"/>
+      <path d="M0,-100 L-6,-108 L-12,-100 L-6,-92 Z"/>
+      <path d="M0,100 L6,108 L12,100 L6,92 Z"/>
+      <path d="M0,100 L-6,108 L-12,100 L-6,92 Z"/>
+      <path d="M-100,0 L-108,6 L-100,12 L-92,6 Z"/>
+      <path d="M-100,0 L-108,-6 L-100,-12 L-92,-6 Z"/>
+      <path d="M100,0 L108,6 L100,12 L92,6 Z"/>
+      <path d="M100,0 L108,-6 L100,-12 L92,-6 Z"/>
+      <path d="M-24,-36 L0,-100 L24,-36"/>
+      <path d="M-24,36 L0,100 L24,36"/>
+      <path d="M-36,-24 L-100,0 L-36,24"/>
+      <path d="M36,-24 L100,0 L36,24"/>
+      <circle cx="0" cy="0" r="48" stroke-width="0.8"/>
+      <circle cx="0" cy="0" r="90" stroke-width="0.6"/>
+    </g>
+  </g>
+
+  <!-- Diamond weave border ring -->
+  <g opacity="0.04" fill="none" stroke="#C62828" stroke-width="1">
+    <g transform="translate(512,512)">
+      <path d="M0,-430 L10,-444 L0,-458 L-10,-444 Z" transform="rotate(0)"/>
+      <path d="M0,-430 L10,-444 L0,-458 L-10,-444 Z" transform="rotate(30)"/>
+      <path d="M0,-430 L10,-444 L0,-458 L-10,-444 Z" transform="rotate(60)"/>
+      <path d="M0,-430 L10,-444 L0,-458 L-10,-444 Z" transform="rotate(90)"/>
+      <path d="M0,-430 L10,-444 L0,-458 L-10,-444 Z" transform="rotate(120)"/>
+      <path d="M0,-430 L10,-444 L0,-458 L-10,-444 Z" transform="rotate(150)"/>
+      <path d="M0,-430 L10,-444 L0,-458 L-10,-444 Z" transform="rotate(180)"/>
+      <path d="M0,-430 L10,-444 L0,-458 L-10,-444 Z" transform="rotate(210)"/>
+      <path d="M0,-430 L10,-444 L0,-458 L-10,-444 Z" transform="rotate(240)"/>
+      <path d="M0,-430 L10,-444 L0,-458 L-10,-444 Z" transform="rotate(270)"/>
+      <path d="M0,-430 L10,-444 L0,-458 L-10,-444 Z" transform="rotate(300)"/>
+      <path d="M0,-430 L10,-444 L0,-458 L-10,-444 Z" transform="rotate(330)"/>
+    </g>
+  </g>
+
+  <!-- MAIN HEART — centered, larger for icon-only -->
+  <g filter="url(#softShadow)" transform="translate(512,440)">
+    <path d="M0,200 C-280,-20 -450,-210 -340,-350 C-265,-440 -130,-440 -55,-350 C0,-265 0,-120 0,-120 C0,-120 0,-265 55,-350 C130,-440 265,-440 340,-350 C450,-210 280,-20 0,200 Z"
+      fill="url(#heartGrad)"/>
+
+    <!-- Ethiopian cross lattice inside heart -->
+    <g opacity="0.09" fill="none" stroke="#FFFFFF" stroke-width="1.3">
+      <path d="M0,-110 L11,-121 L22,-110 L11,-99 Z"/>
+      <path d="M0,-110 L-11,-121 L-22,-110 L-11,-99 Z"/>
+      <path d="M0,110 L11,121 L22,110 L11,99 Z"/>
+      <path d="M0,110 L-11,121 L-22,110 L-11,99 Z"/>
+      <path d="M-110,0 L-121,11 L-110,22 L-99,11 Z"/>
+      <path d="M-110,0 L-121,-11 L-110,-22 L-99,-11 Z"/>
+      <path d="M110,0 L121,11 L110,22 L99,11 Z"/>
+      <path d="M110,0 L121,-11 L110,-22 L99,-11 Z"/>
+      <path d="M-28,-48 L0,-110 L28,-48"/>
+      <path d="M-28,48 L0,110 L28,48"/>
+      <path d="M-48,-28 L-110,0 L-48,28"/>
+      <path d="M48,-28 L110,0 L48,28"/>
+      <path d="M-84,-84 L-110,-110"/>
+      <path d="M84,-84 L110,-110"/>
+      <path d="M-84,84 L-110,110"/>
+      <path d="M84,84 L110,110"/>
+      <circle cx="0" cy="0" r="52"/>
+      <circle cx="0" cy="0" r="92"/>
+    </g>
+
+    <!-- Subtle weaving diamonds overlay -->
+    <g opacity="0.07" fill="none" stroke="#FFFFFF" stroke-width="1">
+      <path d="M-230,-160 L-205,-185 L-180,-160 L-205,-135 Z"/>
+      <path d="M-120,-200 L-95,-225 L-70,-200 L-95,-175 Z"/>
+      <path d="M70,-200 L95,-225 L120,-200 L95,-175 Z"/>
+      <path d="M180,-160 L205,-185 L230,-160 L205,-135 Z"/>
+      <path d="M-270,-70 L-245,-95 L-220,-70 L-245,-45 Z"/>
+      <path d="M-100,-40 L-75,-65 L-50,-40 L-75,-15 Z"/>
+      <path d="M50,-40 L75,-65 L100,-40 L75,-15 Z"/>
+      <path d="M220,-70 L245,-95 L270,-70 L245,-45 Z"/>
+      <path d="M-180,40 L-155,15 L-130,40 L-155,65 Z"/>
+      <path d="M130,40 L155,15 L180,40 L155,65 Z"/>
+      <path d="M-230,100 L-205,75 L-180,100 L-205,125 Z"/>
+      <path d="M180,100 L205,75 L230,100 L205,125 Z"/>
+    </g>
+
+    <!-- Soft gloss highlights -->
+    <ellipse cx="-100" cy="-130" rx="85" ry="120" fill="white" opacity="0.05" transform="rotate(-15,-100,-130)"/>
+    <ellipse cx="100" cy="-130" rx="85" ry="120" fill="white" opacity="0.05" transform="rotate(15,100,-130)"/>
+  </g>
+</svg>

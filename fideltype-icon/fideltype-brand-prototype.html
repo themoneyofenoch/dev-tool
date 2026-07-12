@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>FidelType — Brand Identity & App Icon</title>
+  <style>
+    :root {
+      --bg:      #1A1A2E;
+      --surface: #16213E;
+      --fg:      #FFFFFF;
+      --muted:   #8B8BA0;
+      --gold:    #D4A843;
+      --font-display: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-body:    -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: var(--font-body);
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 32px; }
+    section { padding: 80px 0; }
+    section + section { border-top: 1px solid rgba(255,255,255,0.06); }
+    h1, h2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    h1 { font-size: clamp(3rem, 6vw, 5.5rem); color: var(--gold); margin-bottom: 8px; }
+    h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); margin-bottom: 20px; color: var(--fg); }
+    p { color: var(--muted); max-width: 560px; margin-top: 8px; }
+    .label {
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .hero { text-align: center; padding-top: 100px; padding-bottom: 60px; }
+    .hero .glyph {
+      font-size: 240px;
+      line-height: 1;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: block;
+      font-family: 'Noto Sans Ethiopic', 'Nyala', serif;
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 20px;
+    }
+    .preview-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .preview-card img {
+      border-radius: 8px;
+      max-width: 100%;
+    }
+    .preview-card .size {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 8px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    .colors {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .color-swatch {
+      width: 100px;
+      height: 100px;
+      border-radius: 8px;
+    }
+    .color-swatch .name {
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-top: 8px;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background: var(--gold);
+      color: var(--bg);
+      font-weight: 600;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 16px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <span class="glyph">ፊ</span>
+    <div class="label">Premium Keyboard App</div>
+    <h1>FIDELTYPE</h1>
+    <p>Ge'ez Fidel keyboard. Dark + gold luxury. Culturally authentic, beautifully simple.</p>
+  </section>
+
+  <section>
+    <div class="label">App Icon</div>
+    <h2>Master Icon</h2>
+    <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap">
+      <img src="fideltype-app-icon.svg" width="256" height="256" alt="FidelType Icon" style="border-radius:24px;background:var(--surface)">
+      <div>
+        <p><strong>SVG ready</strong> — scales infinitely</p>
+        <p style="margin-top:8px">1024×1024 canvas, 224px corner radius</p>
+        <a href="fideltype-app-icon.svg" download class="download-btn">Download SVG</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="label">Colors</div>
+    <h2>Palette</h2>
+    <div class="colors">
+      <div><div class="color-swatch" style="background:#1A1A2E"></div><div class="name">#1A1A2E<br>Dark Navy</div></div>
+      <div><div class="color-swatch" style="background:#D4A843"></div><div class="name">#D4A843<br>Gold</div></div>
+      <div><div class="color-swatch" style="background:#FFFFFF;border:1px solid #333"></div><div class="name">#FFFFFF<br>White</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="label">Deliverables</div>
+    <h2>All Icon Sizes</h2>
+    <div class="preview-grid">
+      <div class="preview-card"><img src="icons/fideltype-icon-1024.png" width="128"><div class="size">1024×1024 — App Store</div></div>
+      <div class="preview-card"><img src="icons/fideltype-icon-512.png"  width="128"><div class="size">512×512 — Google Play</div></div>
+      <div class="preview-card"><img src="icons/fideltype-icon-180.png"  width="90"><div class="size">180×180 — iPhone @3x</div></div>
+      <div class="preview-card"><img src="icons/fideltype-icon-152.png"  width="76"><div class="size">152×152 — iPad</div></div>
+      <div class="preview-card"><img src="icons/fideltype-icon-120.png"  width="60"><div class="size">120×120 — iPhone @2x</div></div>
+      <div class="preview-card"><img src="icons/fideltype-icon-192.png"  width="96"><div class="size">192×192 — Android xxxhdpi</div></div>
+      <div class="preview-card"><img src="icons/fideltype-icon-76.png"   width="76"><div class="size">76×76 — iPad</div></div>
+      <div class="preview-card"><img src="icons/fideltype-icon-40.png"   width="40"><div class="size">40×40 — iPhone</div></div>
+    </div>
+    <a href="icons/" class="download-btn">Browse All Icons</a>
+  </section>
+
+  <section>
+    <div class="label">Design Brief</div>
+    <h2>How to Use</h2>
+    <p>1. Open <code>fideltype-app-icon.svg</code> in any vector editor to customize</p>
+    <p>2. Export PNG at desired sizes, or use the pre-generated icons in <code>icons/</code></p>
+    <p>3. Upload 1024×1024 PNG to App Store Connect</p>
+    <p>4. Use <code>publisher.html</code> in dev-tools for the full submission workflow</p>
+    <p style="margin-top:16px"><a href="reference-mockup.png" class="download-btn">View Reference Mockup</a></p>
+  </section>
+
+</body>
+</html>
