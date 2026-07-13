@@ -850,14 +850,19 @@
         "ios": "prepare-for-submission",
         "android": "internal"
       },
+      "git": {
+        "branch": "main",
+        "uncommitted": 141,
+        "prs": 0
+      },
       "phases": {
         "auth": {
           "status": "ok",
           "detail": "Firebase Auth: Google, Apple, Email/password \u2014 working"
         },
         "payments": {
-          "status": "bad",
-          "detail": "IAP pricing just set \u2705 $6.99/mo monthly, $34.95/yr lifetime. Localizations added. May take a moment for Apple to clear MISSING_METADATA."
+          "status": "warn",
+          "detail": "IAP pricing set via API ($6.99/mo, $34.95/yr). Waiting for Apple to clear MISSING_METADATA."
         },
         "metadata": {
           "status": "warn",
@@ -865,10 +870,15 @@
         },
         "deploy": {
           "status": "warn",
-          "detail": "iOS Build 68 VALID (Jul 2), PREPARE_FOR_SUBMISSION. Android versionCode 16 on internal track. Old app (ID 6760924194) not yet deleted. Bundle ID fixed to com.geezeasy.app."
+          "detail": "iOS Build 68 VALID (Jul 2), PREPARE_FOR_SUBMISSION. Android versionCode 16 on internal track. Old app (ID 6760924194) not yet deleted."
         }
       },
       "aiActions": [
+        {
+          "text": "\u2705 Full E2E route testing done \u2014 47 routes tested, all verified",
+          "link": ".omo/notepads/route-testing/learnings.md",
+          "linkText": "\ud83d\udcdd Results"
+        },
         {
           "text": "\u2705 Bundle ID fixed \u2192 com.geezeasy.app (was com.geezeasy.geezeasy)",
           "link": "ios/App/App.xcodeproj/project.pbxproj",
@@ -888,11 +898,6 @@
           "text": "\u2705 Description + keywords + subtitle + privacy URL updated in ASC",
           "link": "https://appstoreconnect.apple.com/apps/6778180849",
           "linkText": "\ud83d\udd17 ASC"
-        },
-        {
-          "text": "\u2705 AGENTS.md pre-submission checklist added with scan template",
-          "link": "AGENTS.md",
-          "linkText": "\ud83d\udcdd View"
         },
         {
           "text": "\u2705 7 browser screenshots saved, need resizing to 1320\u00d72868 for ASC",
@@ -934,19 +939,13 @@
       ],
       "ammanielTodos": [
         {
-          "text": "\ud83d\udd34 Set IAP prices ($6.99/mo, $34.95/lifetime) \u2192 ASC \u2192 GeezEasy \u2192 Subscriptions \u2192 Add Price Tier for both subscriptions",
-          "done": false,
-          "priority": "high",
-          "link": "https://appstoreconnect.apple.com/apps/6778180849/subscriptions"
-        },
-        {
           "text": "\ud83d\udd34 Delete 'GeezEasy old' app (ID 6760924194) \u2192 ASC \u2192 App Information \u2192 Remove App",
           "done": false,
           "priority": "high",
           "link": "https://appstoreconnect.apple.com/apps/6760924194/app/info"
         },
         {
-          "text": "\ud83d\udfe1 Upload screenshots (1320\u00d72868 PNG, 3-6 images) \u2192 ASC \u2192 GeezEasy \u2192 Prepare for Submission \u2192 upload to 6.9\" display",
+          "text": "\ud83d\udfe1 Upload screenshots (1320\u00d72868 PNG, 3-6 images) \u2192 ASC \u2192 GeezEasy \u2192 Prepare for Submission",
           "done": false,
           "priority": "high"
         },
@@ -971,13 +970,17 @@
           "done": false
         },
         {
-          "text": "Commit 242 uncommitted files (bundle ID fix, IAP IDs, metadata updates, screenshots)",
+          "text": "Commit 141 uncommitted files (redesign work, route tests, E2E screenshots)",
+          "done": false
+        },
+        {
+          "text": "Fix tracing Go Back button z-index/pointer-events bug",
           "done": false
         }
       ],
       "bugLint": [
         {
-          "text": "IAP pricing now set via API ($6.99/$34.95) \u2014 waiting for Apple to process. Previously blocking submission.",
+          "text": "Tracing Go Back button: z-index/pointer-events blocked by overlay element \u2014 kids can't navigate back",
           "severity": "mid"
         },
         {
@@ -989,7 +992,7 @@
           "severity": "mid"
         },
         {
-          "text": "242 uncommitted files on working tree",
+          "text": "141 uncommitted files on working tree",
           "severity": "low"
         }
       ],
@@ -1072,7 +1075,7 @@
         "test": "Vitest (262 tests passing)",
         "lint": "Biome",
         "cicd": "None yet",
-        "lastUpdated": "2026-07-10"
+        "lastUpdated": "2026-07-13"
       }
     },
     "nakfaai": {
@@ -1658,7 +1661,140 @@
         "cicd": "",
         "lastUpdated": ""
       }
+    },
+    "multi-tenant-cms": {
+      "name": "Multi-Tenant CMS",
+      "emoji": "\ud83c\udfd7\ufe0f",
+      "type": "CMS Platform",
+      "version": "1.0.0",
+      "path": "/Users/ammaniel/myapps/multi-tenant-cms",
+      "deploy": {
+        "web": true,
+        "ios": null,
+        "android": null
+      },
+      "git": {
+        "branch": "main",
+        "uncommitted": false,
+        "prs": 0
+      },
+      "phases": {
+        "auth": {
+          "status": "ok",
+          "detail": "JWT HS256 + httpOnly refresh cookie rotation. Firebase Google/Apple overlay."
+        },
+        "payments": {
+          "status": "ok",
+          "detail": "Stripe mapping + full billing module (invoices, subscriptions, transactions)"
+        },
+        "metadata": {
+          "status": "ok",
+          "detail": "Marketing module + branding per tenant (colors, logo, favicon)"
+        },
+        "deploy": {
+          "status": "warn",
+          "detail": "Not deployed. Hostinger pending \u2014 frontend builds at 443 KB gzip."
+        }
+      },
+      "aiActions": [
+        {
+          "text": "\u2705 Todo System \u2014 columns, templates, confirm/undo, tap-to-copy built and verified",
+          "link": "frontend/src/components/todos/TodoBoard.tsx",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u2705 Phase Tracker \u2014 4-card compact bar with cycle status built",
+          "link": "frontend/src/components/phases/PhaseBar.tsx",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u2705 Notes Scratchpad \u2014 full-page editor with auto-save, export, #TASK markers",
+          "link": "frontend/src/components/notes/NotesEditor.tsx",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u2705 Template Presets \u2014 4 business templates (Home Care, Salon, Retail, Gym)",
+          "link": "frontend/src/config/templates/index.ts",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u2705 Polish \u2014 skeleton shimmer, card-enter anims, glass modals, 3px accent bars",
+          "link": "frontend/src/index.css",
+          "linkText": "\ud83d\udcdd View"
+        },
+        {
+          "text": "\u26a0\ufe0f Deploy to Hostinger \u2014 Express backend + Vite frontend",
+          "link": "#",
+          "linkText": "Pending"
+        },
+        {
+          "text": "\u2606 Set up domain and production env vars",
+          "link": "#",
+          "linkText": "TODO"
+        }
+      ],
+      "links": [
+        {
+          "label": "Frontend Dev",
+          "url": "http://localhost:2033",
+          "icon": "\u26a1",
+          "color": "#007aff"
+        },
+        {
+          "label": "Backend API",
+          "url": "http://localhost:3000/api/v1/health",
+          "icon": "\ud83d\udd0c",
+          "color": "#34c759"
+        }
+      ],
+      "ammanielTodos": [
+        { "text": "Deploy to Hostinger", "priority": "high", "done": false },
+        { "text": "Set up production domain", "priority": "high", "done": false },
+        { "text": "Add E2E test for todo board", "priority": "mid", "done": false },
+        { "text": "Configure admin tenant provisioning", "priority": "mid", "done": false },
+        { "text": "Write AGENTS.md", "priority": "low", "done": false }
+      ],
+      "opencodeTodos": [
+        { "text": "Populate dashboard data for multi-tenant-cms", "done": true },
+        { "text": "Deploy to Hostinger", "done": false }
+      ],
+      "bugLint": [],
+      "openSourceIdeas": [
+        "Publish the Drag-and-Drop Dashboard Widget System as standalone npm package",
+        "Extract shadcn/ui + Zustand CMS shell as open-source starter template"
+      ],
+      "publish": {
+        "appStoreId": "",
+        "playStorePackage": "",
+        "storeJsonPath": "",
+        "lastBuild": {},
+        "lastUpload": "",
+        "pipeline": "none",
+        "products": {},
+        "iapStatus": {}
+      },
+      "marketing": {
+        "aboutUs": "Multi-tenant white-label CMS with per-tenant SQLite isolation, drag-and-drop dashboard, and 10 business modules.",
+        "description": "Production-ready multi-tenant CMS \u2014 React 19, Express 5, better-sqlite3. Per-tenant DB isolation, RBAC (4 roles), 15 backend modules, drag-and-drop widget dashboard, 4 template presets.",
+        "keywords": ["multi-tenant", "cms", "saas", "dashboard", "react", "typescript", "tailwind", "sqlite", "express"],
+        "target": "Developers and agencies deploying custom management dashboards for multiple clients",
+        "hashtags": ["#multitenant", "#cms", "#saas", "#react", "#dashboard"],
+        "socialPosts": [],
+        "screenshots": [],
+        "icons": ""
+      },
+      "agents": {
+        "path": "",
+        "mcps": [],
+        "auth": "JWT HS256 + httpOnly refresh cookies",
+        "stack": "React 19, Vite 6, Tailwind v4, shadcn/ui, Zustand v5, Express 5, better-sqlite3",
+        "deploy": "Hostinger (pending)",
+        "test": "Vitest (43 unit) + Playwright (21 E2E)",
+        "lint": "Biome",
+        "cicd": "None",
+        "lastUpdated": "2026-07-12"
+      }
     }
   },
-  "lastUpdated": "2026-07-09T20:00:00.000Z"
+  "lastUpdated": "2026-07-12T00:00:00.000Z"
 }
