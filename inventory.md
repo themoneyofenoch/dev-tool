@@ -1,1 +1,1 @@
-../myapps/inventory.md
+../projects/inventory.md
