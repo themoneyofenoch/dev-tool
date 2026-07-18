@@ -1,36 +1,37 @@
-# Session Context — 2026-07-11
+# Session Context — 2026-07-16
 
 ## Project Path
 `/Users/ammaniel/dev-tools` (dev-dashboard + dev-launcher)
 
-## What Was Being Worked On
-Enhancing the dev dashboard (both frontpage at `localhost:1919/` and fancy dashboard at `/dashboard.html`) with quality-of-life features.
+## Status
+Paused — dashboard customization session.
 
-## Done ✅
-- **Dev launcher auto-detect framework** from package.json (Vite/Next/Expo/Express/CRA)
-- **Dashboard scan-new-projects** — scans ~/myapps/ for unlisted projects
-- **Open in Finder** button on frontpage rows + dashboard DEV cards
-- **OpenCode command button** on frontpage — copies "work on {key} — {path}"
-- **Stop All** button (frontpage header + DEV tab quick actions)
-- **Git status badges** on dashboard DEV cards (branch + dirty/clean)
-- **Quick Actions bar** in dashboard DEV tab (Git Status All + Stop All Servers)
-- **Recent projects tracking** — localStorage, shows 5 most recent at top of DEV tab
-- **Daily Focus moved to bottom** of TODO tab, restyled as compact clean card
-
-## Pending / Not Done
-- Nothing pending — user stopped here
+## What Was Done
+- Fixed spacebar not working in card detail popup editor (contentEditable guard)
+- Added dictation feature using browser SpeechRecognition API → removed after discussion
+- Changed nav tabs to icon-only (no text labels)
+- Removed timestamp from bottom bar
+- Removed Favorites section from Dashboard tab
+- Added LINKS tab (🔗) showing all favorites + project links in box grid
+- Scaled up all text: body font 22px, Russo One throughout, removed system font overrides
+- **Conversational 🧠 AI** — clicking AI in ideas column opens prompt dialog. User types "add 5 cards about X", "polish these", "make them urgent", etc. AI understands instructions and returns structured JSON (add/edit/reply actions). Defaults to polish if blank.
+- Added color picker (🔴🔵🟢🟣🟠⚫⚪) and strip formatting to card detail editor
+- Fixed copy functions to output plain text (not raw HTML)
+- Fixed + button (add column) position: absolute → fixed so always visible
+- Replaced fragile `event.target` with direct button param in deepseekColumn
 
 ## Decisions Made
-- Frontpage (`/`) is served by `renderPage()` in `dev-dashboard/index.js` — raw Node.js
-- Fancy dashboard (`/dashboard.html`) is a static HTML file with client-side JS
-- New API endpoints: `/api/open-finder`, `/api/dev-git-status`, `/api/dev-batch-kill`
-- Port 1919 has an auto-restart mechanism (launchd or similar) — killing and restarting immediately
-- Dark mode toggle persists via localStorage
+- Russo One as default font at 22px base for readability
+- Nav bar: icons only, hover for label
+- DeepSeek API key shared with Publish tab's AI fill
+- Cards editor uses contentEditable + execCommand for formatting
+- DeepSeek conversational: user types natural instruction → AI returns structured JSON with action type (add/edit/reply)
 
-## Files Modified
-- `dev-dashboard/index.js` — 3 new API handlers + frontpage row buttons + Stop All
-- `dashboard.html` — Open Finder, git badges, quick actions, recent projects, daily focus restyle/reposition
+## Next Steps (to resume)
+- Continue polishing dashboard as needed
+- User writing bug reports in Ideas board, using AI to polish them
 
-## Next Steps to Resume
-- User may want more dashboard improvements or to move to other projects
-- Review `ready-to-deploy.md` for deployment status of any app
+## Files in Play
+- `/Users/ammaniel/dev-tools/dashboard.html` (main dashboard — all changes)
+- `/Users/ammaniel/dev-tools/dashboard-data.json` (project data)
+- `/Users/ammaniel/dev-tools/CONTEXT.md` (this file)

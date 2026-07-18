@@ -10,6 +10,7 @@
  */
 
 const http = require("http");
+const https = require("https");
 const fs = require("fs");
 const path = require("path");
 const { execSync, spawn } = require("child_process");
@@ -153,6 +154,7 @@ function renderPage() {
       color: #c9d1d9;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
       min-height: 100vh;
+      font-size: 18px;
     }
 
     .container {
@@ -1142,6 +1144,28 @@ function handleDictateStatus(req, res) {
   sendJSON(res, 200, { running, msg: running ? "Running" : "Stopped" });
 }
 
+// ─── Save Dashboard Data ───────────────────────────────────────────────
+
+function handleSaveDashboardData(req, res) {
+  let body = "";
+  req.on("data", (chunk) => (body += chunk));
+  req.on("end", () => {
+    let data;
+    try {
+      data = JSON.parse(body);
+    } catch {
+      sendJSON(res, 400, { ok: false, msg: "Invalid JSON" });
+      return;
+    }
+    try {
+      fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2) + "\n", "utf-8");
+      sendJSON(res, 200, { ok: true, msg: "Saved" });
+    } catch (err) {
+      sendJSON(res, 500, { ok: false, msg: err.message });
+    }
+  });
+}
+
 // ─── Dev Batch Kill ────────────────────────────────────────────────────
 
 function handleDevBatchKill(req, res) {
@@ -1166,6 +1190,69 @@ function handleDevBatchKill(req, res) {
       if (!isNaN(parseInt(port, 10))) killed += result.killed;
     }
     sendJSON(res, 200, { killed });
+  });
+}
+
+// ─── AI Social Media Generator ─────────────────────────────────────
+
+const DEEPSEEK_KEY = process.env.DEEPSEEK_KEY || "";
+
+function handleAISocial(req, res) {
+  let body = "";
+  req.on("data", (chunk) => (body += chunk));
+  req.on("end", () => {
+    let data;
+    try { data = JSON.parse(body); } catch { return sendJSON(res, 400, { ok: false, msg: "Invalid JSON" }); }
+    const { prompt, context } = data;
+    if (!prompt) return sendJSON(res, 400, { ok: false, msg: "Missing prompt" });
+
+    const systemMsg = "You are a social media marketing expert. Write engaging, platform-appropriate social media posts. Return plain text with each post separated by '---'. Each post starts with a platform label like '[Twitter]', '[Instagram]', or '[LinkedIn]'.";
+
+    let userMsg = prompt + "\n\n";
+    if (context) {
+      if (context.aboutUs) userMsg += "About: " + context.aboutUs + "\n";
+      if (context.description) userMsg += "Description: " + context.description + "\n";
+      if ((context.keywords||[]).length) userMsg += "Keywords: " + context.keywords.join(", ") + "\n";
+      if ((context.hashtags||[]).length) userMsg += "Hashtags: " + context.hashtags.join(", ") + "\n";
+      if (context.target) userMsg += "Target audience: " + context.target + "\n";
+    }
+
+    const payload = JSON.stringify({
+      model: "deepseek-chat",
+      messages: [
+        { role: "system", content: systemMsg },
+        { role: "user", content: userMsg }
+      ],
+      temperature: 0.8,
+      max_tokens: 2000
+    });
+
+    const reqOpts = {
+      hostname: "api.deepseek.com",
+      path: "/v1/chat/completions",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + DEEPSEEK_KEY,
+        "Content-Length": Buffer.byteLength(payload)
+      }
+    };
+
+    const apiReq = https.request(reqOpts, (apiRes) => {
+      let apiBody = "";
+      apiRes.on("data", (c) => apiBody += c);
+      apiRes.on("end", () => {
+        try {
+          const json = JSON.parse(apiBody);
+          const text = json.choices && json.choices[0] && json.choices[0].message && json.choices[0].message.content;
+          if (text) return sendJSON(res, 200, { ok: true, text: text.trim() });
+        } catch (e) {}
+        sendJSON(res, 500, { ok: false, msg: "AI returned bad response", raw: apiBody.slice(0,500) });
+      });
+    });
+    apiReq.on("error", (e) => sendJSON(res, 500, { ok: false, msg: e.message }));
+    apiReq.write(payload);
+    apiReq.end();
   });
 }
 
@@ -1248,8 +1335,17 @@ const server = http.createServer((req, res) => {
     return handleDevGitStatus(req, res);
   }
 
+  if (req.method === "POST" && url.pathname === "/api/save") {
+    return handleSaveDashboardData(req, res);
+  }
+
   if (req.method === "POST" && url.pathname === "/api/dev-batch-kill") {
     return handleDevBatchKill(req, res);
+  }
+
+  // ─── AI Social Media ──────────────────────────────────────────────
+  if (req.method === "POST" && url.pathname === "/api/ai/social") {
+    return handleAISocial(req, res);
   }
 
   // ─── Dictation API ────────────────────────────────────────────────
