@@ -149,4 +149,4 @@ Before calling anything done: would I be proud to show this? Would a non-technic
 ---
 
 ## Dev Tools
-- **App Icon Maker** — `~/myapps/dev-tools/icon-maker/index.html`. Open in browser, drop SVG, auto-scales to 95% fill. Generates 10 icon sizes (32–1024px: App Store, Google Play, favicon, etc.) + 8 device screenshots. Quality checks built in. ZIP or individual PNG download. (Added 2026-07-04)
+- **App Icon Maker** — `~/Developer/projects/dev-tools/icon-maker/index.html`. Open in browser, drop SVG, auto-scales to 95% fill. Generates 10 icon sizes (32–1024px: App Store, Google Play, favicon, etc.) + 8 device screenshots. Quality checks built in. ZIP or individual PNG download. (Added 2026-07-04)

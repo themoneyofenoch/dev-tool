@@ -16,7 +16,7 @@ const { execSync } = require("child_process");
 
 // ─── Configuration ───────────────────────────────────────────────────────────
 
-const INVENTORY_PATH = "/Users/ammaniel/myapps/inventory.md";
+const INVENTORY_PATH = "/Users/nakfaai/Developer/projects/inventory.md";
 const RESERVED_PORT = 8888;
 
 // ─── Inventory parser ────────────────────────────────────────────────────────

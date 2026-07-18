@@ -3,7 +3,7 @@
 /**
  * deploy-setup — Generate GitHub Actions CI/CD workflow for a Next.js app on Hostinger.
  *
- * Usage: node ~/dev-tools/deploy-setup/index.js [app-path]
+ * Usage: node ~/Developer/dev-tools/deploy-setup/index.js [app-path]
  *
  * Creates .github/workflows/deploy.yml with:
  *   - Build in CI (never on Hostinger — shared hosting OOMs)
@@ -42,10 +42,10 @@ async function main() {
   // ─── App path ───────────────────────────────────────────────────────────────
   let appPath = process.argv[2];
   if (!appPath) {
-    appPath = await ask("App path (relative to ~/myapps/ or absolute): ");
+    appPath = await ask("App path (relative to ~/Developer/projects/ or absolute): ");
   }
   if (!appPath.startsWith("/")) {
-    appPath = path.join("/Users/ammaniel/myapps", appPath);
+    appPath = path.join("/Users/nakfaai/Developer/projects", appPath);
   }
   appPath = path.resolve(appPath);
 

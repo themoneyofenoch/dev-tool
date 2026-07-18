@@ -6,7 +6,7 @@
  *
  * Usage: node dev-launcher/index.js
  *
- * Reads /Users/ammaniel/myapps/inventory.md for the project table.
+ * Reads /Users/nakfaai/Developer/projects/inventory.md for the project table.
  * Detects running status via `lsof -ti :{port}`.
  * Spawns dev server with child_process.spawn and opens browser.
  */
@@ -19,10 +19,10 @@ const path = require("path");
 
 // ─── Configuration ───────────────────────────────────────────────────────────
 
-const INVENTORY_PATH = "/Users/ammaniel/myapps/inventory.md";
-const CUSTOMER_INVENTORY = "/Users/ammaniel/myapps/others/inventory.md";
-const APPS_ROOT = "/Users/ammaniel/myapps";
-const CUSTOMER_ROOT = "/Users/ammaniel/myapps/others";
+const INVENTORY_PATH = "/Users/nakfaai/Developer/projects/inventory.md";
+const CUSTOMER_INVENTORY = "/Users/nakfaai/Developer/projects/others/inventory.md";
+const APPS_ROOT = "/Users/nakfaai/Developer/projects";
+const CUSTOMER_ROOT = "/Users/nakfaai/Developer/projects/others";
 const RESERVED_PORT = 8888;
 
 // ─── Color helpers (ANSI — no dependencies) ──────────────────────────────────
@@ -404,7 +404,7 @@ function main() {
   // Add AppPub BE to main projects
   mainProjects.push({
     name: "AppPub BE",
-    fullPath: "/Users/ammaniel/myapps/apppub",
+    fullPath: "/Users/nakfaai/Developer/projects/apppub",
     port: 3456,
     configType: "express",
   });

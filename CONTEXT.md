@@ -1,7 +1,7 @@
 # Session Context — 2026-07-16
 
 ## Project Path
-`/Users/ammaniel/dev-tools` (dev-dashboard + dev-launcher)
+`/Users/nakfaai/Developer/dev-tools` (dev-dashboard + dev-launcher)
 
 ## Status
 Paused — dashboard customization session.
@@ -32,6 +32,6 @@ Paused — dashboard customization session.
 - User writing bug reports in Ideas board, using AI to polish them
 
 ## Files in Play
-- `/Users/ammaniel/dev-tools/dashboard.html` (main dashboard — all changes)
-- `/Users/ammaniel/dev-tools/dashboard-data.json` (project data)
-- `/Users/ammaniel/dev-tools/CONTEXT.md` (this file)
+- `/Users/nakfaai/Developer/dev-tools/dashboard.html` (main dashboard — all changes)
+- `/Users/nakfaai/Developer/dev-tools/dashboard-data.json` (project data)
+- `/Users/nakfaai/Developer/dev-tools/CONTEXT.md` (this file)

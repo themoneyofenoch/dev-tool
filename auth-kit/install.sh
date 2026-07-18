@@ -1,12 +1,12 @@
 #!/bin/bash
 # Auth Kit Installer — one command to add Firebase + Passkey auth to any app
-# Usage: bash ~/dev-tools/auth-kit/install.sh /path/to/your/app
+# Usage: bash ~/Developer/dev-tools/auth-kit/install.sh /path/to/your/app
 
 set -e
 
 APP_PATH="${1%/}"
 if [ -z "$APP_PATH" ]; then
-  echo "Usage: bash ~/dev-tools/auth-kit/install.sh /path/to/your/app"
+  echo "Usage: bash ~/Developer/dev-tools/auth-kit/install.sh /path/to/your/app"
   echo ""
   echo "This will install Firebase Auth + Passkey into your app."
   echo "Your app needs a 'backend/' and 'frontend/' folder."

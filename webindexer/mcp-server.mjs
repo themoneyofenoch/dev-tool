@@ -14,7 +14,7 @@
  * Config: Add to opencode.json MCP servers:
  *   "webindexer": {
  *     "command": "node",
- *     "args": ["/Users/ammaniel/dev-tools/webindexer/mcp-server.mjs"]
+ *     "args": ["/Users/nakfaai/Developer/dev-tools/webindexer/mcp-server.mjs"]
  *   }
  */
 

@@ -7,7 +7,7 @@
  * Usage: node devv-launcher/index.js
  *      or: devv (via zsh alias)
  *
- * Reads /Users/ammaniel/myapps/others/inventory.md for the project table.
+ * Reads /Users/nakfaai/Developer/projects/others/inventory.md for the project table.
  * Detects running status via `lsof -ti :{port}`.
  * Spawns dev server with child_process.spawn and opens browser.
  *
@@ -23,8 +23,8 @@ const path = require("path");
 
 // ─── Configuration ───────────────────────────────────────────────────────────
 
-const INVENTORY_PATH = "/Users/ammaniel/myapps/others/inventory.md";
-const APPS_ROOT = "/Users/ammaniel/myapps/others";
+const INVENTORY_PATH = "/Users/nakfaai/Developer/projects/others/inventory.md";
+const APPS_ROOT = "/Users/nakfaai/Developer/projects/others";
 
 // ─── Color helpers (ANSI — no dependencies) ──────────────────────────────────
 

@@ -5,7 +5,7 @@
       "emoji": "🟣",
       "type": "Dating App",
       "version": "1.0.4",
-      "path": "/Users/ammaniel/myapps/kalkidan",
+      "path": "/Users/nakfaai/Developer/projects/kalkidan",
       "deploy": {
         "web": true,
         "ios": "testflight-review",
@@ -218,7 +218,7 @@
       "publish": {
         "appStoreId": "6781901208",
         "playStorePackage": "com.kalkidan.app",
-        "storeJsonPath": "/Users/ammaniel/myapps/kalkidan/kalkidan-store.json",
+        "storeJsonPath": "/Users/nakfaai/Developer/projects/kalkidan/kalkidan-store.json",
         "lastBuild": {
           "ios": "1.0.4",
           "android": "104"
@@ -434,7 +434,7 @@
         "DEPLOY_METHOD": "Hostinger API MCP"
       },
       "agents": {
-        "path": "/Users/ammaniel/myapps/kalkidan/AGENTS.md",
+        "path": "/Users/nakfaai/Developer/projects/kalkidan/AGENTS.md",
         "mcps": [
           "app-store-connect ✅",
           "google-play ✅",
@@ -455,7 +455,7 @@
       "emoji": "📸",
       "type": "Event Photography Platform",
       "version": "0.1.0",
-      "path": "/Users/ammaniel/myapps/pixwee",
+      "path": "/Users/nakfaai/Developer/projects/pixwee",
       "deploy": {
         "web": true,
         "ios": "testflight-review",
@@ -679,7 +679,7 @@
       "publish": {
         "appStoreId": "",
         "playStorePackage": "com.pixwee.app",
-        "storeJsonPath": "/Users/ammaniel/myapps/pixwee/pixwee-store.json",
+        "storeJsonPath": "/Users/nakfaai/Developer/projects/pixwee/pixwee-store.json",
         "lastBuild": {
           "ios": "1.0 (Build 44)",
           "android": "Build 18"
@@ -738,7 +738,7 @@
         "icons": ""
       },
       "agents": {
-        "path": "/Users/ammaniel/myapps/pixwee/AGENTS.md",
+        "path": "/Users/nakfaai/Developer/projects/pixwee/AGENTS.md",
         "mcps": [
           "app-store-connect",
           "google-play",
@@ -844,7 +844,7 @@
       "emoji": "📚",
       "type": "Education",
       "version": "1.6.2",
-      "path": "/Users/ammaniel/myapps/GeezEasy",
+      "path": "/Users/nakfaai/Developer/projects/GeezEasy",
       "deploy": {
         "web": true,
         "ios": "prepare-for-submission",
@@ -927,7 +927,7 @@
         },
         {
           "label": "Screenshots",
-          "url": "file:///Users/ammaniel/myapps/GeezEasy/screenshots",
+          "url": "file:///Users/nakfaai/Developer/projects/GeezEasy/screenshots",
           "icon": "🖼️",
           "color": "#f0f0f5"
         }
@@ -1073,7 +1073,7 @@
         "icons": ""
       },
       "agents": {
-        "path": "/Users/ammaniel/myapps/GeezEasy/AGENTS.md",
+        "path": "/Users/nakfaai/Developer/projects/GeezEasy/AGENTS.md",
         "mcps": [
           "app-store-connect ✅",
           "google-play ✅",
@@ -1099,7 +1099,7 @@
       "emoji": "💳",
       "type": "Payment Platform",
       "version": "?",
-      "path": "/Users/ammaniel/myapps/nakfaai",
+      "path": "/Users/nakfaai/Developer/projects/nakfaai",
       "deploy": {
         "web": true,
         "ios": "none",
@@ -1172,7 +1172,7 @@
       "emoji": "👀",
       "type": "Discovery",
       "version": "?",
-      "path": "/Users/ammaniel/myapps/gottasee",
+      "path": "/Users/nakfaai/Developer/projects/gottasee",
       "deploy": {
         "web": true,
         "ios": "none",
@@ -1245,7 +1245,7 @@
       "emoji": "💃",
       "type": "Dance Platform",
       "version": "?",
-      "path": "/Users/ammaniel/myapps/latindance",
+      "path": "/Users/nakfaai/Developer/projects/latindance",
       "deploy": {
         "web": true,
         "ios": "none",
@@ -1318,7 +1318,7 @@
       "emoji": "🌍",
       "type": "Community",
       "version": "?",
-      "path": "/Users/ammaniel/myapps/Orominia",
+      "path": "/Users/nakfaai/Developer/projects/Orominia",
       "deploy": {
         "web": true,
         "ios": "none",
@@ -1391,7 +1391,7 @@
       "emoji": "⚖️",
       "type": "Legal",
       "version": "?",
-      "path": "/Users/ammaniel/myapps/mizaney1",
+      "path": "/Users/nakfaai/Developer/projects/mizaney1",
       "deploy": {
         "web": true,
         "ios": "none",
@@ -1464,7 +1464,7 @@
       "emoji": "📖",
       "type": "Book Platform",
       "version": "?",
-      "path": "/Users/ammaniel/myapps/agelbook",
+      "path": "/Users/nakfaai/Developer/projects/agelbook",
       "deploy": {
         "web": true,
         "ios": "none",
@@ -1537,7 +1537,7 @@
       "emoji": "🎵",
       "type": "Music Platform",
       "version": "?",
-      "path": "/Users/ammaniel/myapps/vibecode",
+      "path": "/Users/nakfaai/Developer/projects/vibecode",
       "deploy": {
         "web": true,
         "ios": "none",
@@ -1610,7 +1610,7 @@
       "emoji": "📱",
       "type": "Publisher Tool",
       "version": "?",
-      "path": "/Users/ammaniel/myapps/AppPub",
+      "path": "/Users/nakfaai/Developer/projects/AppPub",
       "deploy": {
         "web": true,
         "ios": "none",
@@ -1683,7 +1683,7 @@
       "emoji": "🏗️",
       "type": "CMS Platform",
       "version": "1.0.0",
-      "path": "/Users/ammaniel/myapps/multi-tenant-cms",
+      "path": "/Users/nakfaai/Developer/projects/multi-tenant-cms",
       "deploy": {
         "web": true,
         "ios": null,

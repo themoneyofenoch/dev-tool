@@ -26,7 +26,7 @@ async function init() {
     () => process.env.FIREBASE_SERVICE_ACCOUNT
       ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
       : null,
-    // Method 2: key file at ~/private_keys/
+    // Method 2: key file at ~/Developer/private_keys/
     () => {
       try {
         const { readFileSync } = require('fs');

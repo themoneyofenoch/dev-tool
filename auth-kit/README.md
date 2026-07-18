@@ -63,7 +63,7 @@ Create a Firebase project (or reuse `geezeasy-69c5c`).
 Copy the `firebaseConfig` object with `apiKey`, `authDomain`, `projectId`, etc.
 
 **Admin SDK** → Project Settings → Service Accounts → "Generate new private key".
-Save to `~/private_keys/firebase-admin.json`.
+Save to `~/Developer/private_keys/firebase-admin.json`.
 
 ### 2. Google Sign-In
 Firebase Console → Authentication → Sign-in method → Enable Google.
@@ -76,7 +76,7 @@ Requires: Apple Developer account, Service ID, Domain verification.
 ### 4. Backend .env
 ```
 FIREBASE_PROJECT_ID=geezeasy-69c5c
-GOOGLE_APPLICATION_CREDENTIALS=~/private_keys/firebase-admin.json
+GOOGLE_APPLICATION_CREDENTIALS=~/Developer/private_keys/firebase-admin.json
 JWT_SECRET=your-random-64-char-secret
 ```
 

@@ -17,16 +17,16 @@ const { execSync, spawn } = require("child_process");
 
 // ─── Dictation ─────────────────────────────────────────────────────
 const DICTATE_PORT = 1920;
-const DICTATE_PY = "/Users/ammaniel/scripts/dictation-server.py";
-const DICTATE_ENV = "/Users/ammaniel/scripts/dictate-env/bin/python3";
+const DICTATE_PY = "/Users/nakfaai/scripts/dictation-server.py";
+const DICTATE_ENV = "/Users/nakfaai/scripts/dictate-env/bin/python3";
 let dictateProcess = null;
 
 // ─── Configuration ───────────────────────────────────────────────────────────
 
-const INVENTORY_PATH = "/Users/ammaniel/myapps/inventory.md";
-const APPS_ROOT = "/Users/ammaniel/myapps";
+const INVENTORY_PATH = "/Users/nakfaai/Developer/projects/inventory.md";
+const APPS_ROOT = "/Users/nakfaai/Developer/projects";
 const PORT = 1919;
-const DB_PATH = "/Users/ammaniel/dev-tools/dashboard-data.json";
+const DB_PATH = "/Users/nakfaai/Developer/dev-tools/dashboard-data.json";
 const RESERVED_PORT = 8888;
 
 // ─── Inventory parser ────────────────────────────────────────────────────────
@@ -700,7 +700,7 @@ function handleRestart(res) {
 
 function handleOpenStart(res) {
   const { exec } = require("child_process");
-  exec("open /Users/ammaniel/dev-tools/start-dashboard.command");
+  exec("open /Users/nakfaai/Developer/dev-tools/start-dashboard.command");
   res.writeHead(200, { "Content-Type": "application/json" });
   res.end(JSON.stringify({ ok: true, msg: "Opened start-dashboard.command in Finder" }));
 }
@@ -935,7 +935,7 @@ function corsHeaders() {
 
 // ─── Webindexer bridge ─────────────────────────────────────────────
 
-const WEBINDEXER = "/Users/ammaniel/dev-tools/webindexer/index.mjs";
+const WEBINDEXER = "/Users/nakfaai/Developer/dev-tools/webindexer/index.mjs";
 
 function sendJSON(res, code, data) {
   const cors = corsHeaders();
@@ -1280,19 +1280,19 @@ const server = http.createServer((req, res) => {
 
   // ─── Command Center dashboard ──────────────────────────────────────
   if (req.method === "GET" && url.pathname === "/dashboard.html") {
-    return serveStatic(res, "/Users/ammaniel/dev-tools/dashboard.html", "text/html");
+    return serveStatic(res, "/Users/nakfaai/Developer/dev-tools/dashboard.html", "text/html");
   }
 
   if (req.method === "GET" && url.pathname === "/dashboard-data.json") {
-    return serveStatic(res, "/Users/ammaniel/dev-tools/dashboard-data.json", "application/json");
+    return serveStatic(res, "/Users/nakfaai/Developer/dev-tools/dashboard-data.json", "application/json");
   }
 
   if (req.method === "GET" && url.pathname === "/startpage.html") {
-    return serveStatic(res, "/Users/ammaniel/startpage.html", "text/html");
+    return serveStatic(res, "/Users/nakfaai/startpage.html", "text/html");
   }
 
   if (req.method === "GET" && url.pathname === "/startpage-bg.avif") {
-    return serveStatic(res, "/Users/ammaniel/startpage-bg.avif", "image/avif");
+    return serveStatic(res, "/Users/nakfaai/startpage-bg.avif", "image/avif");
   }
 
   if (req.method === "GET" && url.pathname === "/api/status") {

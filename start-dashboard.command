@@ -4,8 +4,8 @@
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
 PORT=1919
-DICTATE_PY="/Users/ammaniel/scripts/dictation-server.py"
-DICTATE_ENV="/Users/ammaniel/scripts/dictate-env/bin/python3"
+DICTATE_PY="/Users/nakfaai/scripts/dictation-server.py"
+DICTATE_ENV="/Users/nakfaai/scripts/dictate-env/bin/python3"
 
 # Kill any existing servers
 pkill -f "dev-dashboard/index.js" 2>/dev/null

@@ -72,11 +72,11 @@ Merge vault credentials into the config. User-specific values from the project a
 
 ### 4. Generate config and open AppPub
 
-Build the AppPub-compatible JSON matching the `AppConfig` interface from `~/myapps/AppPub/src/app/types.ts`.
+Build the AppPub-compatible JSON matching the `AppConfig` interface from `~/Developer/projects/AppPub/src/app/types.ts`.
 
 Save to `<project-dir>/apppub-config.json`.
 
-Also save a copy to `~/myapps/AppPub/public/configs/<appname>.json` so the config is available on the deployed AppPub via `?config=<appname>` URL param. Use a lowercase, alphanumeric version of the app name (e.g. `Latin Dance Hub` → `latindancehub`).
+Also save a copy to `~/Developer/projects/AppPub/public/configs/<appname>.json` so the config is available on the deployed AppPub via `?config=<appname>` URL param. Use a lowercase, alphanumeric version of the app name (e.g. `Latin Dance Hub` → `latindancehub`).
 
 Then create a launcher HTML file at `<project-dir>/apppub-launch.html` that:
 1. Embeds the config JSON inline

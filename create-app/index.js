@@ -3,10 +3,10 @@
 /**
  * create-app — Project scaffolding CLI for Ammaniel's dev tools.
  *
- * Usage: node ~/dev-tools/create-app/index.js
+ * Usage: node ~/Developer/dev-tools/create-app/index.js
  *
  * Interactive prompts:
- *   1. Project name → kebab-case, creates under /Users/ammaniel/myapps/
+ *   1. Project name → kebab-case, creates under /Users/nakfaai/Developer/projects/
  *   2. Project type → Vite / Next.js / Expo (arrow-key selection)
  *   3. Auto-assigns next free port (scans inventory.md, skips 8888)
  *
@@ -21,7 +21,7 @@ const { execSync, spawnSync } = require("child_process");
 
 // ─── Configuration ───────────────────────────────────────────────────────────
 
-const APPS_ROOT = "/Users/ammaniel/myapps";
+const APPS_ROOT = "/Users/nakfaai/Developer/projects";
 const INVENTORY_PATH = path.join(APPS_ROOT, "inventory.md");
 const PORTS_PATH = path.join(APPS_ROOT, ".localhost-ports.md");
 const RESERVED_PORT = 8888;
@@ -581,7 +581,7 @@ function writeFile(filePath, content) {
 function updateInventory(projectName, port, projectType, projectDir) {
   const inventoryContent = fs.readFileSync(INVENTORY_PATH, "utf8");
   const appName = pascalCase(projectName);
-  const relPath = path.relative("/Users/ammaniel", projectDir);
+  const relPath = path.relative("/Users/nakfaai", projectDir);
 
   // Determine Config Type and Location
   let configType, configLocation;
@@ -649,7 +649,7 @@ function updateInventory(projectName, port, projectType, projectDir) {
 function updatePortsFile(projectName, port, projectType, projectDir) {
   const portsContent = fs.readFileSync(PORTS_PATH, "utf8");
   const appName = pascalCase(projectName);
-  const relPath = projectDir.replace("/Users/ammaniel/", "");
+  const relPath = projectDir.replace("/Users/nakfaai/", "");
 
   // Determine start command
   let startCommand;
@@ -878,7 +878,7 @@ async function main() {
   console.log("");
   console.log(`  ${c("✓", GREEN)} ${bold("Done!")} Project created at ${c(projectDir, CYAN)}`);
   console.log(
-    `  ${c("→", GRAY)} Launch with: ${c(`node ~/dev-tools/dev-launcher`, GREEN)}`
+    `  ${c("→", GRAY)} Launch with: ${c(`node ~/Developer/dev-tools/dev-launcher`, GREEN)}`
   );
   console.log("");
 }
