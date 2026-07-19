@@ -14,10 +14,10 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 // ── Database config ──────────────────────────────────────────────
 // Set these via Hostinger hPanel → MySQL Databases
-$DB_HOST = 'localhost';
-$DB_NAME = 'u885017975_dashboard';
-$DB_USER = 'u885017975_dashboard';
-$DB_PASS = 'dashboard!57F#';
+$DB_HOST = getenv('DASHBOARD_DB_HOST') ?: 'localhost';
+$DB_NAME = getenv('DASHBOARD_DB_NAME') ?: 'REPLACE_WITH_DB_NAME';
+$DB_USER = getenv('DASHBOARD_DB_USER') ?: 'REPLACE_WITH_DB_USER';
+$DB_PASS = getenv('DASHBOARD_DB_PASS') ?: 'REPLACE_WITH_DB_PASS';
 
 // ── CORS preflight ───────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
