@@ -4778,9 +4778,15 @@ function updateBarToggleIcon() {
 
 let lastDataUpdate = null;
 
+// Data source: local file when running locally, GitHub raw when hosted online
+function dataUrl() {
+  const isLocal = /^localhost$|^127\.0\.0\.1$|^192\.168\.|^10\.|^172\./.test(window.location.hostname);
+  return isLocal ? 'dashboard-data.json' : 'https://raw.githubusercontent.com/themoneyofenoch/dev-tool/main/dashboard-data.json';
+}
+
 async function loadData() {
   try {
-    const r = await fetch('dashboard-data.json');
+    const r = await fetch(dataUrl());
     if (r.ok) {
       const json = await r.json();
       if (json.projects) {
@@ -4858,7 +4864,7 @@ function migrateFromLocalStorage() {
 
 async function refreshData() {
   try {
-    const r = await fetch('dashboard-data.json?t=' + Date.now());
+    const r = await fetch(dataUrl() + '?t=' + Date.now());
     if (!r.ok) return;
     const json = await r.json();
     if (!json.lastUpdated || json.lastUpdated === lastDataUpdate) return;
