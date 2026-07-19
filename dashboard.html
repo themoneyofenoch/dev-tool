@@ -4840,7 +4840,7 @@ async function loadData() {
       return true;
     }
   } catch(e) {}
-  // Fallback: try GitHub raw URL if online and MySQL isn't set up yet
+  // Fallback: GitHub raw URL if MySQL not available
   if (!isLocal()) {
     try {
       const r = await fetch(githubDataUrl());
@@ -4855,31 +4855,8 @@ async function loadData() {
         if (json.lastUpdated) { DATA.lastUpdated = json.lastUpdated; lastDataUpdate = json.lastUpdated; }
         return true;
       }
-  } catch(e) {
-    // Fallback: try GitHub
-    if (!isLocal()) {
-      try {
-        const r = await fetch(githubDataUrl() + '?t=' + Date.now());
-        if (r.ok) {
-          const json = await r.json();
-          if (!json.lastUpdated || json.lastUpdated === lastDataUpdate) return;
-          if (json.projects) {
-            for (const [k, p] of Object.entries(json.projects)) {
-              if (DATA.projects[k]) Object.assign(DATA.projects[k], p);
-              else DATA.projects[k] = p;
-            }
-          }
-          DATA.lastUpdated = json.lastUpdated;
-          lastDataUpdate = json.lastUpdated;
-          document.getElementById('offlineBanner').classList.remove('show');
-          if (currentTab === 'todo') { renderTodos(); }
-          else if (currentTab === 'dashboard') { renderAll(); }
-          else if (currentTab === 'ideas') { renderIdeas(); }
-        }
-      } catch(e2) {}
-    }
+    } catch(e) {}
   }
-}
   const banner = document.getElementById('offlineBanner');
   if (banner) banner.classList.add('show');
   return false;
