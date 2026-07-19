@@ -1926,13 +1926,6 @@ function toggleAmTodo(key) {
         body: JSON.stringify({ projectKey: m[1], doneItems: { [key]: bigTodoState[key] } })
       }).catch(function(){}); // silent fail if backend down
   } catch(e) {}
-  // Fallback: try GitHub raw URL if online
-  if (!isLocal()) {
-    try {
-      const r = await fetch(githubDataUrl());
-      if (r.ok) {
-        const json = await r.json();
-  }
 }
 
 function addInstrToTodos() {
@@ -4855,8 +4848,9 @@ async function loadData() {
         if (json.lastUpdated) { DATA.lastUpdated = json.lastUpdated; lastDataUpdate = json.lastUpdated; }
         return true;
       }
-    } catch(e) {}
+  } catch(e) {}
   }
+}
   const banner = document.getElementById('offlineBanner');
   if (banner) banner.classList.add('show');
   return false;
