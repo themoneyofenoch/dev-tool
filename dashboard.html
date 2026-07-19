@@ -745,6 +745,65 @@ body.dark .cd-editor pre{background:rgba(255,255,255,.06)}
 .scan-add-btn{padding:6px 14px;border-radius:8px;background:var(--b);color:white;border:none;cursor:pointer;font-family:'Russo One',sans-serif;font-size:.78rem;font-weight:400;letter-spacing:-.02em;white-space:nowrap;flex-shrink:0;transition:opacity .15s}
 .scan-add-btn:hover{opacity:.85}
 .scan-add-btn:active{opacity:.7}
+
+/* ── Mobile Responsive ───────────────────────────────────────── */
+@media(max-width:1024px){
+  .container{padding:24px 16px 80px}
+  .phases{grid-template-columns:repeat(2,1fr)}
+  .grid,.todo-layout,.agt-grid,.pub-split,.mkt-split,.is-split,.ai-split{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .container{padding:20px 12px 70px}
+  .header{flex-direction:column;align-items:flex-start;gap:8px}
+  .header h1{font-size:1.6rem}
+  .project-select{min-width:100%;font-size:.9rem;padding:12px 36px 12px 14px}
+  .bottom-bar{bottom:10px;padding:4px 6px;border-radius:16px;max-width:98vw}
+  .bottom-bar .tab{padding:8px 10px;font-size:.7rem;white-space:nowrap}
+  .bottom-bar.collapsed{min-width:40px;max-width:40px;padding:4px}
+  .proj-card{min-width:0;padding:14px}
+  .proj-grade{font-size:1.1rem}
+  .card{padding:14px}
+  .card-inner{padding:8px 0}
+  .phase-top{padding:10px 8px;min-width:0}
+  .popup-box{min-width:auto;width:92vw;padding:16px}
+  .refine-box{width:95vw;padding:16px}
+  .quick-add-form{right:auto;left:0;min-width:200px}
+  .card-detail-box{width:95vw;height:90vh;padding:16px}
+  .todo-split{grid-template-columns:1fr}
+  .scan-panel{width:100vw;right:-100vw}
+  .ideas-wrap{grid-template-columns:1fr}
+  .ideas-sidebar{position:static}
+  .ideas-main{min-width:0}
+  .idea-col{min-width:0;max-width:none}
+  .stat-box{min-width:60px;padding:10px 8px}
+  .big-todo h2{font-size:1.1rem}
+  .pub-field input,.pub-field textarea{font-size:.85rem}
+  .notes-editor{padding:12px}
+  .notes-editor textarea{font-size:.85rem;min-height:200px}
+  .ai-section{max-width:100%}
+}
+@media(max-width:480px){
+  .container{padding:16px 10px 70px}
+  .header h1{font-size:1.3rem}
+  .header{flex-direction:column;gap:6px}
+  .bottom-bar .tab{padding:6px 8px;font-size:.65rem}
+  .phases{grid-template-columns:1fr}
+  .todo-col{padding:12px 14px}
+  .proj-card{padding:10px}
+  .proj-actions{gap:2px;flex-wrap:wrap}
+  .proj-act-btn{font-size:.65rem;padding:2px 6px}
+  .card-detail-box{width:98vw;height:95vh;padding:12px}
+  .pub-split,.mkt-split{grid-template-columns:1fr}
+  .min-hide{display:none!important}
+}
+@media(max-width:375px){
+  .container{padding:12px 8px 70px}
+  .bottom-bar .tab{padding:4px 6px;font-size:.6rem}
+  .header h1{font-size:1.1rem}
+  .project-select{font-size:.8rem;padding:10px 30px 10px 10px}
+  .bottom-bar{gap:0;padding:3px 4px}
+  .card{padding:10px}
+}
 </style>
 </head>
 <body>
@@ -1925,7 +1984,8 @@ function toggleAmTodo(key) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ projectKey: m[1], doneItems: { [key]: bigTodoState[key] } })
       }).catch(function(){}); // silent fail if backend down
-  } catch(e) {}
+    } catch(e) {}
+  }
 }
 
 function addInstrToTodos() {
@@ -4777,25 +4837,14 @@ function updateBarToggleIcon() {
 
 let lastDataUpdate = null;
 
-// Auto-detect environment
 function isLocal() {
   return /^localhost$|^127\.0\.0\.1$|^192\.168\.|^10\.|^172\./.test(window.location.hostname);
 }
-
-// Data load URL — local file vs MySQL API (online)
 function dataUrl() {
-  if (isLocal()) return 'dashboard-data.json';
-  return 'dashboard-api.php?action=load';
+  return isLocal() ? 'dashboard-data.json' : 'dashboard-api.php?action=load';
 }
-// Fallback URL if MySQL isn't available yet
-function githubDataUrl() {
-  return 'https://raw.githubusercontent.com/themoneyofenoch/dev-tool/main/dashboard-data.json';
-}
-
-// Save URL — local Python server vs MySQL API
 function saveUrl() {
-  if (isLocal()) return '/api/save';
-  return 'dashboard-api.php?action=save';
+  return isLocal() ? '/api/save' : 'dashboard-api.php?action=save';
 }
 
 async function loadData() {
@@ -4833,24 +4882,6 @@ async function loadData() {
       return true;
     }
   } catch(e) {}
-  // Fallback: GitHub raw URL if MySQL not available
-  if (!isLocal()) {
-    try {
-      const r = await fetch(githubDataUrl());
-      if (r.ok) {
-        const json = await r.json();
-        if (json.projects) {
-          for (const [k, p] of Object.entries(json.projects)) {
-            if (DATA.projects[k]) Object.assign(DATA.projects[k], p);
-            else DATA.projects[k] = p;
-          }
-        }
-        if (json.lastUpdated) { DATA.lastUpdated = json.lastUpdated; lastDataUpdate = json.lastUpdated; }
-        return true;
-      }
-  } catch(e) {}
-  }
-}
   const banner = document.getElementById('offlineBanner');
   if (banner) banner.classList.add('show');
   return false;
@@ -4896,7 +4927,7 @@ function migrateFromLocalStorage() {
 
 async function refreshData() {
   try {
-    const r = await fetch(dataUrl() + '?t=' + Date.now());
+    const r = await fetch('dashboard-data.json?t=' + Date.now());
     if (!r.ok) return;
     const json = await r.json();
     if (!json.lastUpdated || json.lastUpdated === lastDataUpdate) return;
