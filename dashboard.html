@@ -2208,7 +2208,23 @@ function applyStateToGlobals(state, opts) {
       inboxItems = state.inboxItems;
     }
   }
-  if (state.projBugsData) projBugsData = state.projBugsData;
+  if (state.projBugsData) {
+    // Cross-device merge (same spirit as word wall / inbox guards): per project,
+    // keep the server's bug list when this device has none for that project —
+    // so bugs added on the iPad show up on the Mac without either wiping the other.
+    const serverBugs = (opts && opts.serverState && opts.serverState.projBugsData) || null;
+    if (serverBugs && Object.keys(serverBugs).length) {
+      const merged = Object.assign({}, state.projBugsData);
+      Object.keys(serverBugs).forEach(k => {
+        const local = state.projBugsData[k];
+        const server = serverBugs[k];
+        if ((!local || !local.length) && server && server.length) merged[k] = server;
+      });
+      projBugsData = merged;
+    } else {
+      projBugsData = state.projBugsData;
+    }
+  }
   if (state.projScratchpadData) { projScratchpadData = state.projScratchpadData; if (!(opts && opts.skipScratchpad)) loadScratchpad(); }
 }
 
@@ -7218,7 +7234,7 @@ function processLoadedData(json) {
   else if (stateSource === localState && localState.lastUpdated) DATA.lastUpdated = localState.lastUpdated;
 
   if (stateSource) {
-    applyStateToGlobals(stateSource);
+    applyStateToGlobals(stateSource, { serverState: serverState });
     // Restore individual keys from state
     if (stateSource.todoCols) safeSet('ammaniel-todo-v2', stateSource.todoCols);
     if (stateSource.projTodoData) safeSet('ammaniel-proj-todos', stateSource.projTodoData);
