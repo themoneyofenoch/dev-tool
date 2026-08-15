@@ -388,6 +388,19 @@ body.dark .overlay{background:var(--bg)}
 .word-card-time{font-size:.6rem;color:rgba(255,255,255,.6);text-align:center;margin-top:4px}
 .word-card-x{position:absolute;top:6px;right:8px;font-size:.7rem;color:rgba(255,255,255,.5);opacity:0;transition:opacity .15s;background:none;border:none;cursor:pointer}
 .word-card:hover .word-card-x{opacity:1}
+/* ── Bugs Wall ── */
+.word-wall-empty{font-size:.82rem;color:var(--t3);text-align:center;padding:24px 12px;line-height:1.7}
+.bug-row{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border-radius:12px;background:var(--bg2);margin-bottom:8px;transition:opacity .15s}
+.bug-row.done{opacity:.45}
+.bug-row .bug-text{flex:1;font-size:.85rem;line-height:1.5;word-break:break-word;min-width:0}
+.bug-row.done .bug-text{text-decoration:line-through}
+.bug-row .bug-x{background:none;border:none;cursor:pointer;font-size:.8rem;opacity:.35;padding:2px;flex-shrink:0}
+.bug-row .bug-x:hover{opacity:1}
+.bug-link-btn{flex:1;padding:10px 12px;border-radius:12px;background:var(--p);color:white;border:none;font-family:'Russo One',sans-serif;font-size:.75rem;cursor:pointer}
+.bug-link-btn:hover{filter:brightness(1.1)}
+#bugsWallInput{width:100%;padding:10px 14px;border-radius:12px;background:var(--bg2);border:none;font-size:.82rem;color:var(--t);outline:none;resize:vertical;font-family:inherit;box-sizing:border-box;line-height:1.5}
+#bugsWallInput::placeholder{color:var(--t3);font-weight:400}
+#bugsWallInput:focus{background:var(--card);box-shadow:0 0 0 2px var(--p)}
 /* Word card colors — cycle through flyer palette */
 .wc-0{background:var(--flyer-1-d)}.wc-1{background:var(--flyer-2-d)}.wc-2{background:var(--flyer-3-d)}
 .wc-3{background:var(--flyer-4-c)}.wc-4{background:var(--flyer-5-d)}.wc-5{background:var(--flyer-1-c)}
@@ -1411,6 +1424,23 @@ body.dark .cd-link-preview{border-color:rgba(255,255,255,.08);background:rgba(25
   <div class="overlay-body" id="wordWallCards"></div>
 </div>
 
+<!-- 🐛 Bugs Wall Overlay (per project) -->
+<div id="bugsWallOverlay" class="overlay collapsed">
+  <div class="overlay-header">
+    <h3>🐛 Bugs Wall <span id="bugsProjBadge" style="font-size:.68rem;color:var(--t3)"></span></h3>
+    <span class="overlay-count" id="bugsWallCount">0</span>
+    <button onclick="toggleBugsWall()" class="overlay-close">✕</button>
+  </div>
+  <div class="overlay-input">
+    <textarea id="bugsWallInput" rows="2" placeholder="Add bugs — one per line. Paste a whole list.&#10;Cmd/Ctrl+Enter (or + ADD) adds them all." onkeydown="if(event.key==='Enter'&&(event.metaKey||event.ctrlKey)){event.preventDefault();addBug()}"></textarea>
+  </div>
+  <div class="overlay-body" id="bugsWallList"></div>
+  <div class="overlay-input" style="display:flex;gap:8px">
+    <button onclick="addBug()" style="flex:1;padding:10px 12px;border-radius:12px;background:var(--o);color:white;border:none;font-family:'Russo One',sans-serif;font-size:.75rem;cursor:pointer">+ ADD</button>
+    <button onclick="copyBugsForAI()" style="padding:10px 12px;border-radius:12px;background:var(--p);color:white;border:none;font-family:'Russo One',sans-serif;font-size:.75rem;cursor:pointer">📋 Copy</button>
+  </div>
+</div>
+
 <div class="container">
 
 <div class="header">
@@ -1460,7 +1490,7 @@ body.dark .cd-link-preview{border-color:rgba(255,255,255,.08);background:rgba(25
 </div>
 
 <div class="fab-row" id="fabRow">
-  <button class="fab-btn fab-wall" onclick="toggleWordWall()">💬<span>Wall</span></button>
+  <button class="fab-btn fab-wall" onclick="toggleBugsWall()" title="Bugs Wall — per project">🐛<span>Bugs</span></button>
   <button class="fab-btn fab-quick" onclick="toggleQuickCapture()">⚡<span>Quick</span></button>
   <button class="fab-btn fab-task" onclick="toggleDailyTasks()">📋<span>Tasks</span></button>
 </div>
@@ -1518,6 +1548,7 @@ body.dark .cd-link-preview{border-color:rgba(255,255,255,.08);background:rgba(25
   </div>
   <div class="big-todo" id="bigTodoList" style="margin-top:24px"></div>
   <div class="daily-focus" id="dailyFocus"></div>
+  <div class="daily-focus" id="dailyReport" style="margin-top:18px"></div>
 </div>
 
 <div class="tab-content" id="tab-publish">
@@ -1835,6 +1866,7 @@ const DEV_LAUNCHERS = [
   { num:23, key:'bahlina', name:'Bahlina', emoji:'🧶', framework:'Vit', port:2029, path:'/Users/nakfaai/Developer/projects/bahlina' },
   { num:24, key:'nakfaai', name:'NakfaAI', emoji:'💳', framework:'Exp', port:2030, path:'/Users/nakfaai/Developer/projects/nakfaai' },
   { num:25, key:'apppubbe', name:'AppPub BE', emoji:'⚙️', framework:'Exp', port:3456, path:'/Users/nakfaai/Developer/projects/AppPub' },
+  { num:26, key:'habeshamarketing', name:'Ad Command Center', emoji:'🎯', framework:'Nxt', port:3111, path:'/Users/nakfaai/Developer/projects/habeshamarketing' },
   { num:26, key:'abebagrocery', name:'Abeba Grocery', emoji:'🛒', framework:'Vit', port:4001, path:'/Users/nakfaai/Developer/projects/others/abeba grocery' },
   { num:27, key:'eritreanfestapi', name:'Eritrean Festival API', emoji:'🎭', framework:'Exp', port:4002, path:'/Users/nakfaai/Developer/projects/others/eritreanfestival deep' },
   { num:28, key:'eritreanfestival', name:'Eritrean Festival', emoji:'🎉', framework:'Nxt', port:4003, path:'/Users/nakfaai/Developer/projects/others/eritreanfestival' },
@@ -1986,6 +2018,8 @@ function setLS(key, val) {
       'ammaniel-ideas-columns': 'ideasColumnsData',
       'ammaniel-proj-colors': 'projectColorGroup',
       'ammaniel-word-wall': 'wordWallCards',
+      'ammaniel-inbox': 'inboxItems',
+      'ammaniel-proj-bugs': 'projBugsData',
       'ammaniel-bar-collapsed': null,
       'ammaniel-dark': null,
       'ammaniel-proj-normal-todos': null,
@@ -2045,6 +2079,8 @@ function gatherState() {
   DATA._state.ideasColumnsData = ideasColumnsData;
   DATA._state.projectColorGroup = projectColorGroup;
   DATA._state.wordWallCards = wordWallCards;
+  DATA._state.inboxItems = inboxItems;
+  DATA._state.projBugsData = projBugsData;
   DATA.lastUpdated = new Date().toISOString();
   return DATA;
 }
@@ -2162,6 +2198,17 @@ function applyStateToGlobals(state, opts) {
   if (state.ideasColumnsData) ideasColumnsData = state.ideasColumnsData;
   if (state.projectColorGroup) projectColorGroup = state.projectColorGroup;
   if (state.wordWallCards) { wordWallCards = state.wordWallCards; wordColorIdx = wordWallCards.length; }
+  if (state.inboxItems) {
+    // Cross-device guard (same as word wall): a fresh device's empty inbox must
+    // not replace a server inbox that holds captures from another device.
+    const serverInbox = (opts && opts.serverState && opts.serverState.inboxItems) || null;
+    if (Array.isArray(state.inboxItems) && state.inboxItems.length === 0 && Array.isArray(serverInbox) && serverInbox.length) {
+      inboxItems = serverInbox;
+    } else {
+      inboxItems = state.inboxItems;
+    }
+  }
+  if (state.projBugsData) projBugsData = state.projBugsData;
   if (state.projScratchpadData) { projScratchpadData = state.projScratchpadData; if (!(opts && opts.skipScratchpad)) loadScratchpad(); }
 }
 
@@ -2261,12 +2308,99 @@ function renderWordWall() {
 
 function escapeHTML(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
+// ── 🐛 Bugs Wall (per project) ──
+function getProjBugs() {
+  if (!projBugsData[current]) projBugsData[current] = [];
+  return projBugsData[current];
+}
+function toggleBugsWall() {
+  const el = document.getElementById('bugsWallOverlay');
+  if (!el) return;
+  el.classList.toggle('collapsed');
+  if (!el.classList.contains('collapsed')) {
+    const badge = document.getElementById('bugsProjBadge');
+    if (badge) { const p = (DATA.projects||{})[current]||{}; badge.textContent = (p.emoji||'🐛')+' '+(p.name||current); }
+    renderBugsWall();
+    setTimeout(() => document.getElementById('bugsWallInput')?.focus(), 300);
+  }
+}
+function addBug() {
+  const input = document.getElementById('bugsWallInput');
+  const raw = input?.value || '';
+  const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
+  if (!lines.length) return;
+  lines.forEach(t => getProjBugs().push({ text: t, done: false, createdAt: Date.now() }));
+  input.value = '';
+  setLS('ammaniel-proj-bugs', projBugsData);
+  renderBugsWall();
+  toast('🐛 Added ' + lines.length + ' bug' + (lines.length>1?'s':''));
+}
+function toggleBug(idx) {
+  const bugs = getProjBugs();
+  if (!bugs[idx]) return;
+  bugs[idx].done = !bugs[idx].done;
+  setLS('ammaniel-proj-bugs', projBugsData);
+  renderBugsWall();
+}
+function deleteBug(idx) {
+  const bugs = getProjBugs();
+  if (!bugs[idx]) return;
+  const item = bugs[idx];
+  deleteItem(function() {
+    bugs.splice(idx, 1);
+    setLS('ammaniel-proj-bugs', projBugsData);
+    renderBugsWall();
+  }, function() {
+    bugs.splice(idx, 0, item);
+    setLS('ammaniel-proj-bugs', projBugsData);
+    renderBugsWall();
+  });
+}
+function renderBugsWall() {
+  const container = document.getElementById('bugsWallList');
+  const count = document.getElementById('bugsWallCount');
+  if (!container) return;
+  const bugs = getProjBugs();
+  const open = bugs.filter(b => !b.done).length;
+  if (count) count.textContent = open + ' open · ' + bugs.length + ' total';
+  if (!bugs.length) {
+    container.innerHTML = '<div class="word-wall-empty">No bugs yet.<br>Add one above, then copy the AI link —<br>OpenCode will fix them itself.</div>';
+    return;
+  }
+  container.innerHTML = bugs.map((b, i) =>
+    '<div class="bug-row'+(b.done?' done':'')+'">' +
+    '<div class="check'+(b.done?' done':'')+'" onclick="toggleBug('+i+')">'+(b.done?'✓':'')+'</div>' +
+    '<div class="bug-text" onclick="copyBugText('+i+')" title="Click to copy">'+escHtml(b.text)+'</div>' +
+    '<button class="bug-x" onclick="deleteBug('+i+')" title="Delete">🗑</button>' +
+    '</div>'
+  ).join('');
+}
+function copyBugText(idx) {
+  const bugs = getProjBugs();
+  if (!bugs[idx]) return;
+  copySafe(bugs[idx].text);
+  toast('📋 Copied');
+}
+// Copy the whole bug list as plain text — paste straight into your AI chat (DeepSeek Harness)
+function copyBugsForAI() {
+  const bugs = getProjBugs();
+  const p = (DATA.projects||{})[current]||{};
+  const lines = bugs.length ? bugs.map((b, i) => (b.done ? '[x]' : '[ ]') + ' ' + b.text).join('\n') : 'No bugs listed.';
+  const text =
+    '🐛 Bugs — ' + (p.name || current) + (p.path ? '\nPath: ' + p.path : '') + ((p.git&&p.git.branch) ? '\nBranch: ' + p.git.branch : '') +
+    '\n\n' + lines;
+  copySafe(text);
+  toast('📋 ' + bugs.length + ' bug' + (bugs.length===1?'':'s') + ' copied — paste to your AI');
+}
+
 // Restore open state
 if (safeLS('word-wall-open', false)) {
   setTimeout(() => toggleWordWall(), 100);
 }
 let mktEdits = safeLS('ammaniel-mkt-edits', {});
-let barCollapsed = safeLS('ammaniel-bar-collapsed', window.innerWidth <= 768);
+// Default to collapsed on phones AND tablets (≤1024px) — iPad included.
+// Force closed on small screens even if a previous session saved it open.
+let barCollapsed = window.innerWidth <= 1024 ? true : safeLS('ammaniel-bar-collapsed', false);
 let favoriteLinks = safeLS('ammaniel-fav-links', [
   { name:'Gmail', url:'https://mail.google.com', emoji:'📧' },
   { name:'GitHub', url:'https://github.com', emoji:'🐙' },
@@ -2879,6 +3013,28 @@ function renderAll() {
   gTop += '<div class="card'+(boardCollapsed?' collapsed':'')+'" id="card-board-'+current+'">';
   gTop += '<h2 class="russo card-toggle" onclick="toggleCardCollapse(\'board-'+current+'\')">🗒 Todo Board <span class="card-caret">▼</span></h2>';
   gTop += '<div class="card-inner">';
+
+  // 📥 Shared Inbox — FIRST column (one inbox for ALL projects, Trello-style)
+  const inboxOpen = inboxItems.filter(it => !it.done).length;
+  gTop += '<div style="background:var(--bg2);border-radius:var(--rs);padding:12px;margin-bottom:8px;border:1px solid var(--p)">';
+  gTop += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">';
+  gTop += '<span style="font-family:\'Russo One\',sans-serif;font-size:.78rem;flex:1" title="Shared inbox — one for all projects">📥 Inbox <span style="font-size:.58rem;color:var(--t3)">(shared)</span></span>';
+  gTop += '<span style="font-size:.6rem;color:var(--t3)">'+inboxOpen+' open</span>';
+  gTop += '</div>';
+  if (!inboxItems.length) gTop += '<div style="font-size:.72rem;color:var(--t3);padding:4px 0 8px">Capture anything here — it shows in every project board. Move items into columns below to organize.</div>';
+  inboxItems.forEach((it, i) => {
+    gTop += '<div class="entry" style="padding:4px 0;opacity:'+(it.done?'0.35':'1')+'"><div class="check'+(it.done?' done':'')+'" onclick="toggleInboxItem('+i+')">'+(it.done?'✓':'')+'</div>';
+    gTop += '<div class="entry-text todo-copy" style="font-size:.82rem" onclick="copyTodoText(this)">'+escHtml(it.text)+'</div>';
+    gTop += '<div class="mini-actions">';
+    gTop += '<button title="Copy" onclick="event.stopPropagation();copyInboxItem('+i+')">📋</button>';
+    gTop += '<select class="mini-move" onchange="moveInboxItem('+i+',this.value)" onclick="event.stopPropagation()" title="Move to a column..."><option value="">➡️</option>'+boardCols.map((c,ci)=>'<option value="'+ci+'">'+escHtml(c.name)+'</option>').join('')+'</select>';
+    gTop += '<button title="Edit" onclick="event.stopPropagation();editInboxItem('+i+')">✏️</button>';
+    gTop += '<button title="Delete" onclick="event.stopPropagation();deleteInboxItem('+i+')">🗑</button>';
+    gTop += '</div></div>';
+  });
+  gTop += '<div class="add-mini" style="margin-top:6px;padding-top:6px;border-top:1px solid var(--bg)"><input type="text" id="inboxItemInp" placeholder="Add to shared inbox..." onkeydown="if(event.key===\'Enter\')addInboxItem()"><button onclick="addInboxItem()">+</button></div>';
+  gTop += '</div>';
+
   // Template selector
   gTop += '<div style="display:flex;gap:4px;margin-bottom:10px;align-items:center">';
   if (boardTemplates.length) {
@@ -3230,6 +3386,16 @@ function renderTodos() {
   renderOverview();
   renderBigTodos();
   let h = '';
+
+  // 📥 Shared Inbox — FIRST column (one inbox for ALL projects, Trello-style)
+  h += '<div class="todo-col inbox-col">';
+  h += '<h3><span class="col-caret" style="cursor:default">▼</span><span style="cursor:default">📥 Inbox <span style="font-size:.62rem;color:var(--t3)">(shared)</span></span><span class="col-count">'+inboxItems.length+'</span></h3>';
+  if (!inboxItems.length) h += '<div style="font-size:.72rem;color:var(--t3);padding:4px 0 8px">Capture anything here — it shows on every project. Move items into columns to organize.</div>';
+  inboxItems.forEach((it, i) => {
+    h += '<div class="entry'+(it.done?' done-item':'')+'"><div class="check'+(it.done?' done':'')+'" onclick="toggleInboxItem('+i+')">'+(it.done?'✓':'')+'</div><div class="entry-text todo-copy" onclick="copyTodoText(this)">'+escHtml(it.text)+'</div><div class="mini-actions"><button title="Copy" onclick="event.stopPropagation();copyInboxItem('+i+')">📋</button><select class="mini-move" onchange="moveInboxItemToTodo('+i+',this.value)" onclick="event.stopPropagation()" title="Move to..."><option value="">↗</option>'+todoCols.map(c=>'<option value="'+c.id+'">'+c.icon+' '+escHtml(c.name)+'</option>').join('')+'</select><button title="Edit" onclick="event.stopPropagation();editInboxItem('+i+')">✏️</button><button title="Delete" onclick="event.stopPropagation();deleteInboxItem('+i+')">🗑</button></div></div>';
+  });
+  h += '<div class="add-mini"><input type="text" id="inboxDashInp" placeholder="Add to shared inbox..." onkeydown="if(event.key===\'Enter\')addInboxItem(\'inboxDashInp\')"><button onclick="addInboxItem(\'inboxDashInp\')">+ ADD</button></div></div>';
+
   todoCols.forEach(col => {
     const cid = col.id;
     const collapsed = (DATA._state?.todoCollapsed||{})[cid] || false;
@@ -3270,6 +3436,31 @@ function renderDaily() {
     h += '</div>';
   });
   document.getElementById('dailyFocus').innerHTML = h;
+}
+
+// ── Daily Report (from the 10 AM marketing automation → /api/daily) ──
+async function renderDailyReport() {
+  const el = document.getElementById('dailyReport');
+  if (!el) return;
+  let r;
+  try { r = await fetch('http://localhost:1919/api/daily', { cache: 'no-store' }); }
+  catch { el.innerHTML = ''; return; }
+  if (!r.ok) { el.innerHTML = ''; return; }
+  const d = await r.json();
+  const e2eOk = !!(d.e2e && d.e2e.ok);
+  const e2eText = d.e2e ? (e2eOk ? '✅ PASS' : '❌ FAIL') + ' · ' + (d.e2e.summary || '') : 'no run yet';
+  const ads = (d.ads || []).map((f) => '<div class="daily-text"><div>🖼 ' + escHtml(f) + '</div></div>').join('');
+  const todos = (d.todos || []).map((t) => '<div class="daily-text"><div>🔥 ' + escHtml(t) + '</div></div>').join('');
+  const snippet = d.copySnippet ? '<div class="daily-text" style="margin-top:6px"><div>✍️ ' + escHtml(d.copySnippet.slice(0, 220)) + '…</div></div>' : '';
+  el.innerHTML =
+    '<h2 class="russo" style="margin:0 0 8px;font-size:1.05rem;font-weight:400">📋 Daily Report <span style="color:var(--t3);font-size:.75rem">' + escHtml(d.dayLabel || d.date || '') + ' · 10 AM run</span></h2>' +
+    '<div class="daily-card" style="flex-direction:column;border-bottom:none">' +
+      '<div class="daily-text"><div>' + (e2eOk ? '🟢' : '🔴') + ' Kalkidan e2e — ' + escHtml(e2eText) + '</div></div>' +
+      (ads ? '<div class="daily-text" style="margin-top:6px"><div>🖼 Ad images</div></div>' + ads : '') +
+      (todos ? '<div class="daily-text" style="margin-top:6px"><div>🔥 Today\'s Focus</div></div>' + todos : '') +
+      snippet +
+      (d.reportFile ? '<div class="daily-pjt" style="margin-top:8px">📄 ' + escHtml(d.reportFile) + '</div>' : '') +
+    '</div>';
 }
 
 function toggleColCollapse(cid) {
@@ -3429,6 +3620,8 @@ let projQuickTodoData = safeLS('ammaniel-proj-quick-todos', {});
 let projNormalTodoData = safeLS('ammaniel-proj-normal-todos', {});
 let projBoardData = safeLS('ammaniel-proj-boards', {});
 let boardTemplates = safeLS('ammaniel-board-templates', []);
+let inboxItems = safeLS('ammaniel-inbox', []);
+let projBugsData = safeLS('ammaniel-proj-bugs', {});  // Bugs Wall — per-project bug list
 let projNotesData = safeLS('ammaniel-proj-notes', {});
 let projScratchpadData = safeLS('ammaniel-proj-scratchpad', {});
 // Migrate old global scratchpad into per-project storage
@@ -3568,6 +3761,66 @@ function copyBoardItem(colIdx, itemIdx) {
   const text = (getBoardCols()[colIdx]?.items||[])[itemIdx]?.text||'';
   copySafe(text);
   toast('📋 Copied');
+}
+
+// ─── Shared Inbox (one for ALL projects — first column of the dashboard + every board) ───
+function addInboxItem(inpId) {
+  const inp = document.getElementById(inpId || 'inboxItemInp');
+  const text = (inp?.value||'').trim();
+  if (!text) return;
+  inboxItems.push({ text, done: false, createdAt: Date.now() });
+  if (inp) inp.value = '';
+  setLS('ammaniel-inbox', inboxItems);
+  renderTodos(); renderAll();
+  toast('📥 Added to shared Inbox');
+}
+function toggleInboxItem(i) {
+  if (!inboxItems[i]) return;
+  inboxItems[i].done = !inboxItems[i].done;
+  setLS('ammaniel-inbox', inboxItems);
+  renderTodos(); renderAll();
+}
+function editInboxItem(i) {
+  if (!inboxItems[i]) return;
+  showPopup('Edit Inbox Item', inboxItems[i].text, function(v) {
+    inboxItems[i].text = v;
+    setLS('ammaniel-inbox', inboxItems);
+    renderTodos(); renderAll();
+  });
+}
+function deleteInboxItem(i) {
+  if (!inboxItems[i]) return;
+  const item = inboxItems[i];
+  confirmDelete('Delete "'+item.text.slice(0,40)+'..."?', function() {
+    inboxItems.splice(i, 1);
+    setLS('ammaniel-inbox', inboxItems);
+    renderTodos(); renderAll();
+  });
+}
+function copyInboxItem(i) {
+  const text = (inboxItems[i]||{}).text||'';
+  copySafe(text);
+  toast('📋 Copied');
+}
+function moveInboxItem(i, colIdx) {
+  if (colIdx === '' || !inboxItems[i]) return;
+  const cols = getBoardCols();
+  if (!cols[colIdx]) return;
+  const item = inboxItems.splice(i, 1)[0];
+  cols[colIdx].items.push({ text: item.text, done: item.done, createdAt: Date.now() });
+  setLS('ammaniel-inbox', inboxItems);
+  saveBoards();
+  toast('➡️ Moved to "'+cols[colIdx].name+'" in '+(((DATA.projects||{})[current]||{}).name||current));
+}
+function moveInboxItemToTodo(i, colId) {
+  if (!colId || !inboxItems[i]) return;
+  const col = todoCols.find(c => c.id === colId);
+  if (!col) return;
+  const item = inboxItems.splice(i, 1)[0];
+  col.items.push({ text: item.text, done: item.done });
+  setLS('ammaniel-inbox', inboxItems);
+  saveTodos();
+  toast('➡️ Moved to "'+col.name+'" column');
 }
 function copyAllBoard() {
   const cols = getBoardCols();
@@ -6833,12 +7086,13 @@ function toggleBottomBar() {
   document.getElementById('bottomBar').classList.toggle('collapsed', barCollapsed);
   updateBarToggleIcon();
 }
-// Clicking the collapsed bar itself expands it
+// Clicking the collapsed bar itself expands it (but NOT the toggle button —
+// that has its own onclick, otherwise the bubbled click re-expands after closing)
 document.addEventListener('click', function(e) {
   const bar = document.getElementById('bottomBar');
-  if (bar && bar.classList.contains('collapsed') && bar.contains(e.target)) {
-    toggleBottomBar();
-  }
+  if (!bar || !bar.classList.contains('collapsed') || !bar.contains(e.target)) return;
+  if (e.target.closest('#barToggleBtn')) return; // let the button's own handler run
+  toggleBottomBar();
 });
 function updateBarToggleIcon() {
   const btn = document.getElementById('barToggleBtn');
@@ -6976,6 +7230,8 @@ function processLoadedData(json) {
     if (stateSource.dailyTasks) safeSet('ammaniel-daily-tasks', stateSource.dailyTasks);
     if (stateSource.boardTemplates) safeSet('ammaniel-board-templates', stateSource.boardTemplates);
     if (stateSource.ideasData) safeSet('ammaniel-ideas-v1', stateSource.ideasData);
+    if (stateSource.inboxItems) safeSet('ammaniel-inbox', stateSource.inboxItems);
+    if (stateSource.projBugsData) safeSet('ammaniel-proj-bugs', stateSource.projBugsData);
   } else {
     // No state anywhere — first run, migrate old keys
     migrateFromLocalStorage();
@@ -7107,6 +7363,8 @@ async function refreshData() {
       showPeakToast();
       setInterval(refreshData, 15000);
       setInterval(updatePeakPills, 60000);
+      renderDailyReport();
+      setInterval(renderDailyReport, 30000);
       renderDailyTasks();
       // Retry a server save that failed while offline (flag set by saveStateNow's catch paths)
       if (localStorage.getItem('ammaniel-pending-server-save')) saveStateNow();
