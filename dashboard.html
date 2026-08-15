@@ -2585,10 +2585,11 @@ function confirmPermanentDelete(msg, onConfirm, onCancel) {
   }, onCancel);
 }
 
-// deleteItem: same as confirmDelete but without dialog (for items where confirmation isn't needed)
+// deleteItem: runs the delete action immediately (no dialog, no trash).
+// The second callback was the old undo hook — it must NOT run here, otherwise the
+// item is removed then immediately re-inserted (delete appears to do nothing).
 function deleteItem(markFn, saveFn) {
   markFn();
-  if (saveFn) saveFn();
   showTrashToast();
 }
 
