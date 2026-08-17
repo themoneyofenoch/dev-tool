@@ -1432,12 +1432,12 @@ body.dark .cd-link-preview{border-color:rgba(255,255,255,.08);background:rgba(25
     <button onclick="toggleBugsWall()" class="overlay-close">✕</button>
   </div>
   <div class="overlay-input">
-    <textarea id="bugsWallInput" rows="2" placeholder="Add bugs — one per line. Paste a whole list.&#10;Cmd/Ctrl+Enter (or + ADD) adds them all." onkeydown="if(event.key==='Enter'&&(event.metaKey||event.ctrlKey)){event.preventDefault();addBug()}"></textarea>
+    <textarea id="bugsWallInput" rows="2" placeholder="Add bugs — one per line. Paste a whole list.&#10;Enter adds · Shift+Enter = new line · + ADD adds all" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();addBug()}"></textarea>
   </div>
   <div class="overlay-body" id="bugsWallList"></div>
   <div class="overlay-input" style="display:flex;gap:8px">
     <button onclick="addBug()" style="flex:1;padding:10px 12px;border-radius:12px;background:var(--o);color:white;border:none;font-family:'Russo One',sans-serif;font-size:.75rem;cursor:pointer">+ ADD</button>
-    <button onclick="copyBugsForAI()" style="padding:10px 12px;border-radius:12px;background:var(--p);color:white;border:none;font-family:'Russo One',sans-serif;font-size:.75rem;cursor:pointer">📋 Copy</button>
+    <button onclick="copyBugsForAI()" style="padding:10px 12px;border-radius:12px;background:var(--p);color:white;border:none;font-family:'Russo One',sans-serif;font-size:.75rem;cursor:pointer">📋 Copy All</button>
   </div>
 </div>
 
@@ -2406,7 +2406,7 @@ function copyBugsForAI() {
     '🐛 Bugs — ' + (p.name || current) + (p.path ? '\nPath: ' + p.path : '') + ((p.git&&p.git.branch) ? '\nBranch: ' + p.git.branch : '') +
     '\n\n' + lines;
   copySafe(text);
-  toast('📋 ' + bugs.length + ' bug' + (bugs.length===1?'':'s') + ' copied — paste to your AI');
+  toast('📋 Copied all ' + bugs.length + ' bug' + (bugs.length===1?'':'s') + ' — paste to your AI');
 }
 
 // Restore open state
@@ -4106,7 +4106,7 @@ function renderOverview() {
       if (p.deploy?.ios && p.deploy.ios!=='none') badges += '<span class="proj-badge">🍎 TF</span>';
       if (p.deploy?.android && p.deploy.android!=='none') badges += '<span class="proj-badge">▶️ Play</span>';
 
-      html += '<div class="proj-card flyer-group-'+g+'" onclick="document.getElementById(\'projectSelect\').value=\''+k+'\';switchTab(\'dashboard\')">';
+      html += '<div class="proj-card flyer-group-'+g+'" onclick="document.getElementById(\'projectSelect\').value=\''+k+'\';onProjectChange();switchTab(\'dashboard\')">';
       html += '<div class="proj-grade">'+grade+'</div>';
       html += '<button class="proj-scan" onclick="event.stopPropagation();scanProject(\''+k+'\')">⚡ SCAN</button>';
       html += '<div class="proj-emoji">'+(p.emoji||'🚀')+'</div>';
