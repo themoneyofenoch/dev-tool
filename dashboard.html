@@ -352,7 +352,30 @@ body.dark .trash-bar{background:#2a1010}
 .fab-quick{background:var(--o);color:white}
 .fab-wall{background:var(--p);color:white}
 
-/* ── Daily Tasks Overlay ── */
+/* ── Right Dock — Tasks + Bugs, always open, share 100vh ── */
+#rightDock{position:fixed;top:0;right:0;width:min(420px,100vw);height:100vh;z-index:65;background:var(--card);display:flex;flex-direction:column;border-left:1px solid var(--bg2);box-shadow:-4px 0 24px rgba(0,0,0,.08)}
+body.dark #rightDock{background:var(--bg)}
+.dock-section{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.dock-bugs{border-top:2px solid var(--bg2)}
+.dock-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;padding-top:max(14px,env(safe-area-inset-top));flex-shrink:0;border-bottom:1px solid var(--bg2)}
+.dock-header h3{font-size:1rem;margin:0}
+.dock-input{padding:10px 20px;flex-shrink:0}
+.dock-input textarea{width:100%;padding:10px 14px;border-radius:12px;background:var(--bg2);border:none;font-size:.82rem;color:var(--t);outline:none;resize:vertical;font-family:inherit;box-sizing:border-box;line-height:1.5}
+.dock-input textarea::placeholder{color:var(--t3);font-weight:400}
+.dock-input textarea:focus{background:var(--card);box-shadow:0 0 0 2px var(--p)}
+/* Keep container from being hidden behind the dock */
+.container{max-width:1500px;margin:0 auto;padding:40px 32px 80px}
+@media(min-width:1200px){.container{padding-right:460px}}
+@media(max-width:1199px){#rightDock{width:min(420px,100vw)}}
+
+/* Mobile: dock goes full-width so it's still usable */
+@media(max-width:768px){
+  #rightDock{width:100vw;border-left:none;z-index:64}
+  .dock-section{flex:1}
+  .container{padding-right:32px}
+}
+
+/* ── Daily Tasks (legacy styles kept for dock reuse) ── */
 .daily-overlay{position:fixed;top:0;right:0;width:100vw;height:100vh;z-index:70;background:var(--card);display:flex;flex-direction:column;transition:transform .3s ease;overflow:hidden}
 body.dark .daily-overlay{background:var(--bg)}
 .daily-overlay.collapsed{transform:translateX(100vw)}
@@ -1424,20 +1447,31 @@ body.dark .cd-link-preview{border-color:rgba(255,255,255,.08);background:rgba(25
   <div class="overlay-body" id="wordWallCards"></div>
 </div>
 
-<!-- 🐛 Bugs Wall Overlay (per project) -->
-<div id="bugsWallOverlay" class="overlay collapsed">
-  <div class="overlay-header">
-    <h3>🐛 Bugs Wall <span id="bugsProjBadge" style="font-size:.68rem;color:var(--t3)"></span></h3>
-    <span class="overlay-count" id="bugsWallCount">0</span>
-    <button onclick="toggleBugsWall()" class="overlay-close">✕</button>
+<!-- 🔲 Right Dock — Today's Tasks (top) + 🐛 Bugs Wall (bottom), always open, share 100vh -->
+<div id="rightDock">
+  <div class="dock-section" id="dockTasks">
+    <div class="dock-header">
+      <h3>☀️ Today's Tasks</h3>
+    </div>
+    <div class="daily-overlay-body" id="dockTasksList"></div>
+    <div class="daily-overlay-footer">
+      <input id="inp-daily" placeholder="Add task..." onkeydown="if(event.key==='Enter')addDailyTask()">
+      <button onclick="addDailyTask()">+</button>
+    </div>
   </div>
-  <div class="overlay-input">
-    <textarea id="bugsWallInput" rows="2" placeholder="Add bugs — one per line. Paste a whole list.&#10;Enter adds · Shift+Enter = new line · + ADD adds all" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();addBug()}"></textarea>
-  </div>
-  <div class="overlay-body" id="bugsWallList"></div>
-  <div class="overlay-input" style="display:flex;gap:8px">
-    <button onclick="addBug()" style="flex:1;padding:10px 12px;border-radius:12px;background:var(--o);color:white;border:none;font-family:'Russo One',sans-serif;font-size:.75rem;cursor:pointer">+ ADD</button>
-    <button onclick="copyBugsForAI()" style="padding:10px 12px;border-radius:12px;background:var(--p);color:white;border:none;font-family:'Russo One',sans-serif;font-size:.75rem;cursor:pointer">📋 Copy All</button>
+  <div class="dock-section dock-bugs" id="dockBugs">
+    <div class="dock-header">
+      <h3>🐛 Bugs Wall <span id="bugsProjBadge" style="font-size:.68rem;color:var(--t3)"></span></h3>
+      <span class="overlay-count" id="bugsWallCount">0</span>
+    </div>
+    <div class="dock-input">
+      <textarea id="bugsWallInput" rows="2" placeholder="Add bugs — one per line. Paste a whole list.&#10;Enter adds · Shift+Enter = new line · + ADD adds all" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();addBug()}"></textarea>
+    </div>
+    <div class="overlay-body" id="bugsWallList"></div>
+    <div class="dock-input" style="display:flex;gap:8px">
+      <button onclick="addBug()" style="flex:1;padding:10px 12px;border-radius:12px;background:var(--o);color:white;border:none;font-family:'Russo One',sans-serif;font-size:.75rem;cursor:pointer">+ ADD</button>
+      <button onclick="copyBugsForAI()" style="padding:10px 12px;border-radius:12px;background:var(--p);color:white;border:none;font-family:'Russo One',sans-serif;font-size:.75rem;cursor:pointer">📋 Copy All</button>
+    </div>
   </div>
 </div>
 
@@ -1509,17 +1543,7 @@ body.dark .cd-link-preview{border-color:rgba(255,255,255,.08);background:rgba(25
   </div>
 </div>
 
-<div id="dailyTasksOverlay" class="daily-overlay collapsed">
-  <div class="daily-overlay-header">
-    <h3>☀️ Today's Tasks</h3>
-    <button onclick="toggleDailyTasks()" class="daily-overlay-close">✕</button>
-  </div>
-  <div class="daily-overlay-body"></div>
-  <div class="daily-overlay-footer">
-    <input id="inp-daily" placeholder="Add task..." onkeydown="if(event.key==='Enter')addDailyTask()">
-    <button onclick="addDailyTask()">+</button>
-  </div>
-</div>
+
 
 <!-- Quick Capture Overlay -->
 <div id="quickCaptureOverlay" class="overlay collapsed">
@@ -1766,15 +1790,7 @@ body.dark .cd-link-preview{border-color:rgba(255,255,255,.08);background:rgba(25
           <button onclick="addSidebarTask()">+</button>
         </div>
       </div>
-      <div class="ideas-scratchpad">
-        <div style="position:relative">
-          <h3>🧠 Scratchpad <span id="spProjBadge" style="font-size:.65rem;font-weight:600;color:var(--b);background:rgba(0,122,255,.08);padding:2px 8px;border-radius:6px;margin-left:6px;vertical-align:middle"></span></h3>
-          <button onclick="clearScratchpad()" style="position:absolute;top:0;right:0;padding:4px 10px;border-radius:6px;background:var(--bg2);color:var(--t2);border:none;cursor:pointer;font-family:'Russo One',sans-serif;font-size:.62rem">Clear</button>
-        </div>
-        <p class="sp-sub">Dump raw thoughts. Auto-saves per project.</p>
-        <textarea id="scratchpadArea" placeholder="Quick thoughts, links, reminders… anything. It'll stay here." oninput="saveScratchpad()"></textarea>
-        <div class="sp-saved" id="spSaved"></div>
-      </div>
+
     </div>
   </div>
 </div>
@@ -2330,15 +2346,11 @@ function getProjBugs() {
   return projBugsData[current];
 }
 function toggleBugsWall() {
-  const el = document.getElementById('bugsWallOverlay');
-  if (!el) return;
-  el.classList.toggle('collapsed');
-  if (!el.classList.contains('collapsed')) {
-    const badge = document.getElementById('bugsProjBadge');
-    if (badge) { const p = (DATA.projects||{})[current]||{}; badge.textContent = (p.emoji||'🐛')+' '+(p.name||current); }
-    renderBugsWall();
-    setTimeout(() => document.getElementById('bugsWallInput')?.focus(), 300);
-  }
+  // Dock is always open — just refresh + focus the input.
+  const badge = document.getElementById('bugsProjBadge');
+  if (badge) { const p = (DATA.projects||{})[current]||{}; badge.textContent = (p.emoji||'🐛')+' '+(p.name||current); }
+  renderBugsWall();
+  setTimeout(() => document.getElementById('bugsWallInput')?.focus(), 300);
 }
 function addBug() {
   const input = document.getElementById('bugsWallInput');
@@ -2499,9 +2511,13 @@ function onProjectChange() {
   current = document.getElementById('projectSelect').value;
   setLS('ammaniel-current-project', current);
   updateBadge();
-  loadScratchpad(); // switch scratchpad to new project
+  loadScratchpad(); // switch scratchpad to new project (data kept, UI hidden)
   renderDailyTasks();
   renderSidebarTasks(); // refresh daily tasks for new project
+  // Refresh right-dock bugs for the new project
+  const bgBadge = document.getElementById('bugsProjBadge');
+  if (bgBadge) { const p = (DATA.projects||{})[current]||{}; bgBadge.textContent = (p.emoji||'🐛')+' '+(p.name||current); }
+  renderBugsWall();
   if (currentTab==='todo') { switchTab('ideas'); return; }
   if (currentTab==='ideas') { renderIdeas(); }
   else if (currentTab==='notes') { renderNotes(); }
@@ -3524,9 +3540,8 @@ function renameCol(cid) { var c = todoCols.find(x=>x.id===cid); if(!c) return; s
 function saveTodos() { setLS('ammaniel-todo-v2', todoCols); renderTodos(); debounceSaveState(); }
 
 function toggleDailyTasks() {
-  var el = document.getElementById('dailyTasksOverlay');
-  if (!el) return;
-  el.classList.toggle('collapsed');
+  // Dock is always open — just refresh the task list.
+  renderDailyTasks();
 }
 
 function toggleQuickCapture() {
@@ -3567,7 +3582,7 @@ function moveDailyTask(i, dir) {
 // ── End Daily Tasks ──
 
 function renderDailyTasks() {
-  const container = document.querySelector('.daily-overlay-body');
+  const container = document.getElementById('dockTasksList') || document.querySelector('.daily-overlay-body');
   if (!container) return;
   const tasks = getCurrentTasks();
   const active = tasks.filter(t => !t.done);
@@ -7375,6 +7390,11 @@ async function refreshData() {
       renderAll(); renderTodos();
       renderWordWall();
       updateBadge();
+      // Right dock (always open): render tasks + bugs for the current project
+      renderDailyTasks();
+      const bgBadge = document.getElementById('bugsProjBadge');
+      if (bgBadge) { const p = (DATA.projects||{})[current]||{}; bgBadge.textContent = (p.emoji||'🐛')+' '+(p.name||current); }
+      renderBugsWall();
       switchTab('ideas');
       updatePeakPills();
       showPeakToast();
