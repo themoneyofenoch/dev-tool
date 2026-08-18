@@ -4,10 +4,18 @@
 
 **🚫 NEVER touch nakfaai.com** — `nakfaai.com` domain (files, database, folders) is exclusively for the nakfaai project. Never deploy to it, modify its files, or touch its database for any subdomain or other purpose.
 
+## 💸 DeepSeek Peak Pricing (user is in Dallas, TX — CDT/UTC−5)
+
+- **Peak (2× price)**: UTC 01:00–04:00 and 06:00–10:00 → **Dallas 8PM–11PM and 1AM–5AM**. All other hours are **off-peak (½ price)**.
+- **Output cost**: $1.32/M tokens peak, $0.66/M off-peak. Input (cache miss): $0.44/M peak, $0.22/M off. Source: https://api-docs.deepseek.com/quick_start/pricing/
+- **BEFORE long/expensive agent runs** (bulk edits, big searches, heavy generation) during peak, **warn the user** — e.g. "⚠️ 9PM Dallas = DeepSeek peak 2×. Run now or wait ~2h for half price?" Let the user decide; don't silently burn peak tokens.
+- The dashboard header shows the live 💸 pill (current rate + $/M, Dallas-time tooltip) — mirror that info in chat when relevant.
+
 ## Deployment
 
 - **LIVE dashboard** (`nakfaai.com/dashboard/`) is served from repo `themoneyofenoch/nakfaai`, file `dashboards/command-center/index.html` (Node.js Passenger app; **PHP does NOT run there**). The live API is `GET/POST /api/dashboard/data` (JSONP `?callback=` on GET, passkey session cookie, `credentials:'include'`).
 - **Deploy = git push to `themoneyofenoch/nakfaai` main** → hPanel auto-deploys `/`, `/dashboard/`, `/hintza/` together (once the hPanel Node.js app is connected to GitHub; verify webhook via `gh api repos/themoneyofenoch/nakfaai/hooks`).
+- **🔴 DEPLOY GATE (mandatory): no dashboard deploy without a green `npm run test:e2e`** (Playwright, Chromium + WebKit). Deploy with `npm run deploy -- "message"`: the `predeploy` hook runs the suite automatically and **aborts the deploy on any failure**. Never bypass the gate with a bare `git push` or `gh repo push`. Validate without deploying: `npm run deploy:dry -- "message"`.
 - **🚫 NEVER use `hostinger_deploy_site` or any Hostinger deploy tool for dashboard.deploy** — wrong directories / wipes. **Never SSH-edit live nakfaai.com files** — the sanctioned channel is the GitHub repo.
 - The nakfaai `command-center/index.html` copy has **passkey auth + `/api/dashboard/data` endpoints the local copy lacks — port fixes to it, NEVER replace it wholesale** with `dashboard.html`.
 - Legacy PHP path is DEAD (no DNS on `dashboard.nakfaai.com`) — do not deploy there.
@@ -21,7 +29,7 @@
 
 ## Testing the Dashboard
 
-**NEVER declare dashboard fixes "done" without actual browser testing.** Use Playwright MCP to test in a real browser. Every fix must be verified end-to-end.
+**NEVER declare dashboard fixes "done" without actual browser testing.** The committed gate is `npm run test:e2e` (Playwright — `e2e/smoke.spec.ts`, Chromium + WebKit); it runs automatically before every deploy. Deep-debug a specific issue with Playwright MCP in a real browser when the suite needs help.
 
 ### Quick Test Flow
 
@@ -36,6 +44,8 @@ sleep 2 && curl -s -o /dev/null -w "%{http_code}" http://localhost:4600/dashboar
 ```
 skill(mcp_name="playwright", tool_name="browser_navigate", arguments={"url":"http://localhost:4600/dashboard.html"})
 ```
+
+> ⚠️ The manual scenarios below reference legacy ids (`scratchpadArea`, `ammaniel-todo-v2`) that no longer exist. The committed `e2e/smoke.spec.ts` covers the current app (`notesFullArea` / `ammaniel-proj-notes`, save→reload→restore, SortableJS, console errors, network failures) on Chromium + WebKit. Keep these snippets as historical reference for deep debugging.
 
 ### Critical Test Scenarios
 

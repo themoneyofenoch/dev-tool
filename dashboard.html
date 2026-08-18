@@ -1496,6 +1496,7 @@ body.dark .cd-link-preview{border-color:rgba(255,255,255,.08);background:rgba(25
   <h1 class="russo" style="cursor:pointer" onclick="switchTab('todo')" title="Click for Dashboard">Ammaniel<br><span>cmd ctr</span></h1>
   <span class="peak-inline"><span class="peak-label">DeepSeek</span><a href="https://api-docs.deepseek.com/quick_start/pricing/" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex"><span class="peak-pill" id="dsPeakPill" style="cursor:pointer">–</span></a></span>
   <span class="peak-inline"><span class="peak-label">GLM</span><span class="peak-pill" id="glmPeakPill">–</span></span>
+  <span class="peak-inline"><span class="peak-label">U0001F4B8</span><a href="https://api-docs.deepseek.com/quick_start/pricing/" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex"><span class="peak-pill" id="costPeakPill" style="cursor:pointer">–</span></a></span>
   <div class="header-right-group">
     <div class="header-date" id="headerDate"></div>
   </div>
@@ -7343,6 +7344,14 @@ async function refreshData() {
    const glmOn = isGlmPeak(new Date().getHours());
     if (ds) { ds.textContent = dsOn ? '🔴 2×' : '🟢 ½×'; ds.className = 'peak-pill ' + (dsOn ? 'peak-off' : 'peak-on'); ds.title = 'DeepSeek peak: 01:00–04:00 & 06:00–10:00 UTC — off-peak is half price. Click for pricing'; }
     if (glm) { glm.textContent = glmOn ? '🔴 3x' : '🟢'; glm.className = 'peak-pill ' + (glmOn ? 'peak-off' : 'peak-on'); }
+    // 💸 cost pill: output $/M tokens at the CURRENT rate (global, Dallas-time aware)
+    const cost = document.getElementById('costPeakPill');
+    if (cost) {
+      const outPerM = dsOn ? '$1.32' : '$0.66'; // output tokens / 1M
+      cost.textContent = dsOn ? '💸 2× · ' + outPerM + '/M' : '💸 ½× · ' + outPerM + '/M';
+      cost.className = 'peak-pill ' + (dsOn ? 'peak-off' : 'peak-on');
+      cost.title = 'DeepSeek output cost right now: ' + outPerM + ' per 1M tokens (' + (dsOn ? 'PEAK 2×' : 'OFF-PEAK ½×') + '). Dallas: peak 8PM–11PM & 1AM–5AM. Click for pricing';
+    }
    // Keep theme line colored based on peak status
    const line = document.querySelector('.theme-line');
    if (line) line.style.background = dsOn || glmOn ? '#ff3b30' : '#34c759';
