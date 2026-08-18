@@ -368,9 +368,10 @@ body.dark #rightDock{background:var(--bg)}
 .dock-input textarea::placeholder{color:var(--t3);font-weight:400}
 .dock-input textarea:focus{background:var(--card);box-shadow:0 0 0 2px var(--p)}
 
-/* Desktop: dock is a permanent side panel; push content out of the way */
+/* Desktop: dock is a permanent side panel — container fills the window,
+   leaving exactly the dock width free on the right (no dead space). */
 @media(min-width:769px){
-  .container{max-width:1500px;margin:0 auto;padding:40px 32px 80px;padding-right:460px}
+  .container{max-width:none;margin:0;padding:40px 32px 80px 32px;padding-right:452px}
   #rightDock{transform:none}
 }
 
@@ -1439,7 +1440,7 @@ body.dark .cd-link-preview{border-color:rgba(255,255,255,.08);background:rgba(25
 }
 /* ── Dock content guard (must win over other responsive .container rules) ── */
 @media(min-width:769px){
-  body .container{padding-right:460px !important}
+  body .container{max-width:none !important;margin:0 !important;padding:40px 32px 80px 32px !important;padding-right:452px !important}
 }
 </style>
 </head>
