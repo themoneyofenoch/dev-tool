@@ -357,7 +357,7 @@ body.dark .trash-bar{background:#2a1010}
    content never hides behind it (fixes 3rd/4th column overlap on laptops/iPad).
    Mobile (≤768px): slide-in overlay, hidden by default — FAB toggles it open,
    and the main page stays fully scrollable. */
-#rightDock{position:fixed;top:0;right:0;width:min(420px,100vw);height:100vh;z-index:65;background:var(--card);display:flex;flex-direction:column;border-left:1px solid var(--bg2);box-shadow:-4px 0 24px rgba(0,0,0,.08);transition:transform .3s ease}
+#rightDock{position:fixed;top:0;right:0;width:min(340px,100vw);height:100vh;z-index:65;background:var(--card);display:flex;flex-direction:column;border-left:1px solid var(--bg2);box-shadow:-4px 0 24px rgba(0,0,0,.08);transition:transform .3s ease}
 body.dark #rightDock{background:var(--bg)}
 .dock-section{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 .dock-bugs{border-top:2px solid var(--bg2)}
@@ -368,17 +368,20 @@ body.dark #rightDock{background:var(--bg)}
 .dock-input textarea::placeholder{color:var(--t3);font-weight:400}
 .dock-input textarea:focus{background:var(--card);box-shadow:0 0 0 2px var(--p)}
 
-/* Desktop: dock is a permanent side panel — container fills the window,
-   leaving exactly the dock width free on the right (no dead space). */
-@media(min-width:769px){
-  .container{max-width:none;margin:0;padding:40px 32px 80px 32px;padding-right:452px}
+/* Large screens (>=1280): dock is a permanent side panel — container fills the
+   window leaving exactly the dock width free (no dead space).
+   Smaller desktops (769-1279): dock is a slide-in overlay so columns get full width. */
+@media(min-width:1280px){
+  .container{max-width:none;margin:0;padding:40px 32px 80px 32px;padding-right:372px}
   #rightDock{transform:none}
 }
 
 /* Mobile: dock is a slide-in overlay; page stays scrollable */
 @media(max-width:768px){
   .container{max-width:100%;padding:20px 14px 80px}
-  #rightDock{width:min(420px,92vw);border-left:none;z-index:64;transform:translateX(105%)}
+}
+@media(max-width:1279px){
+  #rightDock{width:min(340px,92vw);border-left:none;z-index:64;transform:translateX(105%)}
   #rightDock.dock-open{transform:translateX(0)}
   .dock-section{flex:1}
 }
@@ -1439,8 +1442,8 @@ body.dark .cd-link-preview{border-color:rgba(255,255,255,.08);background:rgba(25
   .big-todo h2{font-size:.9rem}
 }
 /* ── Dock content guard (must win over other responsive .container rules) ── */
-@media(min-width:769px){
-  body .container{max-width:none !important;margin:0 !important;padding:40px 32px 80px 32px !important;padding-right:452px !important}
+@media(min-width:1280px){
+  body .container{max-width:none !important;margin:0 !important;padding:40px 32px 80px 32px !important;padding-right:372px !important}
 }
 </style>
 </head>
@@ -2354,7 +2357,7 @@ function toggleBugsWall() {
   if (badge) { const p = (DATA.projects||{})[current]||{}; badge.textContent = (p.emoji||'🐛')+' '+(p.name||current); }
   renderBugsWall();
   const dock = document.getElementById('rightDock');
-  if (dock && window.innerWidth <= 768) dock.classList.add('dock-open');
+  if (dock && window.innerWidth <= 1279) dock.classList.add('dock-open');
   setTimeout(() => document.getElementById('bugsWallInput')?.focus(), 300);
 }
 function addBug() {
@@ -3547,7 +3550,7 @@ function saveTodos() { setLS('ammaniel-todo-v2', todoCols); renderTodos(); debou
 function toggleDailyTasks() {
   renderDailyTasks();
   const dock = document.getElementById('rightDock');
-  if (dock && window.innerWidth <= 768) dock.classList.add('dock-open');
+  if (dock && window.innerWidth <= 1279) dock.classList.add('dock-open');
 }
 
 function toggleQuickCapture() {
