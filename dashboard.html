@@ -786,6 +786,7 @@ body.dark .idea-item:hover{box-shadow:0 2px 12px rgba(0,0,0,.25)}
 .ideas-board-wrap{min-height:400px}
 .ideas-board{display:flex;gap:16px;overflow-x:auto;align-items:flex-start;padding-bottom:16px;min-height:420px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y pinch-zoom;scroll-snap-type:x mandatory}
 .idea-col{min-width:360px;max-width:420px;background:var(--bg2);border-radius:var(--rd);padding:14px;flex-shrink:0;display:flex;flex-direction:column;transition:background .3s;max-height:calc(100vh - 220px);overflow-y:auto;scroll-snap-align:start;overscroll-behavior-y:contain}
+@media(max-width:1279px){.idea-col{flex:0 0 calc((100% - 32px)/3);min-width:0}}
 .idea-col-header{display:flex;align-items:center;gap:6px;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid var(--bg)}
 .idea-col-name{font-family:'Russo One',sans-serif;font-size:.85rem;font-weight:400;letter-spacing:-.02em;flex:1;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--t);transition:color .15s}
 .idea-col-name:hover{color:var(--b)}
