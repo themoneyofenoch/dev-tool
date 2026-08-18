@@ -352,8 +352,12 @@ body.dark .trash-bar{background:#2a1010}
 .fab-quick{background:var(--o);color:white}
 .fab-wall{background:var(--p);color:white}
 
-/* ── Right Dock — Tasks + Bugs, always open, share 100vh ── */
-#rightDock{position:fixed;top:0;right:0;width:min(420px,100vw);height:100vh;z-index:65;background:var(--card);display:flex;flex-direction:column;border-left:1px solid var(--bg2);box-shadow:-4px 0 24px rgba(0,0,0,.08)}
+/* ── Right Dock — Tasks + Bugs, share 100vh ──
+   Desktop (≥769px): fixed side panel, always visible; container is padded so
+   content never hides behind it (fixes 3rd/4th column overlap on laptops/iPad).
+   Mobile (≤768px): slide-in overlay, hidden by default — FAB toggles it open,
+   and the main page stays fully scrollable. */
+#rightDock{position:fixed;top:0;right:0;width:min(420px,100vw);height:100vh;z-index:65;background:var(--card);display:flex;flex-direction:column;border-left:1px solid var(--bg2);box-shadow:-4px 0 24px rgba(0,0,0,.08);transition:transform .3s ease}
 body.dark #rightDock{background:var(--bg)}
 .dock-section{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 .dock-bugs{border-top:2px solid var(--bg2)}
@@ -363,16 +367,19 @@ body.dark #rightDock{background:var(--bg)}
 .dock-input textarea{width:100%;padding:10px 14px;border-radius:12px;background:var(--bg2);border:none;font-size:.82rem;color:var(--t);outline:none;resize:vertical;font-family:inherit;box-sizing:border-box;line-height:1.5}
 .dock-input textarea::placeholder{color:var(--t3);font-weight:400}
 .dock-input textarea:focus{background:var(--card);box-shadow:0 0 0 2px var(--p)}
-/* Keep container from being hidden behind the dock */
-.container{max-width:1500px;margin:0 auto;padding:40px 32px 80px}
-@media(min-width:1200px){.container{padding-right:460px}}
-@media(max-width:1199px){#rightDock{width:min(420px,100vw)}}
 
-/* Mobile: dock goes full-width so it's still usable */
+/* Desktop: dock is a permanent side panel; push content out of the way */
+@media(min-width:769px){
+  .container{max-width:1500px;margin:0 auto;padding:40px 32px 80px;padding-right:460px}
+  #rightDock{transform:none}
+}
+
+/* Mobile: dock is a slide-in overlay; page stays scrollable */
 @media(max-width:768px){
-  #rightDock{width:100vw;border-left:none;z-index:64}
+  .container{max-width:100%;padding:20px 14px 80px}
+  #rightDock{width:min(420px,92vw);border-left:none;z-index:64;transform:translateX(105%)}
+  #rightDock.dock-open{transform:translateX(0)}
   .dock-section{flex:1}
-  .container{padding-right:32px}
 }
 
 /* ── Daily Tasks (legacy styles kept for dock reuse) ── */
@@ -1430,6 +1437,10 @@ body.dark .cd-link-preview{border-color:rgba(255,255,255,.08);background:rgba(25
   .big-todo{margin-bottom:14px}
   .big-todo h2{font-size:.9rem}
 }
+/* ── Dock content guard (must win over other responsive .container rules) ── */
+@media(min-width:769px){
+  body .container{padding-right:460px !important}
+}
 </style>
 </head>
 <body>
@@ -2337,10 +2348,12 @@ function getProjBugs() {
   return projBugsData[current];
 }
 function toggleBugsWall() {
-  // Dock is always open — just refresh + focus the input.
+  // Dock is always open on desktop; on mobile it's a slide-in overlay — open it.
   const badge = document.getElementById('bugsProjBadge');
   if (badge) { const p = (DATA.projects||{})[current]||{}; badge.textContent = (p.emoji||'🐛')+' '+(p.name||current); }
   renderBugsWall();
+  const dock = document.getElementById('rightDock');
+  if (dock && window.innerWidth <= 768) dock.classList.add('dock-open');
   setTimeout(() => document.getElementById('bugsWallInput')?.focus(), 300);
 }
 function addBug() {
@@ -3531,8 +3544,9 @@ function renameCol(cid) { var c = todoCols.find(x=>x.id===cid); if(!c) return; s
 function saveTodos() { setLS('ammaniel-todo-v2', todoCols); renderTodos(); debounceSaveState(); }
 
 function toggleDailyTasks() {
-  // Dock is always open — just refresh the task list.
   renderDailyTasks();
+  const dock = document.getElementById('rightDock');
+  if (dock && window.innerWidth <= 768) dock.classList.add('dock-open');
 }
 
 function toggleQuickCapture() {
