@@ -42,3 +42,9 @@ Accumulated lessons from real bugs fixed in this workspace. Keep this updated.
 
 ### 7. Test data pollution
 - Playwright/browser tests write to dashboard-data.json (via the 1919 dev server) and localStorage. Always git checkout -- dashboard-data.json and kill servers (kill $(lsof -ti:4600)) after testing.
+
+### 8. Deploy gate: test before push — `npm run deploy`
+- **Rule:** no dashboard deploy without a green `npm run test:e2e` (Playwright, Chromium + WebKit). The `predeploy` hook runs it automatically and **aborts the deploy on any failure** — never bypass with a bare `git push`.
+- **Workflow:** edit `dashboard.html` → port the fix into `~/Developer/projects/nakfaai/dashboards/command-center/index.html` (it has passkey auth + API endpoints the local copy lacks — **never wholesale replace**) → `npm run deploy -- "msg"` (tests → compat-build ES2019 → commit+push → verify) → curl `https://nakfaai.com/dashboard/` for a **specific new marker** (Lesson 6).
+- Validate without deploying: `npm run deploy:dry -- "msg"`.
+- The suite's notes test writes `dashboard-data.json` — restore after: `git checkout -- dashboard-data.json`.
